@@ -1,10 +1,11 @@
+import { IconProps } from "@/types/iconProps";
 import clsx from "clsx";
 
 interface Props {
     size?: "small" | "medium" | "large";
-    variant?: "primary" | "secondary" | "disabled" | "icon";
-    icon?: React.ReactNode;
-    iconTheme?: "primary" | "secondary" | "disabled";
+    variant?: "primary" | "disabled" | "icon";
+    icon?: IconProps;
+    iconTheme?: "primary" | "disabled";
     iconPosition?: "left" | "right";
     disabled?: boolean;
     isLoading?: boolean;
@@ -28,30 +29,47 @@ export const Button = ({
     switch (variant) {
         case "primary": //default
             variantStyle =
-                "bg-primary text-background hover:bg-secondary hover:text-tier";
-            break;
-        case "secondary":
-            variantStyle = "bg-secondary text-tier";
+                "bg-primary text-background hover:bg-secondary hover:text-tier border-2 border-foreground rounded-xl";
             break;
         case "disabled":
-            variantStyle = "";
+            variantStyle =
+                "bg-foreground text-background cursor-not-allowed border-2 border-foreground rounded-xl";
             break;
         case "icon":
-            variantStyle = "";
+            if (iconTheme === "primary") {
+                variantStyle =
+                    "bg-primary hover:bg-secondary text-background rounded-full";
+            }
+            if (iconTheme === "disabled") {
+                variantStyle =
+                    "bg-foreground text-background cursor-not-allowed rounded-xl";
+            }
             break;
     }
 
     switch (size) {
         case "small":
-            sizeStyle = "px-3 py-1 text-sm";
-            iconSize = 16;
-            break;
-        case "medium": //default
-            sizeStyle = "px-4 py-2 text-base";
+            sizeStyle = `${
+                variant === "icon"
+                    ? "flex items-center justify-center w-8 h-8"
+                    : "px-3 py-1"
+            } text-sm font-small uppercase border-2 border-foreground`;
             iconSize = 20;
             break;
+        case "medium": //default
+            sizeStyle = ` ${
+                variant === "icon"
+                    ? "flex items-center justify-center w-10 h-10"
+                    : "px-4 py-2"
+            } text-base font-medium uppercase border-2 border-foreground`;
+            iconSize = 22;
+            break;
         case "large":
-            sizeStyle = "px-6 py-3 text-lg";
+            sizeStyle = ` ${
+                variant === "icon"
+                    ? "flex items-center justify-center w-12 h-12"
+                    : "px-6 py-3"
+            } text-lg font-bold uppercase border-2 border-foreground`;
             iconSize = 24;
             break;
     }
@@ -59,11 +77,23 @@ export const Button = ({
     return (
         <button
             type="button"
-            className={clsx(variantStyle, iconSize, "")}
+            className={clsx(variantStyle, iconSize, sizeStyle)}
             onClick={() => console.log("click")}
             disabled={disabled}
         >
-            {children}
+            {icon && variant === "icon" ? (
+                <icon.icon size={iconSize} />
+            ) : (
+                <div className={clsx(icon && "flex items-center gap-2")}>
+                    {icon && iconPosition === "left" && (
+                        <icon.icon size={iconSize} />
+                    )}
+                    {children}
+                    {icon && iconPosition === "right" && (
+                        <icon.icon size={iconSize} />
+                    )}
+                </div>
+            )}
         </button>
     );
 };
