@@ -1,5 +1,6 @@
 import { IconProps } from "@/types/iconProps";
 import clsx from "clsx";
+import { Spinner } from "./spinner";
 
 interface Props {
     size?: "small" | "medium" | "large";
@@ -77,23 +78,41 @@ export const Button = ({
     return (
         <button
             type="button"
-            className={clsx(variantStyle, iconSize, sizeStyle)}
+            className={clsx(
+                variantStyle,
+                iconSize,
+                sizeStyle,
+                isLoading && "cursor-wait",
+                "relative"
+            )}
             onClick={() => console.log("click")}
             disabled={disabled}
         >
-            {icon && variant === "icon" ? (
-                <icon.icon size={iconSize} />
-            ) : (
-                <div className={clsx(icon && "flex items-center gap-2")}>
-                    {icon && iconPosition === "left" && (
-                        <icon.icon size={iconSize} />
-                    )}
-                    {children}
-                    {icon && iconPosition === "right" && (
-                        <icon.icon size={iconSize} />
+            {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                    {variant === "primary" || variant === "icon" ? (
+                        <Spinner size="small" variant="white" />
+                    ) : (
+                        <Spinner size="small" />
                     )}
                 </div>
             )}
+
+            <div className={clsx(isLoading && "invisible")}>
+                {icon && variant === "icon" ? (
+                    <icon.icon size={iconSize} />
+                ) : (
+                    <div className={clsx(icon && "flex items-center gap-2")}>
+                        {icon && iconPosition === "left" && (
+                            <icon.icon size={iconSize} />
+                        )}
+                        {children}
+                        {icon && iconPosition === "right" && (
+                            <icon.icon size={iconSize} />
+                        )}
+                    </div>
+                )}
+            </div>
         </button>
     );
 };
