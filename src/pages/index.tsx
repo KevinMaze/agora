@@ -1,5 +1,6 @@
 import Seo from "@/ui/components/seo";
 import { Button } from "@/ui/design-system/button";
+import { Spinner } from "@/ui/design-system/spinner";
 // import { Typo } from "@/ui/design-system/typography";
 import { AiFillAccountBook } from "react-icons/ai";
 
@@ -12,6 +13,9 @@ export default function Home() {
             />
 
             <main>
+                <Spinner size="small" />
+                <Spinner variant="white" />
+                <Spinner size="large" />
                 <div>
                     <Button size="small" icon={{ icon: AiFillAccountBook }}>
                         Clique moi
