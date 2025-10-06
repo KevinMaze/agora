@@ -1,4 +1,5 @@
 import Seo from "@/ui/components/seo";
+import { Avatar } from "@/ui/design-system/avatar";
 import { Button } from "@/ui/design-system/button";
 import { Logo } from "@/ui/design-system/logo";
 import { Spinner } from "@/ui/design-system/spinner";
@@ -30,12 +31,14 @@ export default function Home() {
                 </div>
 
                 {/* Spinner et Button */}
+                <h2>SPINNER</h2>
                 <div className="flex items-center gap-4 p-10">
                     <Spinner size="small" />
                     <Spinner variant="white" />
                     <Spinner size="large" />
                 </div>
 
+                <h2>BUTTON</h2>
                 <div className="flex items-center gap-4 p-10">
                     <Button size="small" icon={{ icon: AiFillAccountBook }}>
                         Clique moi
@@ -77,7 +80,6 @@ export default function Home() {
                         Clique moi
                     </Button>
                 </div>
-
                 <div className="flex items-center gap-4 p-10">
                     <Button
                         isLoading
@@ -100,11 +102,30 @@ export default function Home() {
                     />
                 </div>
 
+                <h2>LOGO</h2>
                 <div className="flex items-center gap-4 p-10">
                     <Logo size="very-small" />
                     <Logo size="small" />
                     <Logo />
                     <Logo size="large" />
+                </div>
+
+                <h2>AVATAR</h2>
+                <div className="flex items-center gap-4 p-10">
+                    <Avatar
+                        size="small"
+                        src="/assets/images/ai-generated-8058844_1920.jpg"
+                        alt="avatar"
+                    />
+                    <Avatar
+                        src="/assets/images/ai-generated-8058844_1920.jpg"
+                        alt="avatar"
+                    />
+                    <Avatar
+                        size="large"
+                        src="/assets/images/ai-generated-8058844_1920.jpg"
+                        alt="avatar"
+                    />
                 </div>
             </div>
         </>
