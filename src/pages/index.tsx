@@ -1,3 +1,4 @@
+import { Container } from "@/ui/components/container";
 import Seo from "@/ui/components/seo";
 import { Avatar } from "@/ui/design-system/avatar";
 import { Button } from "@/ui/design-system/button";
@@ -16,7 +17,7 @@ export default function Home() {
             />
 
             {/* Typographie */}
-            <div className="space-y-2 max-w-6xl mx-auto space-y-5 p-5">
+            <Container className="py-10 space-y-5">
                 <Typo variant="title" weight="bold">
                     Bienvenue sur Agora
                 </Typo>
@@ -127,7 +128,7 @@ export default function Home() {
                         alt="avatar"
                     />
                 </div>
-            </div>
+            </Container>
         </>
     );
 }

@@ -1,0 +1,96 @@
+/* src/components/Sidebar.css */
+
+/* Le fond semi-transparent */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Doit être en dessous du sidebar mais au-dessus du reste */
+}
+
+/* Le conteneur principal du menu */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh; /* Toute la hauteur de l'écran */
+  width: 300px; /* Largeur du menu, à ajuster */
+  background-color: #1a1a1a;
+  color: white;
+  z-index: 1000; /* Au-dessus de tout le reste */
+  
+  /* Animation de transition */
+  transform: translateX(100%); /* Caché à droite par défaut */
+  transition: transform 0.3s ease-in-out;
+
+  /* Organisation interne avec Flexbox */
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Classe ajoutée quand le menu est ouvert */
+.sidebar.open {
+  transform: translateX(0); /* Visible à l'écran */
+}
+
+/* --- Sections internes --- */
+
+.sidebar-header, .sidebar-footer {
+  padding: 0 1.5rem;
+  flex-shrink: 0; /* Empêche ces sections de rétrécir */
+  text-align: center;
+}
+
+.sidebar-logo {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.sidebar-nav {
+  flex-grow: 1; /* Fait en sorte que cette section prenne tout l'espace vertical disponible */
+  overflow-y: auto; /* Ajoute un scroll si les liens dépassent */
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li a {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: #e0e0e0;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-nav li a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.sidebar-action-button {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.sidebar-action-button:hover {
+  background-color: #0056b3;
+}
