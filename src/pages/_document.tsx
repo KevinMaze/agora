@@ -1,5 +1,4 @@
 import Navbar from "@/ui/components/navbar/navbar";
-import Sidebar from "@/ui/components/navbar/sidebar";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {

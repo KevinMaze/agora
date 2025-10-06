@@ -1,6 +1,10 @@
 // src/components/Sidebar.tsx
 import React from "react";
 import clsx from "clsx";
+import { Avatar } from "@/ui/design-system/avatar";
+import { Typo } from "@/ui/design-system/typography";
+import { Button } from "@/ui/design-system/button";
+import { Logo } from "@/ui/design-system/logo";
 
 // Définition des props que le composant attend
 interface NavbarProps {
@@ -34,9 +38,9 @@ const Navbar: React.FC<NavbarProps> = ({
                     isOpen ? "translate-x-0" : "translate-x-full"
                 )}
             >
-                <div className="px-6 text-center flex-shrink-0">
+                <div className="px-6 mb-10 flex items-center justify-center">
                     {/* Vous pouvez remplacer ce texte par votre composant Logo */}
-                    <div className="text-3xl font-bold mb-8">MonLogo</div>
+                    <Logo size="large" />
                 </div>
 
                 <nav className="flex-grow overflow-y-auto">
@@ -109,14 +113,20 @@ const Navbar: React.FC<NavbarProps> = ({
                 </nav>
 
                 <div className="px-6 text-center flex-shrink-0">
+                    <div className="flex flex-raw items-center space-x-3">
+                        <Avatar
+                            size="large"
+                            alt="avatar"
+                            src="/assets/images/ai-generated-8058844_1920.jpg"
+                        />
+                        <Typo variant="para" className="mt-2">
+                            Username
+                        </Typo>
+                    </div>
                     {isAuthenticated ? (
-                        <button className="w-full px-4 py-3 mt-4 text-base font-bold text-white bg-blue-600 rounded-md cursor-pointer hover:bg-blue-700 transition-colors">
-                            Déconnexion
-                        </button>
+                        <Button>Déconnexion</Button>
                     ) : (
-                        <button className="w-full px-4 py-3 mt-4 text-base font-bold text-white bg-blue-600 rounded-md cursor-pointer hover:bg-blue-700 transition-colors">
-                            Connexion / Inscription
-                        </button>
+                        <Button>Connexion / Inscription</Button>
                     )}
                 </div>
             </aside>
