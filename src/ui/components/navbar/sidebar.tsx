@@ -1,6 +1,8 @@
 // src/App.tsx
 import React, { useState } from "react";
 import Navbar from "./navbar";
+import { TfiMenu, TfiClose } from "react-icons/tfi";
+import clsx from "clsx";
 
 const Sidebar: React.FC = () => {
     // L'état pour contrôler la visibilité du menu
@@ -9,31 +11,26 @@ const Sidebar: React.FC = () => {
     // Un état d'exemple pour simuler la connexion de l'utilisateur
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const openSidebar = () => setSidebarOpen(true);
-    const closeSidebar = () => setSidebarOpen(false);
+    const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
     return (
-        <div className="app-container">
-            <header className="main-header">
-                {/* Le bouton pour ouvrir le menu */}
-                <button onClick={openSidebar} className="menu-toggle-button">
-                    ☰
-                </button>
-            </header>
-
-            <main className="main-content">
-                {/* Bouton pour tester l'état de connexion */}
-                <button onClick={() => setIsAuthenticated(!isAuthenticated)}>
-                    {isAuthenticated
-                        ? "Simuler Déconnexion"
-                        : "Simuler Connexion"}
-                </button>
-            </main>
+        <div>
+            {/* Le bouton pour ouvrir/fermer le menu */}
+            <button
+                onClick={toggleSidebar}
+                className={clsx(
+                    "fixed top-4 right-4 z-[60] p-2 rounded-md text-primary bg-background/50 backdrop-blur-sm transition-transform duration-300 ease-in-out",
+                    isSidebarOpen && "translate-x-[-320px]"
+                )}
+                aria-label="Toggle sidebar"
+            >
+                {isSidebarOpen ? <TfiClose size={24} /> : <TfiMenu size={24} />}
+            </button>
 
             {/* Le composant Sidebar, qui s'affichera quand isSidebarOpen est true */}
             <Navbar
                 isOpen={isSidebarOpen}
-                onClose={closeSidebar}
+                onClose={toggleSidebar}
                 isAuthenticated={isAuthenticated}
             />
         </div>
