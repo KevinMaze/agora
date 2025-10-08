@@ -5,6 +5,8 @@ import { Avatar } from "@/ui/design-system/avatar";
 import { Typo } from "@/ui/design-system/typography";
 import { Button } from "@/ui/design-system/button";
 import { Logo } from "@/ui/design-system/logo";
+import Link from "next/link";
+import { ActiveLink } from "./active-link";
 
 // Définition des props que le composant attend
 interface NavbarProps {
@@ -38,66 +40,69 @@ const Navbar: React.FC<NavbarProps> = ({
                     isOpen ? "translate-x-0" : "translate-x-full shadow-none"
                 )}
             >
-                <div className="px-6 mb-10 flex items-center justify-center">
+                <Link
+                    href="/"
+                    className="px-6 mb-10 flex items-center justify-center"
+                >
                     <Logo size="large" />
-                </div>
+                </Link>
 
                 <nav className="flex-grow overflow-y-auto">
                     <Typo variant="para" color="primary">
-                        <a
-                            href="/lien1"
+                        <ActiveLink
+                            href="/"
                             className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 1
-                        </a>
+                            Accueil
+                        </ActiveLink>
 
-                        <a
-                            href="/lien2"
+                        <ActiveLink
+                            href="/coffeeshop"
                             className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 2
-                        </a>
+                            Coffee Shop
+                        </ActiveLink>
 
-                        <a
-                            href="/lien3"
+                        <ActiveLink
+                            href="/bibliotheque"
                             className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 3
-                        </a>
+                            La Bibliothèque
+                        </ActiveLink>
 
-                        <a
-                            href="/lien4"
+                        <ActiveLink
+                            href="/librairie"
                             className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 4
-                        </a>
+                            La Librairie
+                        </ActiveLink>
 
-                        <a
-                            href="/lien5"
+                        <ActiveLink
+                            href="/gazette"
                             className="block px-6 py-4 text-lg hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 5
-                        </a>
+                            La Gazette
+                        </ActiveLink>
 
-                        <a
-                            href="/lien6"
+                        <ActiveLink
+                            href="/collect"
                             className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 6
-                        </a>
+                            Click and Collect
+                        </ActiveLink>
 
-                        <a
-                            href="/lien7"
+                        <ActiveLink
+                            href="/apropos"
                             className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 7
-                        </a>
-                        {/*                         <a
-                            href="/lien8"
+                            À propos
+                        </ActiveLink>
+                        <ActiveLink
+                            href="/design-system"
                             className="block px-6 py-4 text-lg hover:bg-gray-800 hover:text-white transition-colors"
                         >
-                            Lien de navigation 8
-                        </a> */}
+                            Design System
+                        </ActiveLink>
                     </Typo>
                 </nav>
 
