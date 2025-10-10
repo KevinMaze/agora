@@ -3,7 +3,7 @@
 :root {
   /* Définition de vos couleurs et polices personnalisées */
   --background: #353839;
-  --foreground: #4A4A4A;
+  --foreground: rgb(74, 74, 74);
   --color-primary: #E35336;
   --color-secondary: #CC7722;
   --color-tier: #008000;
@@ -22,6 +22,8 @@
   --color-primary: var(--color-primary);
   --color-secondary: var(--color-secondary);
   --color-tier: var(--color-tier);
+
+  --myshadow: 0px 0px 10px 10px rgba(74, 74, 74, 0.8);
 
   /* Polices (ici on surcharge les polices par défaut `sans` et `serif`) */
   --font-sans: var(--font-sans-custom);
