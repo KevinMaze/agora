@@ -12,7 +12,7 @@ export const Footer = () => {
 
     return (
         <div className="relative overflow-hidden bg-background shadow-[var(--myshadow)]">
-            <div className="absolute top-0 bottom-0 left-0 w-[125px]">
+            <div className="absolute top-0 bottom-0 left-0 w-[125px] hidden md:block">
                 <Image
                     src={Colonne}
                     alt="Colonne gauche"
@@ -29,7 +29,7 @@ export const Footer = () => {
                     <Typo
                         variant="para"
                         color="primary"
-                        className="text-[16px] uppercase"
+                        className="text-center text-sm md:text-[16px] uppercase flex flex-col md:flex-row gap-2 md:gap-4"
                         weight="bold"
                     >
                         <Link href="/">Accueil</Link> -{" "}
@@ -44,7 +44,7 @@ export const Footer = () => {
                     <Typo
                         variant="para"
                         color="secondary"
-                        className="flex gap-4 text-[16px]"
+                        className="flex flex-col md:flex-row items-center gap-4 text-sm md:text-[16px]"
                     >
                         Suivez l`Agora sur
                         <Link
@@ -70,11 +70,11 @@ export const Footer = () => {
                             <FaXTwitter /> Twitter
                         </Link>
                     </Typo>
-                    <div className="border-1 border-secondary w-100"></div>
+                    <div className="w-full border border-secondary"></div>
                     <Typo
                         variant="para"
-                        className="flex gap-2 text-[16px]"
                         color="secondary"
+                        className="flex flex-col md:flex-row items-center gap-2 text-[16px]"
                     >
                         {`Copyright © ${currentYear} Agora`} -{" "}
                         <Link href="/mentions-legales">Mentions légales</Link> -{" "}
@@ -84,7 +84,7 @@ export const Footer = () => {
                     </Typo>
                 </div>
             </Container>
-            <div className="absolute top-0 bottom-0 right-0 w-[125px]">
+            <div className="absolute top-0 bottom-0 right-0 w-[125px] hidden md:block">
                 <Image
                     src={Colonne}
                     alt="Colonne droite"
