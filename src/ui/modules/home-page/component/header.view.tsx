@@ -22,7 +22,7 @@ export const Header = () => {
         <div className="relative w-full h-screen overflow-hidden">
             {/* Arrière-plan avec opacité et effet de parallaxe */}
             <div
-                className="absolute inset-0 opacity-30"
+                className="absolute inset-0 opacity-20"
                 style={{
                     transform: `translateY(${offsetY * 0.5}px)`,
                 }}
@@ -47,15 +47,21 @@ export const Header = () => {
                     transition={{ duration: 1, ease: "easeInOut" }}
                 >
                     <Image src={Logo} alt="Logo de L'Agora" className="w-120" />
-                    <Typo
-                        variant="title"
-                        components="h1"
-                        weight="bold"
-                        className="mt-3 uppercase text-center"
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1.2, ease: "easeInOut" }}
                     >
-                        {" "}
-                        Librairie et Café
-                    </Typo>
+                        <Typo
+                            variant="title"
+                            components="h1"
+                            weight="bold"
+                            className="mt-3 uppercase text-center"
+                        >
+                            {" "}
+                            Librairie et Café
+                        </Typo>
+                    </motion.div>
                 </motion.div>
                 {/* L'image "déchirée" est maintenant positionnée en bas de manière absolue */}
                 <Image
