@@ -8,6 +8,10 @@ import { Typo } from "@/ui/design-system/typography";
 import { AiFillAccountBook } from "react-icons/ai";
 
 export default function DesignSystem() {
+    const actionTest = () => {
+        console.log("test");
+    };
+
     return (
         <>
             <Seo
@@ -40,7 +44,11 @@ export default function DesignSystem() {
 
                 <h2>BUTTON</h2>
                 <div className="flex items-center gap-4 p-10">
-                    <Button size="small" icon={{ icon: AiFillAccountBook }}>
+                    <Button
+                        size="small"
+                        icon={{ icon: AiFillAccountBook }}
+                        action={actionTest}
+                    >
                         Clique moi
                     </Button>
                     <Button

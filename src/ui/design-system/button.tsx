@@ -1,6 +1,8 @@
 import { IconProps } from "@/types/iconProps";
 import clsx from "clsx";
 import { Spinner } from "./spinner";
+import Link from "next/link";
+import { LinkType, LinkTypes } from "@/lib/link-type";
 
 interface Props {
     size?: "small" | "medium" | "large";
@@ -11,6 +13,9 @@ interface Props {
     disabled?: boolean;
     isLoading?: boolean;
     children?: React.ReactNode;
+    baseUrl?: string;
+    linkType?: LinkType;
+    action?: Function;
 }
 
 export const Button = ({
@@ -22,6 +27,9 @@ export const Button = ({
     disabled,
     isLoading,
     children,
+    baseUrl,
+    linkType,
+    action = () => {},
 }: Props) => {
     let variantStyle: string = "",
         sizeStyle: string = "",
@@ -75,19 +83,14 @@ export const Button = ({
             break;
     }
 
-    return (
-        <button
-            type="button"
-            className={clsx(
-                variantStyle,
-                iconSize,
-                sizeStyle,
-                isLoading && "cursor-wait",
-                "relative"
-            )}
-            onClick={() => console.log("click")}
-            disabled={disabled}
-        >
+    const handleClick = () => {
+        if (action) {
+            action();
+        }
+    };
+
+    const buttonContent = (
+        <>
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center">
                     {variant === "primary" || variant === "icon" ? (
@@ -113,6 +116,36 @@ export const Button = ({
                     </div>
                 )}
             </div>
+        </>
+    );
+
+    const buttonElement = (
+        <button
+            type="button"
+            className={clsx(
+                variantStyle,
+                iconSize,
+                sizeStyle,
+                isLoading && "cursor-wait",
+                "relative"
+            )}
+            onClick={handleClick}
+            disabled={disabled}
+        >
+            {buttonContent}
         </button>
     );
+
+    if (baseUrl) {
+        if (linkType === LinkTypes.EXTERNAL) {
+            return (
+                <a href={baseUrl} target="_blank">
+                    {buttonElement}
+                </a>
+            );
+        } else {
+            return <Link href={baseUrl}>{buttonElement}</Link>;
+        }
+    }
+    return buttonElement;
 };
