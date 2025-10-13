@@ -40,12 +40,11 @@ export const Header = () => {
             {/* Contenu superposé - Le logo est centré et le crack en bas */}
             <div className="relative z-10 h-full flex flex-col justify-center items-center">
                 {/* Le mb-20 (margin-bottom) ajuste la position du logo sans affecter le reste */}
-                <div className="mb-40">
                 <motion.div
                     className="mb-40"
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
                 >
                     <Image src={Logo} alt="Logo de L'Agora" className="w-120" />
                     <Typo
@@ -57,12 +56,10 @@ export const Header = () => {
                         {" "}
                         Librairie et Café
                     </Typo>
-                </div>
                 </motion.div>
                 {/* L'image "déchirée" est maintenant positionnée en bas de manière absolue */}
                 <Image
                     src={Crack}
-                    alt="décors"
                     alt=""
                     className="absolute bottom-[-1rem] w-full h-60 object-cover rotate-180"
                 />
