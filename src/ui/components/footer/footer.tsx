@@ -11,7 +11,7 @@ export const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <div className="relative overflow-hidden bg-background shadow-[var(--myshadow)]">
+        <div className="relative overflow-hidden bg-background shadow-[var(--myshadow)] z-30">
             <div className="absolute top-0 bottom-0 left-0 w-[125px] hidden md:block">
                 <Image
                     src={Colonne}
