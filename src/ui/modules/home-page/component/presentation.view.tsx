@@ -5,6 +5,9 @@ import Image from "next/image";
 import Coffee from "@/../public/assets/images/coffee.jpg";
 import Stairway from "@/../public/assets/images/stairway.jpg";
 import Book from "@/../public/assets/images/book.png";
+import Event from "@/../public/assets/images/07571.png";
+import { FaArrowRight } from "react-icons/fa";
+import Link from "next/link";
 
 export const PresentationView = () => {
     return (
@@ -74,7 +77,37 @@ export const PresentationView = () => {
                 </blockquote>
             </div>
 
-            <Container className="mt-80 mb-80">hello</Container>
+            <Container className="mt-80 mb-80">
+                <Typo
+                    variant="title"
+                    components="h1"
+                    weight="bold"
+                    className="mt-20 mb-20 uppercase underline tracking-widest"
+                >
+                    Evènements
+                </Typo>
+
+                <div className="relative w-2xs">
+                    <Image
+                        src={Event}
+                        alt=""
+                        className="rounded-3xl shadow-[var(--myshadow)]"
+                    />
+                    <div className="absolute bottom-10 left-0 w-[125px]">
+                        <Typo
+                            variant="para"
+                            components="h2"
+                            weight="bold"
+                            className="text-center uppercase underline text-3xl"
+                        >
+                            Title
+                        </Typo>
+                    </div>
+                </div>
+                <Button icon={{ icon: FaArrowRight }} iconPosition="right">
+                    <Link href={"/gazette"}>Evènement</Link>
+                </Button>
+            </Container>
         </>
     );
 };

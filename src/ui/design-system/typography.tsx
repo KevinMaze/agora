@@ -26,7 +26,7 @@ export const Typo = ({
             variantStyle = "font-serif text-4xl";
             break;
         case "para":
-            variantStyle = "font-sans text-lg";
+            variantStyle = "font-sans";
             break;
         case "span":
             variantStyle = "font-sans text-sm";
