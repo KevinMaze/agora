@@ -3,6 +3,11 @@ import Coffee from "@/../public/assets/images/coffee.jpg";
 import Stairway from "@/../public/assets/images/stairway.jpg";
 import Event from "@/../public/assets/images/07571.png";
 import { Card } from "./card";
+import useMeasure from "react-use-measure";
+import { animate } from "framer-motion";
+import { motion } from "framer-motion";
+import { useMotionValue } from "framer-motion";
+import { useEffect } from "react";
 
 export const EvenementView = () => {
     // Données en dur pour le carrousel.
@@ -17,6 +22,23 @@ export const EvenementView = () => {
         { src: Stairway, alt: "Rencontre avec un auteur", title: "Rencontre" },
     ];
 
+    const [ref, { width }] = useMeasure();
+
+    const xTranslation = useMotionValue(0);
+
+    useEffect(() => {
+        const finalPosition = -width / 2 - 8;
+
+        const controls = animate(xTranslation, [0, finalPosition], {
+            ease: "linear",
+            duration: 25,
+            repeat: Infinity,
+            repeatType: "loop",
+            repeatDelay: 0,
+        });
+        return controls.stop();
+    }, [xTranslation, width]);
+
     return (
         <>
             <div className="mt-80 mb-80 flex flex-col items-center">
@@ -29,7 +51,11 @@ export const EvenementView = () => {
                     Evènements
                 </Typo>
                 <div className="mb-20 py-8">
-                    <div className="absolute left-0 flex gap-4">
+                    <motion.div
+                        className="absolute left-0 flex gap-4"
+                        ref={ref}
+                        style={{ x: xTranslation }}
+                    >
                         {[...events, ...events].map((event, index) => (
                             <Card
                                 image={event.src}
@@ -38,7 +64,7 @@ export const EvenementView = () => {
                                 title={event.title}
                             />
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </>
