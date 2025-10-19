@@ -6,6 +6,8 @@ import { Card } from "./card";
 import useMeasure from "react-use-measure";
 import { animate, motion, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Button } from "@/ui/design-system/button";
+import { FaArrowRight } from "react-icons/fa";
 
 export const EvenementView = () => {
     // Données en dur pour le carrousel.
@@ -63,7 +65,7 @@ export const EvenementView = () => {
     }, [xTranslation, width, duration, rerender, mustFinish]);
 
     return (
-        <div className="mt-80">
+        <div className="mt-80 mb-20 flex flex-col justify-center items-center ">
             <Typo
                 variant="title"
                 components="h1"
@@ -97,6 +99,15 @@ export const EvenementView = () => {
                     ))}
                 </motion.div>
             </div>
+            <Button
+                variant="primary"
+                size="large"
+                icon={{ icon: FaArrowRight }}
+                iconPosition="right"
+                baseUrl="/gazette"
+            >
+                Evènements
+            </Button>
         </div>
     );
 };

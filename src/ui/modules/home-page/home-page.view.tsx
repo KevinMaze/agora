@@ -1,4 +1,5 @@
-import { EvenementView } from "./component/evenement-view";
+import { BookBox } from "./component/bookBox.view";
+import { EvenementView } from "./component/evenement.view";
 import { Header } from "./component/header.view";
 import { PresentationView } from "./component/presentation.view";
 
@@ -8,6 +9,7 @@ export const HomePageView = () => {
             <Header />
             <PresentationView />
             <EvenementView />
+            <BookBox />
         </>
     );
 };
