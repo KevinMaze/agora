@@ -3,18 +3,20 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+import type { StaticImageData } from "next/image";
+
 interface CardProps {
-    image: any;
+    image: string | StaticImageData;
     alt: string;
     title: string;
 }
 
-export const Card: React.FC<CardProps> = ({ image, title }) => {
+export const Card: React.FC<CardProps> = ({ image, alt, title }) => {
     const [showOverlay, setShowOverlay] = useState(false);
 
     return (
         <motion.div
-            className="relative min-w-[300px] h-[400px] overflow-hidden flex justify-center items-center"
+            className="relative min-w-[300px] h-[400px] flex justify-center items-center"
             onHoverStart={() => setShowOverlay(true)}
             onHoverEnd={() => setShowOverlay(false)}
         >
@@ -39,7 +41,7 @@ export const Card: React.FC<CardProps> = ({ image, title }) => {
             </AnimatePresence>
             <Image
                 src={image}
-                alt={image}
+                alt={alt}
                 fill
                 className="object-cover rounded-3xl"
             />
