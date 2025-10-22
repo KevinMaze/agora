@@ -1,3 +1,9 @@
+import { Header } from "./component/header.view";
+
 export const CoffeeShopView = () => {
-    return <>hello</>;
+    return (
+        <>
+            <Header />
+        </>
+    );
 };
