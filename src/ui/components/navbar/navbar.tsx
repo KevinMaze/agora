@@ -57,7 +57,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         </ActiveLink>
 
                         <ActiveLink
-                            href="/coffeeshop"
+                            href="/coffeeShop"
                             className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
                         >
                             Coffee Shop
