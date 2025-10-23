@@ -2,8 +2,8 @@ import clsx from "clsx";
 
 interface TypoProps {
     variant?: "title" | "para" | "span";
-    components?: "h1" | "h2" | "p" | "span";
-    color?: "primary" | "secondary" | "tier";
+    components?: "h1" | "h2" | "p" | "span" | "li";
+    color?: "primary" | "secondary" | "tier" | "other";
     weight?: "normal" | "bold" | "extrabold";
     className?: string;
     children: React.ReactNode;
@@ -42,6 +42,9 @@ export const Typo = ({
             break;
         case "tier":
             colorStyle = "text-tier";
+            break;
+        case "other":
+            colorStyle = "text-white";
             break;
     }
 
