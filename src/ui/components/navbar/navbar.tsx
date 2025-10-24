@@ -51,55 +51,55 @@ const Navbar: React.FC<NavbarProps> = ({
                     <Typo variant="para" color="primary">
                         <ActiveLink
                             href="/"
-                            className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             Accueil
                         </ActiveLink>
 
                         <ActiveLink
                             href="/coffeeShop"
-                            className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             Coffee Shop
                         </ActiveLink>
 
                         <ActiveLink
                             href="/bibliotheque"
-                            className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             La Bibliothèque
                         </ActiveLink>
 
                         <ActiveLink
                             href="/librairie"
-                            className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             La Librairie
                         </ActiveLink>
 
                         <ActiveLink
                             href="/gazette"
-                            className="block px-6 py-4 text-lg hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg hover:bg-foreground hover:text-white transition-colors"
                         >
                             La Gazette
                         </ActiveLink>
 
                         <ActiveLink
                             href="/collect"
-                            className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             Click and Collect
                         </ActiveLink>
 
                         <ActiveLink
                             href="/apropos"
-                            className="block px-6 py-4 text-lg  hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             À propos
                         </ActiveLink>
                         <ActiveLink
                             href="/design-system"
-                            className="block px-6 py-4 text-lg hover:bg-gray-800 hover:text-white transition-colors"
+                            className="block px-6 py-4 text-lg hover:bg-foreground hover:text-white transition-colors"
                         >
                             Design System
                         </ActiveLink>

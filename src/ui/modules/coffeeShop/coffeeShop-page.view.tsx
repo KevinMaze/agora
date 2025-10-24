@@ -6,8 +6,8 @@ export const CoffeeShopView = () => {
     return (
         <>
             <Header />
-            <Moment />
-            <Recipe />
+            {/* <Moment />
+            <Recipe /> */}
         </>
     );
 };
