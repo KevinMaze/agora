@@ -23,7 +23,7 @@ export const Typo = ({
 
     switch (variant) {
         case "title":
-            variantStyle = "font-serif text-4xl";
+            variantStyle = "font-serif text-6xl";
             break;
         case "para":
             variantStyle = "font-sans";

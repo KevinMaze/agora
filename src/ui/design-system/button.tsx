@@ -127,7 +127,8 @@ export const Button = ({
                 iconSize,
                 sizeStyle,
                 isLoading && "cursor-wait",
-                "relative"
+                "relative",
+                "cursor-pointer"
             )}
             onClick={handleClick}
             disabled={disabled}

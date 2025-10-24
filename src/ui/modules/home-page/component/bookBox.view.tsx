@@ -7,8 +7,8 @@ import { FaArrowRight } from "react-icons/fa";
 
 export const BookBox = () => {
     return (
-        <Container className="mt-80 mb-80">
-            <div className="relative h-150 w-full overflow-hidden rounded-3xl border-primary border-2">
+        <Container className="mt-80 mb-50">
+            <div className="relative h-150 w-full overflow-hidden rounded-3xl border-primary border-1">
                 <div className="absolute inset-0 opacity-20">
                     <Image
                         src={BookB}
@@ -30,17 +30,25 @@ export const BookBox = () => {
                         La Book Box
                     </Typo>
 
-                    <Typo
-                        variant="para"
-                        components="p"
-                        weight="normal"
-                        className="text-center justify-center pr-20 pl-20"
-                    >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Aliquam eget sapien quis diam scelerisque aliquam.
-                        Phasellus rhoncus tellus at dapibus volutpat. Mauris sit
-                        amet velit vitae metus luctus convallis.
-                    </Typo>
+                    <div className="text-center justify-center pr-20 pl-20">
+                        <Typo
+                            variant="para"
+                            components="p"
+                            weight="normal"
+                            color="other"
+                            className="text-center justify-center pr-20 pl-20"
+                        >
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Aliquam eget sapien quis diam scelerisque
+                            aliquam. Phasellus rhoncus tellus at dapibus
+                            volutpat. Mauris sit amet velit vitae metus luctus
+                            convallis. Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit. Aliquam eget sapien quis diam
+                            scelerisque aliquam. Phasellus rhoncus tellus at
+                            dapibus volutpat. Mauris sit amet velit vitae metus
+                            luctus convallis.
+                        </Typo>
+                    </div>
 
                     <div className="mb-5 pr-10 flex justify-end">
                         <Button

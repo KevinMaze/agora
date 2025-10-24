@@ -23,7 +23,7 @@
   --color-secondary: var(--color-secondary);
   --color-tier: var(--color-tier);
 
-  --myshadow: 0px 0px 10px 10px rgba(74, 74, 74, 0.8);
+  --myshadow: 10px 5px 20px rgba(74, 74, 74, 1);
 
   /* Polices (ici on surcharge les polices par défaut `sans` et `serif`) */
   --font-sans: var(--font-sans-custom);

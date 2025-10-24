@@ -65,12 +65,12 @@ export const EvenementView = () => {
     }, [xTranslation, width, duration, rerender, mustFinish]);
 
     return (
-        <div className="mt-80 mb-20 flex flex-col justify-center items-center ">
+        <div className="mt-80 mb-20 flex flex-col justify-center">
             <Typo
                 variant="title"
                 components="h1"
                 weight="bold"
-                className="mb-20 uppercase underline tracking-widest text-center"
+                className="mb-20 uppercase underline tracking-widest text-end mr-20"
             >
                 Evènements
             </Typo>
@@ -99,15 +99,17 @@ export const EvenementView = () => {
                     ))}
                 </motion.div>
             </div>
-            <Button
-                variant="primary"
-                size="large"
-                icon={{ icon: FaArrowRight }}
-                iconPosition="right"
-                baseUrl="/gazette"
-            >
-                Evènements
-            </Button>
+            <div className="items-center flex justify-center">
+                <Button
+                    variant="primary"
+                    size="large"
+                    icon={{ icon: FaArrowRight }}
+                    iconPosition="right"
+                    baseUrl="/gazette"
+                >
+                    Evènements
+                </Button>
+            </div>
         </div>
     );
 };

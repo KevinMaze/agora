@@ -16,7 +16,7 @@ export const Card: React.FC<CardProps> = ({ image, alt, title }) => {
 
     return (
         <motion.div
-            className="relative min-w-[300px] h-[400px] flex justify-center items-center border-primary border-2 rounded-3xl overflow-hidden"
+            className="relative min-w-[300px] h-[400px] flex justify-center items-center border-primary border-1 rounded-3xl overflow-hidden shadow-[var(--myshadow)]"
             onHoverStart={() => setShowOverlay(true)}
             onHoverEnd={() => setShowOverlay(false)}
         >
