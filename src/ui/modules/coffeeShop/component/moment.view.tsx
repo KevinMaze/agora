@@ -50,7 +50,7 @@ export const Moment = () => {
             <div
                 className="absolute inset-0 opacity-30 h-270"
                 style={{
-                    transform: `translateY(${offsetY * -0.2}px)`,
+                    transform: `translateY(${offsetY * -0.1}px)`,
                 }}
             >
                 <Image
@@ -59,11 +59,6 @@ export const Moment = () => {
                     layout="fill"
                     objectFit="cover"
                     priority
-                />
-                <Image
-                    src={Crack}
-                    alt=""
-                    className="absolute bottom-0 w-full h-60 object-cover rotate-180"
                 />
             </div>
 
@@ -78,7 +73,7 @@ export const Moment = () => {
                         variant="title"
                         components="h2"
                         weight="bold"
-                        className="uppercase"
+                        className="uppercase text-5xl mb-10"
                         color="secondary"
                     >
                         Le café du moment
@@ -93,7 +88,7 @@ export const Moment = () => {
                                     variant="para"
                                     components="h2"
                                     weight="bold"
-                                    className="mb-4 text-center uppercase"
+                                    className="mb-4 text-center uppercase text-2xl"
                                     color="secondary"
                                 >
                                     Ingrédients
@@ -120,7 +115,7 @@ export const Moment = () => {
                                     variant="para"
                                     components="h2"
                                     weight="bold"
-                                    className="mb-4 text-center uppercase"
+                                    className="mb-4 text-center uppercase text-2xl"
                                     color="secondary"
                                 >
                                     Description
@@ -139,6 +134,11 @@ export const Moment = () => {
                     )}
                 </div>
             </div>
+            <Image
+                src={Crack}
+                alt=""
+                className="absolute bottom-0 w-full h-100 object-cover rotate-180"
+            />
         </div>
     );
 };

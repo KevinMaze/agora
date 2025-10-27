@@ -7,6 +7,7 @@ interface TypoProps {
     weight?: "normal" | "bold" | "extrabold";
     className?: string;
     children: React.ReactNode;
+    [key: string]: any; // Permet de passer n'importe quelle autre prop, comme onClick
 }
 
 export const Typo = ({
@@ -16,6 +17,7 @@ export const Typo = ({
     weight = "normal",
     className,
     children,
+    ...rest // Récupère toutes les autres props (ex: onClick)
 }: TypoProps) => {
     const Component = components;
     let variantStyle: string = "";
@@ -23,7 +25,7 @@ export const Typo = ({
 
     switch (variant) {
         case "title":
-            variantStyle = "font-serif text-6xl";
+            variantStyle = "font-serif";
             break;
         case "para":
             variantStyle = "font-sans";
@@ -58,6 +60,7 @@ export const Typo = ({
                 weight === "extrabold" && "font-extrabold",
                 className
             )}
+            {...rest} // Applique les props supplémentaires ici
         >
             {children}
         </Component>

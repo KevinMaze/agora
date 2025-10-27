@@ -8,8 +8,8 @@ import Image3 from "@/../public/assets/images/image3.jpg";
 
 export const Header = () => {
     return (
-        <div className="mt-10 mb-20 w-full h-screen">
-            <div className="relative">
+        <div className="mt-10 mb-180 w-full h-screen flex flex-col">
+            <div className="relative flex-grow">
                 {/* section 1 */}
                 <div className="absolute left-[200px] z-2">
                     <div className="flex">
@@ -81,7 +81,7 @@ export const Header = () => {
                     </div>
                 </div>
             </div>
-            <div className="border-primary border-1 h-0.5 w-250 m-auto p-auto"></div>
+            <div className="absolute top-[1500px] border-primary border-1 h-0.5 w-250 left-1/2 transform -translate-x-1/2"></div>
         </div>
     );
 };
