@@ -56,7 +56,7 @@ export const Header = () => {
                             variant="title"
                             components="h1"
                             weight="bold"
-                            className="mt-3 uppercase text-center"
+                            className="mt-3 uppercase text-center text-5xl"
                         >
                             {" "}
                             Librairie et Café

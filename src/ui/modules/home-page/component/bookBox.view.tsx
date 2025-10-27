@@ -25,7 +25,7 @@ export const BookBox = () => {
                         variant="title"
                         components="h2"
                         weight="bold"
-                        className="mt-3 uppercase underline pl-10 justify-start"
+                        className="mt-3 uppercase underline pl-10 justify-start text-5xl"
                     >
                         La Book Box
                     </Typo>

@@ -70,7 +70,7 @@ export const EvenementView = () => {
                 variant="title"
                 components="h1"
                 weight="bold"
-                className="mb-20 uppercase underline tracking-widest text-end mr-20"
+                className="mb-20 uppercase underline tracking-widest text-end mr-20 text-6xl"
             >
                 Evènements
             </Typo>

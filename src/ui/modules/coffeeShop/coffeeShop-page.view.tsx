@@ -7,7 +7,6 @@ export const CoffeeShopView = () => {
         <>
             <Header />
             <Moment />
-            {/* Le filtre est maintenant géré à l'intérieur du composant Recipe. On peut lui passer un filtre initial. */}
             <Recipe />
         </>
     );
