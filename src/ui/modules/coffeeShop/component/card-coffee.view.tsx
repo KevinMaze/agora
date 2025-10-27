@@ -6,10 +6,9 @@ import { StaticImageData } from "next/image";
 import Image from "next/image";
 import React, { useState } from "react";
 import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
-import Link from "next/link";
 
 interface CarProps {
-    image?: string | StaticImageData; // Rendu optionnel pour le cas où elle n'est pas fournie
+    src?: string | StaticImageData; // Rendu optionnel pour le cas où elle n'est pas fournie
     alt: string;
     title?: string;
     description: string;
@@ -17,13 +16,13 @@ interface CarProps {
 }
 
 export const CardRecipe: React.FC<CarProps> = ({
-    image = DefaultImage,
+    src = DefaultImage,
     alt,
     title,
     description,
     onClick,
 }) => {
-    const [imgSrc, setImgSrc] = useState(image);
+    const [imgSrc, setImgSrc] = useState(src);
     const [isLoading, setIsLoading] = useState(true);
 
     return (
