@@ -7,11 +7,13 @@ import Image from "next/image";
 import React, { useState } from "react";
 import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
 import Link from "next/link";
+
 interface CarProps {
     image?: string | StaticImageData; // Rendu optionnel pour le cas où elle n'est pas fournie
     alt: string;
     title?: string;
     description: string;
+    onClick: () => void;
 }
 
 export const CardRecipe: React.FC<CarProps> = ({
@@ -19,13 +21,14 @@ export const CardRecipe: React.FC<CarProps> = ({
     alt,
     title,
     description,
+    onClick,
 }) => {
     const [imgSrc, setImgSrc] = useState(image);
     const [isLoading, setIsLoading] = useState(true);
 
     return (
         <>
-            <div className="w-60">
+            <div className="w-60 cursor-pointer" onClick={onClick}>
                 {/* J'ai ajouté un groupe pour le survol et overflow-hidden pour contenir le zoom */}
                 <div className="relative h-60 w-60 rounded-3xl overflow-hidden group">
                     {isLoading && (
@@ -33,26 +36,24 @@ export const CardRecipe: React.FC<CarProps> = ({
                             <Spinner />
                         </div>
                     )}
-                    <Link href="/">
-                        <Image
-                            src={imgSrc}
-                            alt={alt}
-                            className={`object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-110 ${
-                                isLoading ? "opacity-0" : "opacity-100"
-                            }`}
-                            onLoadingComplete={() => setIsLoading(false)}
-                            onError={() => {
-                                setImgSrc(DefaultImage);
-                                setIsLoading(false);
-                            }}
-                            placeholder="blur"
-                            blurDataURL={
-                                typeof imgSrc === "string"
-                                    ? imgSrc
-                                    : imgSrc.blurDataURL
-                            }
-                        />
-                    </Link>
+                    <Image
+                        src={imgSrc}
+                        alt={alt}
+                        className={`object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-110 ${
+                            isLoading ? "opacity-0" : "opacity-100"
+                        }`}
+                        onLoadingComplete={() => setIsLoading(false)}
+                        onError={() => {
+                            setImgSrc(DefaultImage);
+                            setIsLoading(false);
+                        }}
+                        placeholder="blur"
+                        blurDataURL={
+                            typeof imgSrc === "string"
+                                ? imgSrc
+                                : imgSrc.blurDataURL
+                        }
+                    />
                 </div>
                 <div className="mt-5">
                     <Typo
@@ -62,7 +63,7 @@ export const CardRecipe: React.FC<CarProps> = ({
                         color="secondary"
                         className="uppercase"
                     >
-                        {title} {/* Utilisation de la prop 'title' */}
+                        {title}
                     </Typo>
                     <div className="border-1 border-primary w-[80%] mt-4 mb-4"></div>
                     <Typo

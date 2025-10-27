@@ -7,6 +7,7 @@ import Cake from "@/../public/assets/images/cake.jpg";
 import { Typo } from "@/ui/design-system/typography";
 import clsx from "clsx";
 import { Spinner } from "@/ui/design-system/spinner";
+import { RecipeModal, RecipeData } from "./recipe-modal.view";
 
 interface RecipeProps {
     initialFilter?: "coffee" | "cake";
@@ -15,7 +16,10 @@ interface RecipeProps {
 export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
     const [activeFilter, setActiveFilter] = useState(initialFilter);
     const [isLoading, setIsLoading] = useState(true);
-    const [displayedRecipes, setDisplayedRecipes] = useState<any[]>([]);
+    const [displayedRecipes, setDisplayedRecipes] = useState<RecipeData[]>([]);
+    const [selectedRecipe, setSelectedRecipe] = useState<RecipeData | null>(
+        null
+    );
     // Données de recettes complètes (simulant la BDD)
     const allRecipes = [
         {
@@ -25,6 +29,9 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
             type: "coffee",
             description:
                 "Un délicieux café latte avec une mousse de lait crémeuse.",
+            ingredients: ["Espresso", "Lait entier", "Mousse de lait"],
+            history:
+                "Le café latte est une boisson chaude originaire d'Italie, où il est traditionnellement consommé au petit-déjeuner. Son nom signifie littéralement 'café au lait'.",
         },
         {
             src: Coffee,
@@ -159,6 +166,10 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
         return () => clearTimeout(timer); // Nettoyage du timer
     }, [activeFilter]); // Se déclenche au changement de filtre
 
+    const handleCardClick = (recipe: RecipeData) => {
+        setSelectedRecipe(recipe);
+    };
+
     return (
         <Container className="mb-80">
             <div className="flex justify-center items-center">
@@ -204,13 +215,17 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
                     {displayedRecipes.map((recipe, index) => (
                         <CardRecipe
                             key={index}
-                            image={recipe.src}
-                            alt={recipe.alt}
-                            title={recipe.title}
-                            description={recipe.description}
+                            {...recipe}
+                            onClick={() => handleCardClick(recipe)}
                         />
                     ))}
                 </div>
+            )}
+            {selectedRecipe && (
+                <RecipeModal
+                    recipe={selectedRecipe}
+                    onClose={() => setSelectedRecipe(null)}
+                />
             )}
         </Container>
     );
