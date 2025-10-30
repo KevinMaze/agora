@@ -29,7 +29,7 @@ export const PresentationView = () => {
                     variant="title"
                     components="h1"
                     weight="bold"
-                    className="mt-20 mb-20 uppercase underline tracking-widest"
+                    className="mt-20 mb-20 uppercase underline tracking-widest text-5xl"
                 >
                     Présentation Rapide
                 </Typo>
