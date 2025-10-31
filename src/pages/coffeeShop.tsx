@@ -1,6 +1,6 @@
 import { Layout } from "@/ui/components/layout/layout";
 import Seo from "@/ui/components/seo";
-import { CoffeeShopContainer } from "@/ui/modules/coffeeShop/coffeeShop-page.container";
+import { CoffeeShopContainer } from "@/ui/modules/coffeeShop-page/coffeeShop-page.container";
 
 export default function CoffeeShopPage() {
     return (

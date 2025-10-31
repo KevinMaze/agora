@@ -1,5 +1,6 @@
 import { Layout } from "@/ui/components/layout/layout";
 import Seo from "@/ui/components/seo";
+import { BibliothequeContainer } from "@/ui/modules/bibliotheque-page/bibliotheque.container";
 
 export default function BibliothequePage() {
     return (
@@ -8,7 +9,9 @@ export default function BibliothequePage() {
                 title="Agora - La Bibliothèque"
                 description="Découvrez notre sélection de livre du jours"
             />
-            <Layout>Bibliothèque page</Layout>
+            <Layout>
+                <BibliothequeContainer />
+            </Layout>
         </>
     );
 }
