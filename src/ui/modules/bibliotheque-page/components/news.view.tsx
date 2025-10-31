@@ -1,6 +1,7 @@
 import { Card } from "@/ui/design-system/card";
 import Error from "@/../public/assets/images/404.png";
 import { Typo } from "@/ui/design-system/typography";
+import { Container } from "@/ui/components/container";
 
 export const News = () => {
     const Book = [
@@ -28,7 +29,7 @@ export const News = () => {
     ];
 
     return (
-        <div>
+        <Container>
             <Typo
                 variant="para"
                 components="h2"
@@ -37,11 +38,11 @@ export const News = () => {
             >
                 Nouveautées
             </Typo>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
                 {[...Book, ...Book].map((book, index) => (
                     <Card key={index} {...book} />
                 ))}
             </div>
-        </div>
+        </Container>
     );
 };
