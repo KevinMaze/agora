@@ -308,11 +308,12 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                 color="other"
                                 className="mt-2 text-xl"
                             >
-                                Un chef-d'œuvre de la science-fiction qui
+                                Un chef-d&#39;œuvre de la science-fiction qui
                                 explore des thèmes profonds tels que la
-                                politique, la religion et l'écologie. L'univers
-                                richement détaillé et les personnages complexes
-                                rendent la lecture captivante du début à la fin.
+                                politique, la religion et l&#39;écologie.
+                                L&#39;univers richement détaillé et les
+                                personnages complexes rendent la lecture
+                                captivante du début à la fin.
                             </Typo>
                         </div>
                     </div>
