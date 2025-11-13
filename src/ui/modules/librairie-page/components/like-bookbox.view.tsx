@@ -1,31 +1,37 @@
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
 import Image, { StaticImageData } from "next/image";
+import React from "react";
+import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
+import Dune from "@/../public/assets/images/dune.jpg";
 
 interface LikeBookBoxViewProps {
-    className?: string;
-    book: {
-        title: string;
-        src: StaticImageData;
-        alt: string;
-        publicationDate: string;
-        author: string;
-        synopsis: string;
-    };
+    title?: string;
+    src?: string | StaticImageData;
+    alt?: string;
+    publicationDate?: string;
+    author?: string;
+    synopsis?: string;
 }
 
-export const LikeBookBoxView = ({ className, book }: LikeBookBoxViewProps) => {
+export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
+    title,
+    src = DefaultImage,
+    alt,
+    publicationDate,
+    author,
+    synopsis,
+}) => {
     return (
-        <Container className={className}>
-            <div className="p-10 rounded-xl bg-foreground mx-auto h-full">
+        <Container className="py-20 border-b-2 border-primary ">
+            <div className="p-10 bg-foreground mx-auto h-full rounded-lg shadow-lg max-w-6xl">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
                     {/* Colonne de l'image */}
-                    <div className="relative h-80 md:h-[500px] w-full border-2 border-primary rounded-lg">
+                    <div className="relative border-2 border-primary rounded-lg">
                         <Image
-                            src={book.src}
-                            alt={book.alt}
-                            fill
-                            className="object-cover rounded-lg"
+                            src={Dune}
+                            alt={alt ?? "book cover"}
+                            className="rounded-lg object-cover w-full h-full "
                         />
                     </div>
 
@@ -46,7 +52,7 @@ export const LikeBookBoxView = ({ className, book }: LikeBookBoxViewProps) => {
                                 color="other"
                                 className="mt-2 text-xl"
                             >
-                                {book.title}
+                                Dune
                             </Typo>
                         </div>
 
@@ -65,7 +71,7 @@ export const LikeBookBoxView = ({ className, book }: LikeBookBoxViewProps) => {
                                 color="other"
                                 className="mt-2 text-xl"
                             >
-                                {book.publicationDate}
+                                1965
                             </Typo>
                         </div>
 
@@ -84,7 +90,7 @@ export const LikeBookBoxView = ({ className, book }: LikeBookBoxViewProps) => {
                                 color="other"
                                 className="mt-2 text-xl"
                             >
-                                {book.author}
+                                Frank Herbert
                             </Typo>
                         </div>
                         <div>
@@ -102,7 +108,17 @@ export const LikeBookBoxView = ({ className, book }: LikeBookBoxViewProps) => {
                                 color="other"
                                 className="mt-2 text-xl"
                             >
-                                {book.synopsis}
+                                Set in the distant future amidst a huge
+                                interstellar empire, Dune tells the story of
+                                young Paul Atreides, whose noble family accepts
+                                the stewardship of the desert planet Arrakis.
+                                While the planet is an inhospitable and sparsely
+                                populated world, it is the only source of
+                                melange, or &quot;the spice&quot;, a drug that
+                                extends life and enhances mental abilities. As
+                                melange is the most valuable substance in the
+                                universe, control of Arrakis is a coveted and
+                                dangerous undertaking.
                             </Typo>
                         </div>
                     </div>
