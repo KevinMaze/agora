@@ -1,25 +1,36 @@
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
-import Image from "next/image";
-import Dune from "@/../public/assets/images/dune.jpg";
+import Image, { StaticImageData } from "next/image";
 
-export const LikeBookBoxView = () => {
+interface LikeBookBoxViewProps {
+    className?: string;
+    book: {
+        title: string;
+        src: StaticImageData;
+        alt: string;
+        publicationDate: string;
+        author: string;
+        synopsis: string;
+    };
+}
+
+export const LikeBookBoxView = ({ className, book }: LikeBookBoxViewProps) => {
     return (
-        <Container className="py-30 border-b-2 border-primary">
-            <div className="p-10 rounded-xl w-[900px] bg-foreground mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full">
+        <Container className={className}>
+            <div className="p-10 rounded-xl bg-foreground mx-auto h-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
                     {/* Colonne de l'image */}
                     <div className="relative h-80 md:h-[500px] w-full border-2 border-primary rounded-lg">
                         <Image
-                            src={Dune}
-                            alt=""
+                            src={book.src}
+                            alt={book.alt}
                             fill
                             className="object-cover rounded-lg"
                         />
                     </div>
 
                     {/* Colonne des détails */}
-                    <div className="space-y-5 flex flex-col items-center">
+                    <div className="space-y-5 flex flex-col">
                         <div>
                             <Typo
                                 variant="title"
@@ -28,14 +39,14 @@ export const LikeBookBoxView = () => {
                                 color="primary"
                                 className="uppercase text-3xl underline "
                             >
-                                Title
+                                Titre
                             </Typo>
                             <Typo
                                 variant="para"
                                 color="other"
-                                className="mt-2 text-center text-xl"
+                                className="mt-2 text-xl"
                             >
-                                Dune
+                                {book.title}
                             </Typo>
                         </div>
 
@@ -52,9 +63,9 @@ export const LikeBookBoxView = () => {
                             <Typo
                                 variant="para"
                                 color="other"
-                                className="mt-2 text-center text-xl"
+                                className="mt-2 text-xl"
                             >
-                                1965
+                                {book.publicationDate}
                             </Typo>
                         </div>
 
@@ -71,9 +82,9 @@ export const LikeBookBoxView = () => {
                             <Typo
                                 variant="para"
                                 color="other"
-                                className="mt-2 text-center text-xl"
+                                className="mt-2 text-xl"
                             >
-                                Frank Herbert
+                                {book.author}
                             </Typo>
                         </div>
                         <div>
@@ -89,19 +100,9 @@ export const LikeBookBoxView = () => {
                             <Typo
                                 variant="para"
                                 color="other"
-                                className="mt-2 text-center text-xl"
+                                className="mt-2 text-xl"
                             >
-                                Set in the distant future amidst a huge
-                                interstellar empire, Dune tells the story of
-                                young Paul Atreides, whose noble family is
-                                entrusted with the stewardship of the desert
-                                planet Arrakis. As the only source of the
-                                universe's most valuable substance, "spice"
-                                melange, control of Arrakis is a coveted and
-                                dangerous honor. The novel explores themes of
-                                politics, religion, and ecology as Paul
-                                navigates a complex web of intrigue and betrayal
-                                to fulfill his destiny.
+                                {book.synopsis}
                             </Typo>
                         </div>
                     </div>

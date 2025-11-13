@@ -1,5 +1,5 @@
+import { BookBox } from "./components/book-box.view";
 import { ExplainsView } from "./components/explain.view";
-import { LikeBookBoxView } from "./components/like-bookbox.view";
 import { LibrairieView } from "./librairie.view";
 
 export const LibrairieContainer = () => {
@@ -7,7 +7,7 @@ export const LibrairieContainer = () => {
         <>
             <LibrairieView />
             <ExplainsView />
-            <LikeBookBoxView />
+            <BookBox />
         </>
     );
 };
