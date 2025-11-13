@@ -16,6 +16,7 @@ interface Props {
     baseUrl?: string;
     linkType?: LinkType;
     action?: Function;
+    classname?: string;
 }
 
 export const Button = ({
@@ -29,6 +30,7 @@ export const Button = ({
     children,
     baseUrl,
     linkType,
+    classname,
     action = () => {},
 }: Props) => {
     let variantStyle: string = "",

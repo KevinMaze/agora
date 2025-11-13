@@ -1,9 +1,10 @@
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
 import Image, { StaticImageData } from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
 import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
 import Dune from "@/../public/assets/images/dune.jpg";
+import { Button } from "@/ui/design-system/button";
 
 interface LikeBookBoxViewProps {
     title?: string;
@@ -14,6 +15,11 @@ interface LikeBookBoxViewProps {
     synopsis?: string;
 }
 
+interface StarRatingProps {
+    rating: number;
+    className?: string;
+}
+
 export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
     title,
     src = DefaultImage,
@@ -22,6 +28,49 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
     author,
     synopsis,
 }) => {
+    // --- Simulation de la récupération et du calcul de la note ---
+    const ratings: number[] = [0, 4, 0, 3, 4, 0, 2]; // Notes récupérées de la BDD
+
+    const averageRating = useMemo(() => {
+        if (ratings.length === 0) return 0;
+        const sum = ratings.reduce((acc, rating) => acc + rating, 0);
+        return sum / ratings.length;
+    }, [ratings]);
+    // -------------------------------------------------------------
+
+    const StarRating: React.FC<StarRatingProps> = ({ rating }) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        return (
+            <div className="flex items-center">
+                {[...Array(fullStars)].map((_, index) => (
+                    <span
+                        key={`full-${index}`}
+                        className="text-yellow-400 text-3xl"
+                    >
+                        &#9733;
+                    </span> // Étoile pleine
+                ))}
+                {halfStar && (
+                    <span className="text-yellow-400 text-3xl">&#9733;</span> // Pour la simplicité, une étoile pleine pour 0.5 ou plus
+                )}
+                {[...Array(emptyStars)].map((_, index) => (
+                    <span
+                        key={`empty-${index}`}
+                        className="text-other text-3xl"
+                    >
+                        &#9734;
+                    </span> // Étoile vide
+                ))}
+                <Typo variant="para" color="other" className="ml-2 text-lg">
+                    ({ratings.length} votes)
+                </Typo>
+            </div>
+        );
+    };
+
     return (
         <Container className="py-20 border-b-2 border-primary ">
             <Typo
@@ -42,17 +91,19 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                             alt={alt ?? "book cover"}
                             className="rounded-lg object-cover w-full h-full "
                         />
-                        <Typo
-                            variant="title"
-                            components="h2"
-                            weight="bold"
-                            color="primary"
-                            className="absolute bottom-2 left-2 bg-white bg-opacity-75 px-3 py-1 rounded-md text-xl"
-                        >
-                            Note des lecteurs :
-                        </Typo>
+                        <div className="absolute bottom-2 left-2 bg-foreground bg-opacity-75 px-4 py-2 rounded-md flex items-center">
+                            <Typo
+                                variant="para"
+                                components="p"
+                                weight="bold"
+                                color="primary"
+                                className="text-xl"
+                            >
+                                Note des lecteurs :
+                            </Typo>
+                            <StarRating rating={averageRating} />
+                        </div>
                     </div>
-
                     {/* Colonne des détails */}
                     <div className="space-y-5 flex flex-col">
                         <div>
@@ -141,6 +192,9 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                         </div>
                     </div>
                 </div>
+                <Button variant="primary" classname="">
+                    Emprunter
+                </Button>
             </div>
         </Container>
     );
