@@ -24,6 +24,15 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
 }) => {
     return (
         <Container className="py-20 border-b-2 border-primary ">
+            <Typo
+                variant="title"
+                components="h2"
+                weight="bold"
+                color="primary"
+                className="mb-10 uppercase text-4xl text-end"
+            >
+                Coup de coeur de la boite aux livres
+            </Typo>
             <div className="p-10 bg-foreground mx-auto h-full rounded-lg shadow-lg max-w-6xl">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
                     {/* Colonne de l'image */}
@@ -33,6 +42,15 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                             alt={alt ?? "book cover"}
                             className="rounded-lg object-cover w-full h-full "
                         />
+                        <Typo
+                            variant="title"
+                            components="h2"
+                            weight="bold"
+                            color="primary"
+                            className="absolute bottom-2 left-2 bg-white bg-opacity-75 px-3 py-1 rounded-md text-xl"
+                        >
+                            Note des lecteurs :
+                        </Typo>
                     </div>
 
                     {/* Colonne des détails */}
