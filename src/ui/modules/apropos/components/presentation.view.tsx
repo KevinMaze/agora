@@ -1,14 +1,16 @@
 import { animate, useMotionValue, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import useMeasure from "react-use-measure";
+import Image from "next/image";
 import Img01 from "@/../public/assets/images/01.png";
 import Img02 from "@/../public/assets/images/02.png";
 import Img03 from "@/../public/assets/images/03.png";
 import Img04 from "@/../public/assets/images/04.png";
 import Img05 from "@/../public/assets/images/05.png";
-import Image from "next/image";
-import { div } from "framer-motion/client";
+import Men from "@/../public/assets/images/men.jpg";
+import Women from "@/../public/assets/images/women.jpg";
 import { Container } from "@/ui/components/container";
+import { Typo } from "@/ui/design-system/typography";
 
 const Images = [Img01, Img02, Img03, Img04, Img05];
 
@@ -52,7 +54,7 @@ export const AproposPresentationView = () => {
     }, [xTranslation, width, duration, rerender, mustFinish]);
 
     return (
-        <div className="mt-20">
+        <div className="mt-50 mb-100">
             <div className="relative h-[500px] w-full overflow-hidden py-8">
                 <motion.div
                     className="absolute flex gap-4"
@@ -87,7 +89,58 @@ export const AproposPresentationView = () => {
                 </motion.div>
             </div>
 
-            <Container>sdvcsdv</Container>
+            <Container className="relative">
+                <div className="relative left-25">
+                    <div className="absolute h-90 w-60 -rotate-10">
+                        <Image
+                            src={Men}
+                            alt="Image d'un homme"
+                            className=""
+                            priority
+                            layout="fill"
+                            objectFit="cover"
+                        />
+                    </div>
+                    <div className="absolute left-45 h-90 w-60 rotate-10">
+                        <Image
+                            src={Women}
+                            alt="Image d'une femme"
+                            className=""
+                            priority
+                            layout="fill"
+                            objectFit="cover"
+                        />
+                    </div>
+                </div>
+                <div className="absolute bg-foreground/80 rounded-2xl -z-1 right-20 w-1/2">
+                    <Typo
+                        variant="para"
+                        components="p"
+                        weight="normal"
+                        color="other"
+                        className="p-10"
+                    >
+                        Quod opera consulta cogitabatur astute, ut hoc
+                        insidiarum genere Galli periret avunculus, ne eum ut
+                        praepotens acueret in fiduciam exitiosa coeptantem.
+                        verum navata est opera diligens hocque dilato Eusebius
+                        praepositus cubiculi missus est Cabillona aurum secum
+                        perferens, quo per turbulentos seditionum concitores
+                        occultius distributo et tumor consenuit militum et salus
+                        est in tuto locata praefecti. deinde cibo abunde perlato
+                        castra die praedicto sunt mota.Quod opera consulta
+                        cogitabatur astute, ut hoc insidiarum genere Galli
+                        periret avunculus, ne eum ut praepotens acueret in
+                        fiduciam exitiosa coeptantem. verum navata est opera
+                        diligens hocque dilato Eusebius praepositus cubiculi
+                        missus est Cabillona aurum secum perferens, quo per
+                        turbulentos seditionum concitores occultius distributo
+                        et tumor consenuit militum et salus est in tuto locata
+                        praefecti. deinde cibo abunde perlato castra die
+                        praedicto sunt mota.
+                    </Typo>
+                </div>
+            </Container>
         </div>
     );
 };
