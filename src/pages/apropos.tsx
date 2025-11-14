@@ -1,5 +1,6 @@
 import { Layout } from "@/ui/components/layout/layout";
 import Seo from "@/ui/components/seo";
+import { AproposContainer } from "@/ui/modules/apropos/apropos.container";
 
 export default function AboutPage() {
     return (
@@ -8,7 +9,9 @@ export default function AboutPage() {
                 title="Agora - La Bibliothèque"
                 description="Découvrez notre sélection de livre du jours"
             />
-            <Layout>A propos</Layout>
+            <Layout>
+                <AproposContainer />
+            </Layout>
         </>
     );
 }

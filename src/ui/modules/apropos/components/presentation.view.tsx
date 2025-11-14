@@ -1,36 +1,23 @@
-import { Typo } from "@/ui/design-system/typography";
-import Coffee from "@/../public/assets/images/coffee.jpg";
-import Stairway from "@/../public/assets/images/stairway.jpg";
-import Event from "@/../public/assets/images/01.png";
-import { Card } from "./card";
-import useMeasure from "react-use-measure";
-import { animate, motion, useMotionValue } from "framer-motion";
+import { animate, useMotionValue, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Button } from "@/ui/design-system/button";
-import { FaArrowRight } from "react-icons/fa";
+import useMeasure from "react-use-measure";
+import Img01 from "@/../public/assets/images/01.png";
+import Img02 from "@/../public/assets/images/02.png";
+import Img03 from "@/../public/assets/images/03.png";
+import Img04 from "@/../public/assets/images/04.png";
+import Img05 from "@/../public/assets/images/05.png";
+import Image from "next/image";
+import { div } from "framer-motion/client";
+import { Container } from "@/ui/components/container";
 
-export const EvenementView = () => {
-    // Données en dur pour le carrousel.
-    // À l'avenir, vous pourrez remplacer ceci par un appel à votre API.
-    const events = [
-        {
-            src: Event,
-            alt: "Atelier d'écriture créative",
-            title: "Atelier d'écriture",
-        },
-        { src: Coffee, alt: "Dégustation de café", title: "Dégustation" },
-        { src: Stairway, alt: "Rencontre avec un auteur", title: "Rencontre" },
-    ];
+const Images = [Img01, Img02, Img03, Img04, Img05];
 
+export const AproposPresentationView = () => {
     const fastDuration = 25;
     const slowDuration = 75;
-
     const [duration, setDuration] = useState(fastDuration);
-
     const [ref, { width }] = useMeasure();
-
     const xTranslation = useMotionValue(0);
-
     const [mustFinish, setMustFinish] = useState(false);
     const [rerender, setRerender] = useState(false);
 
@@ -65,16 +52,7 @@ export const EvenementView = () => {
     }, [xTranslation, width, duration, rerender, mustFinish]);
 
     return (
-        <div className="mt-80 mb-20 flex flex-col justify-center">
-            <Typo
-                variant="title"
-                components="h1"
-                weight="bold"
-                className="mb-20 uppercase underline tracking-widest text-end mr-20 text-6xl"
-            >
-                Evènements
-            </Typo>
-            {/* Ce conteneur a maintenant une hauteur définie par les cartes à l'intérieur */}
+        <div className="mt-20">
             <div className="relative h-[500px] w-full overflow-hidden py-8">
                 <motion.div
                     className="absolute flex gap-4"
@@ -89,27 +67,27 @@ export const EvenementView = () => {
                         setDuration(fastDuration);
                     }}
                 >
-                    {[...events, ...events].map((event, index) => (
-                        <Card
-                            image={event.src}
+                    {[...Images, ...Images].map((event, index) => (
+                        <div
                             key={index}
-                            alt={event.title}
-                            title={event.title}
-                        />
+                            className="w-[200px] h-[200px] relative"
+                        >
+                            <Image
+                                src={event.src}
+                                key={index}
+                                alt={event.src}
+                                layout="fill"
+                                objectFit="cover"
+                                objectPosition="center"
+                                priority
+                                className="rounded-2xl"
+                            />
+                        </div>
                     ))}
                 </motion.div>
             </div>
-            <div className="items-center flex justify-center">
-                <Button
-                    variant="primary"
-                    size="large"
-                    icon={{ icon: FaArrowRight }}
-                    iconPosition="right"
-                    baseUrl="/gazette"
-                >
-                    Evènements
-                </Button>
-            </div>
+
+            <Container>sdvcsdv</Container>
         </div>
     );
 };
