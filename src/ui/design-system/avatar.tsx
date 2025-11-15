@@ -1,9 +1,9 @@
 import clsx from "clsx";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface Props {
     size?: "small" | "medium" | "large";
-    src: string;
+    src: string | StaticImageData;
     alt: string;
 }
 
