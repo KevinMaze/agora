@@ -5,73 +5,84 @@ import { Typo } from "@/ui/design-system/typography";
 export const AproposFormView = () => {
     return (
         <Container className="mt-150">
-            <div className="flex flex-row bg-amber-300 justify-around">
-                <div className=" bg-amber-600">
+            <div className="flex flex-row justify-around">
+                <div className="">
                     <form action="" className="flex flex-col gap-5">
-                        <label htmlFor="name" className="bg-other w-50">
+                        <label htmlFor="name" className="">
                             <input
                                 type="text"
                                 id="name"
-                                placeholder="Nom"
+                                name="name"
+                                placeholder="Entrer votre nom"
                                 required
-                                className="bg-other w-50"
+                                className="w-100 h-10 border-2 border-primary bg-other rounded-xl"
                             />
                         </label>
-                        <label htmlFor="firstname" className="bg-other">
+                        <label
+                            htmlFor="firstname"
+                            className="flex justify-center gap-3"
+                        >
                             <input
                                 type="text"
                                 id="firstname"
                                 placeholder="Prénom"
                                 required
-                                className="bg-other"
+                                color="other"
+                                className="w-100 h-10 border-2 border-primary bg-other rounded-xl"
                             />
                         </label>
-                        <label htmlFor="email" className="bg-other">
+                        <label
+                            htmlFor="email"
+                            className="flex justify-center gap-3"
+                        >
                             <input
                                 type="email"
                                 id="email"
-                                placeholder="Email"
+                                placeholder="E-mail"
                                 required
-                                className="bg-other"
+                                className="w-100 h-10 border-2 border-primary bg-other rounded-xl"
                             />
                         </label>
-                        <label htmlFor="message" className="bg-other">
+                        <label
+                            htmlFor="message"
+                            className="flex justify-center gap-3"
+                        >
                             <textarea
                                 id="message"
-                                placeholder="Message"
+                                placeholder="Votre message"
                                 required
-                                className="bg-other"
+                                className="w-100 h-80 border-2 border-primary bg-other rounded-xl resize-none"
                             />
                         </label>
                         <Button variant="primary">Envoyer</Button>
                     </form>
                 </div>
-                <div className="bg-amber-400 flex flex-col justify-between">
+                <div className="flex flex-col justify-between items-center">
                     <Typo
                         variant="para"
                         components="p"
-                        className="text-2xl uppercase"
+                        className="text-2xl uppercase -rotate-12"
                     >
                         Une demande particulière ?
                     </Typo>
                     <Typo
                         variant="para"
                         components="p"
-                        className="text-2xl uppercase"
+                        className="text-2xl uppercase rotate-12"
                     >
                         une precision ?
                     </Typo>
                     <Typo
                         variant="para"
                         components="p"
-                        className="text-2xl uppercase"
+                        className="text-2xl uppercase -rotate-12"
                     >
                         où alors on papotte ?
                     </Typo>
                     <Typo
                         variant="para"
                         components="p"
-                        className="text-2xl uppercase"
+                        className="text-2xl uppercase rotate-12"
                     >
                         n’hésitez pas à nous écrire
                     </Typo>
