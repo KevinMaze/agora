@@ -218,6 +218,7 @@ export const EvenementGazette = () => {
                     </div>
                 </div>
             </div>
+            <div className="border-1 border-primary w-300 m-auto mt-20"></div>
         </div>
     );
 };
