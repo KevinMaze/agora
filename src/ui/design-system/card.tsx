@@ -26,6 +26,7 @@ export const Card: React.FC<CarProps> = ({
     description,
     autor,
     date,
+    price,
 }: CarProps) => {
     const [imgSrc, setImgSrc] = useState(src);
     const [isLoading, setIsLoading] = useState(true);
