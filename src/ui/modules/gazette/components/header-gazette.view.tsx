@@ -7,7 +7,7 @@ import { Container } from "@/ui/components/container";
 
 export const HeaderGazette = () => {
     return (
-        <div className="relative mb-150">
+        <div className="relative mb-20">
             <Typo
                 variant="title"
                 components="h1"

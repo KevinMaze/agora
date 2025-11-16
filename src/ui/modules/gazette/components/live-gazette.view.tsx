@@ -1,0 +1,35 @@
+import { Container } from "@/ui/components/container";
+import { Typo } from "@/ui/design-system/typography";
+import Image from "next/image";
+import Twitch from "@/../public/assets/images/twitch.png";
+import Youtube from "@/../public/assets/images/youtube.png";
+
+export const LiveGazette = () => {
+    return (
+        <Container>
+            <div className="flex justify-around">
+                <Typo
+                    variant="title"
+                    components="p"
+                    weight="bold"
+                    className="mt-3 uppercase text-4xl"
+                >
+                    Twitch
+                </Typo>
+                <Image src={Twitch} alt="twitch" />
+            </div>
+            <div className="flex justify-around mt-20">
+                <Image src={Youtube} alt="Youtube" className="" />
+                <Typo
+                    variant="title"
+                    components="p"
+                    weight="bold"
+                    className="mt-3 uppercase text-4xl"
+                >
+                    Youtube
+                </Typo>
+            </div>
+            <div className="border-1 border-primary w-300 m-auto mt-20"></div>
+        </Container>
+    );
+};
