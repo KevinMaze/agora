@@ -16,6 +16,7 @@ interface CarProps {
     description?: string;
     autor?: string;
     date?: string;
+    price?: string;
 }
 
 export const Card: React.FC<CarProps> = ({
