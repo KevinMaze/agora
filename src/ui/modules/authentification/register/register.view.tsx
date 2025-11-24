@@ -3,8 +3,13 @@ import { Typo } from "@/ui/design-system/typography";
 import Image from "next/image";
 import Link from "next/link";
 import { RegisterForm } from "./components/register.form";
+import { FormsType } from "@/types/form";
 
-export const RegisterView = () => {
+interface Props {
+    form: FormsType;
+}
+
+export const RegisterView = ({ form }: Props) => {
     return (
         <div className="relative w-full h-screen overflow-hidden flex justify-center items-center">
             <div className="absolute inset-0 opacity-50">
@@ -47,7 +52,7 @@ export const RegisterView = () => {
                         </Typo>
                     </div>
                 </div>
-                <RegisterForm />
+                <RegisterForm form={form} />
             </div>
         </div>
     );
