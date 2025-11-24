@@ -111,7 +111,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         <Avatar
                             size="large"
                             alt="avatar"
-                            src="/assets/images/ai-generated-8058844_1920.jpg"
+                            src="/assets/images/legolas.jpg"
                         />
                         <Typo variant="para" className="mt-2">
                             Username
@@ -120,7 +120,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     {isAuthenticated ? (
                         <Button>Déconnexion</Button>
                     ) : (
-                        <Button>Connexion / Inscription</Button>
+                        <Button baseUrl="/connexion">Connexion</Button>
                     )}
                 </div>
             </aside>

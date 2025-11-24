@@ -37,9 +37,7 @@ export const Header = () => {
                 />
             </div>
 
-            {/* Contenu superposé - Le logo est centré et le crack en bas */}
             <div className="relative z-10 h-full flex flex-col justify-center items-center">
-                {/* Le mb-20 (margin-bottom) ajuste la position du logo sans affecter le reste */}
                 <motion.div
                     className="mb-40"
                     initial={{ opacity: 0, y: -30 }}

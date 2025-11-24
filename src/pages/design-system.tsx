@@ -124,16 +124,13 @@ export default function DesignSystem() {
                     <div className="flex items-center gap-4 p-10">
                         <Avatar
                             size="small"
-                            src="/assets/images/ai-generated-8058844_1920.jpg"
+                            src="/assets/images/legolas.jpg"
                             alt="avatar"
                         />
-                        <Avatar
-                            src="/assets/images/ai-generated-8058844_1920.jpg"
-                            alt="avatar"
-                        />
+                        <Avatar src="/assets/images/legolas.jpg" alt="avatar" />
                         <Avatar
                             size="large"
-                            src="/assets/images/ai-generated-8058844_1920.jpg"
+                            src="/assets/images/legolas.jpg"
                             alt="avatar"
                         />
                     </div>
