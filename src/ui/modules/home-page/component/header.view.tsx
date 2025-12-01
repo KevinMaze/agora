@@ -42,19 +42,23 @@ export const Header = () => {
                     className="mb-40"
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeInOut" }}
+                    transition={{ duration: 1.5, ease: "easeInOut" }}
                 >
-                    <Image src={Logo} alt="Logo de L'Agora" className="w-120" />
+                    <Image
+                        src={Logo}
+                        alt="Logo de L'Agora"
+                        className="w-60 sm:w-80 lg:w-120"
+                    />
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1.2, ease: "easeInOut" }}
+                        initial={{ opacity: 0, y: -30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1.7, ease: "easeInOut" }}
                     >
                         <Typo
                             variant="title"
                             components="h1"
                             weight="bold"
-                            className="mt-3 uppercase text-center text-5xl"
+                            className="mt-3 uppercase text-center text-2xl sm:text-4xl lg:text-5xl"
                         >
                             {" "}
                             Librairie et Café
@@ -65,7 +69,7 @@ export const Header = () => {
                 <Image
                     src={Crack}
                     alt=""
-                    className="absolute bottom-[-1rem] w-full h-60 object-cover rotate-180"
+                    className="absolute bottom-[-2rem] sm:bottom-[-1rem] w-full h-60 object-cover rotate-180"
                 />
             </div>
         </div>

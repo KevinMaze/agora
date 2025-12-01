@@ -7,8 +7,8 @@ import { FaArrowRight } from "react-icons/fa";
 
 export const BookBox = () => {
     return (
-        <Container className="mt-80 mb-50">
-            <div className="relative h-150 w-full overflow-hidden rounded-3xl border-primary border-1">
+        <Container className="mt-60 mb-50">
+            <div className="relative h-90 sm:h-100 lg:h-150 w-full overflow-hidden rounded-3xl border-primary border-1">
                 <div className="absolute inset-0 opacity-20">
                     <Image
                         src={BookB}
@@ -25,18 +25,18 @@ export const BookBox = () => {
                         variant="title"
                         components="h2"
                         weight="bold"
-                        className="mt-3 uppercase underline pl-10 justify-start text-5xl"
+                        className="mt-3 uppercase underline pl-10 justify-start lg:text-5xl sm:text-4xl text-2xl"
                     >
                         La Book Box
                     </Typo>
 
-                    <div className="text-center justify-center pr-20 pl-20">
+                    <div className="text-center justify-center sm:pr-20 sm:pl-20 ">
                         <Typo
                             variant="para"
                             components="p"
                             weight="normal"
                             color="other"
-                            className="text-center justify-center pr-20 pl-20"
+                            className="text-center justify-cente text-[12px] lg:text-[16px]"
                         >
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit. Aliquam eget sapien quis diam scelerisque

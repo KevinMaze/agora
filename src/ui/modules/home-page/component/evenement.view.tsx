@@ -65,17 +65,17 @@ export const EvenementView = () => {
     }, [xTranslation, width, duration, rerender, mustFinish]);
 
     return (
-        <div className="mt-80 mb-20 flex flex-col justify-center">
+        <div className="mt-60 mb-20 flex flex-col justify-center">
             <Typo
                 variant="title"
                 components="h1"
                 weight="bold"
-                className="mb-20 uppercase underline tracking-widest text-end mr-20 text-6xl"
+                className="mb-20 uppercase underline lg:text-end text-center lg:mr-20 text-2xl sm:text-4xl lg:text-5xl"
             >
                 Evènements
             </Typo>
             {/* Ce conteneur a maintenant une hauteur définie par les cartes à l'intérieur */}
-            <div className="relative h-[500px] w-full overflow-hidden py-8">
+            <div className="relative lg:h-[500px] sm:h-[400px] h-[300] w-full overflow-hidden py-8">
                 <motion.div
                     className="absolute flex gap-4"
                     ref={ref}

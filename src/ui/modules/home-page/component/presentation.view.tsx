@@ -24,23 +24,23 @@ export const PresentationView = () => {
     }, []);
     return (
         <>
-            <Container className="mb-80 relative">
+            <Container className="mb-60 relative">
                 <Typo
                     variant="title"
                     components="h1"
                     weight="bold"
-                    className="mt-20 mb-20 uppercase underline tracking-widest text-5xl"
+                    className="mt-20 mb-20 uppercase underline text-xl sm:text-4xl lg:text-5xl text-center lg:text-left"
                 >
                     Présentation Rapide
                 </Typo>
 
-                <div className="flex justify-center items-center h-100 mb-20 mt-60">
-                    <div className="bg-foreground/60 backdrop-blur-sm text-center rounded-l-3xl">
+                <div className="flex lg:flex-row flex-col justify-center items-center h-100 mb-20 mt-60 ">
+                    <div className="bg-foreground/60 backdrop-blur-sm text-center lg:rounded-l-3xl rounded-3xl">
                         <Typo
                             variant="para"
                             components="p"
                             weight="normal"
-                            className="text-center rounded-l-3xl p-25"
+                            className="text-center p-15 text-[10px] sm:text-[12px] lg:text-[16px]"
                             color="other"
                         >
                             Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -60,13 +60,13 @@ export const PresentationView = () => {
                     <Image
                         src={Stairway}
                         alt="Stairway"
-                        className="w-lg shadow-[var(--myshadow)] rounded-tr-3xl border-1 border-primary"
+                        className="w-sm lg:w-lg shadow-[var(--myshadow)] rounded-3xl border-1 border-primary"
                     />
                 </div>
                 <Image
                     src={Coffee}
                     alt="Coffee"
-                    className="w-lg shadow-[var(--myshadow)] rounded-bl-3xl absolute -z-1 border-1 border-primary"
+                    className="w-lg shadow-[var(--myshadow)] rounded-3xl absolute -z-1 border-1 border-primary hidden lg:block"
                     style={{
                         transform: `translateY(${
                             offsetY * -0.1
@@ -93,7 +93,7 @@ export const PresentationView = () => {
                 </div>
             </Container>
 
-            <div className="mb-20 relative w-full h-80 overflow-hidden rounded-bl-3xl rounded-tr-3xl">
+            <div className="relative w-full h-80 overflow-hidden rounded-bl-3xl rounded-tr-3xl">
                 <div
                     className="absolute inset-0 opacity-60 h-250"
                     style={{

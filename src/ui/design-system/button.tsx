@@ -59,29 +59,36 @@ export const Button = ({
     }
 
     switch (size) {
+        case "medium": //default
+            sizeStyle = ` ${
+                // small by default
+                variant === "icon"
+                    ? "flex items-center justify-center w-8 h-8"
+                    : "px-3 py-1"
+            } text-sm sm:text-base ${
+                variant === "icon" ? "sm:w-10 sm:h-10" : "sm:px-4 sm:py-2"
+            } font-medium uppercase border-2 border-foreground`;
+            iconSize = 20; // iconSize will be handled by responsive classes if needed
+            break;
+        case "large":
+            sizeStyle = ` ${
+                // small by default
+                variant === "icon"
+                    ? "flex items-center justify-center w-8 h-8"
+                    : "px-3 py-1"
+            } text-sm sm:text-lg ${
+                variant === "icon" ? "sm:w-12 sm:h-12" : "sm:px-6 sm:py-3"
+            } font-bold uppercase border-2 border-foreground`;
+            iconSize = 20; // iconSize will be handled by responsive classes if needed
+            break;
         case "small":
+        default:
             sizeStyle = `${
                 variant === "icon"
                     ? "flex items-center justify-center w-8 h-8"
                     : "px-3 py-1"
             } text-sm font-small uppercase border-2 border-foreground`;
             iconSize = 20;
-            break;
-        case "medium": //default
-            sizeStyle = ` ${
-                variant === "icon"
-                    ? "flex items-center justify-center w-10 h-10"
-                    : "px-4 py-2"
-            } text-base font-medium uppercase border-2 border-foreground`;
-            iconSize = 22;
-            break;
-        case "large":
-            sizeStyle = ` ${
-                variant === "icon"
-                    ? "flex items-center justify-center w-12 h-12"
-                    : "px-6 py-3"
-            } text-lg font-bold uppercase border-2 border-foreground`;
-            iconSize = 24;
             break;
     }
 
@@ -105,15 +112,15 @@ export const Button = ({
 
             <div className={clsx(isLoading && "invisible")}>
                 {icon && variant === "icon" ? (
-                    <icon.icon size={iconSize} />
+                    <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 ) : (
                     <div className={clsx(icon && "flex items-center gap-2")}>
                         {icon && iconPosition === "left" && (
-                            <icon.icon size={iconSize} />
+                            <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                         )}
                         {children}
                         {icon && iconPosition === "right" && (
-                            <icon.icon size={iconSize} />
+                            <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                         )}
                     </div>
                 )}
@@ -126,7 +133,6 @@ export const Button = ({
             type="button"
             className={clsx(
                 variantStyle,
-                iconSize,
                 sizeStyle,
                 isLoading && "cursor-wait",
                 "relative",
