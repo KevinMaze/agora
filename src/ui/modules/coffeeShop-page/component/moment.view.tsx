@@ -48,7 +48,7 @@ export const Moment = () => {
     return (
         <div className="relative w-full h-screen overflow-hidden">
             <div
-                className="absolute inset-0 opacity-30 h-270"
+                className="absolute inset-0 opacity-20 h-270"
                 style={{
                     transform: `translateY(${offsetY * -0.1}px)`,
                 }}
@@ -66,14 +66,14 @@ export const Moment = () => {
                 <Image
                     src={Crack}
                     alt=""
-                    className="absolute w-full h-60 object-cover top-0"
+                    className="absolute w-full h-60 object-cover -top-9 sm:top-0 lg:top-0"
                 />
                 <div className="flex flex-col justify-center items-center">
                     <Typo
                         variant="title"
                         components="h2"
                         weight="bold"
-                        className="uppercase text-5xl mb-10"
+                        className="uppercase text-2xl sm:text-4xl lg:text-5xl mb-10 underline"
                         color="secondary"
                     >
                         Le café du moment
@@ -88,7 +88,7 @@ export const Moment = () => {
                                     variant="para"
                                     components="h2"
                                     weight="bold"
-                                    className="mb-4 text-center uppercase text-2xl"
+                                    className="mb-4 text-center uppercase text-[14px] sm:text-xl lg:text-2xl underline"
                                     color="secondary"
                                 >
                                     Ingrédients
@@ -101,6 +101,7 @@ export const Moment = () => {
                                                 variant="para"
                                                 components="li"
                                                 color="other"
+                                                className="text-[12px] sm:text-[14px] lg:text-xl"
                                             >
                                                 {ingredient}
                                             </Typo>
@@ -115,7 +116,7 @@ export const Moment = () => {
                                     variant="para"
                                     components="h2"
                                     weight="bold"
-                                    className="mb-4 text-center uppercase text-2xl"
+                                    className="mb-4 text-center uppercase text-[14px] sm:text-xl lg:text-2xl underline"
                                     color="secondary"
                                 >
                                     Description
@@ -124,7 +125,7 @@ export const Moment = () => {
                                     variant="para"
                                     components="p"
                                     weight="normal"
-                                    className="text-justify"
+                                    className="text-justify text-[12px] sm:text-[14px] lg:text-xl"
                                     color="other"
                                 >
                                     {momentData?.description}
@@ -137,7 +138,7 @@ export const Moment = () => {
             <Image
                 src={Crack}
                 alt=""
-                className="absolute bottom-0 w-full h-100 object-cover rotate-180"
+                className="absolute -bottom-20 sm:bottom-0 lg:bottom-0 w-full h-100 object-cover rotate-180"
             />
         </div>
     );

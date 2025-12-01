@@ -8,7 +8,7 @@ import Image3 from "@/../public/assets/images/image3.jpg";
 
 export const Header = () => {
     return (
-        <div className="mt-10 mb-150 w-full">
+        <div className="mt-10 sm:mb-100 lg:mb-150 w-full">
             <div className="relative lg:w-[1200px] h-screen mx-auto">
                 {/* section 1 */}
                 <div className="absolute z-2 sm:left-[50px] left-[20px]">

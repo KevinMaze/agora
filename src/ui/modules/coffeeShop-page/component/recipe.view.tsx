@@ -171,14 +171,14 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
     };
 
     return (
-        <Container className="mb-80">
+        <Container className="mb-20 sm:mb-60 lg:mb-60">
             <div className="flex justify-center items-center">
                 <Typo
                     variant="para"
                     components="h2"
                     weight={activeFilter === "coffee" ? "bold" : "normal"}
                     className={clsx(
-                        "mt-20 mb-20 uppercase tracking-widest text-4xl cursor-pointer",
+                        "mb-20 uppercase text-[14px] sm:text-3xl lg:text-4xl cursor-pointer hover:text-tier",
                         activeFilter === "coffee" && "underline"
                     )}
                     onClick={() => setActiveFilter("coffee")}
@@ -189,7 +189,7 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
                     variant="para"
                     components="h2"
                     weight="normal"
-                    className="m-20 text-4xl text-primary"
+                    className="mb-25 sm:mb-30 lg:mb-40 m-5 sm:m-15 lg:m-20 text-2xl sm:text-4xl lg:text-4xl text-primary"
                 >
                     /
                 </Typo>
@@ -198,7 +198,7 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
                     components="h2"
                     weight={activeFilter === "cake" ? "bold" : "normal"}
                     className={clsx(
-                        "mt-20 mb-20 uppercase tracking-widest text-4xl cursor-pointer",
+                        "mb-20 uppercase text-[14px] sm:text-3xl lg:text-4xl cursor-pointer hover:text-tier",
                         activeFilter === "cake" && "underline"
                     )}
                     onClick={() => setActiveFilter("cake")}
