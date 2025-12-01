@@ -16,7 +16,7 @@ export const Header = () => {
                         <Image
                             src={Image1}
                             alt="image1"
-                            className="object-cover h-full w-150 rounded-2xl border-1 border-primary"
+                            className="object-cover h-full w-100 rounded-2xl border-1 border-primary"
                         />
                         <Typo
                             variant="para"
@@ -46,7 +46,7 @@ export const Header = () => {
                         <Image
                             src={Image2}
                             alt="Gourmandise"
-                            className="object-cover h-full w-150 rounded-2xl border-1 border-primary"
+                            className="object-cover h-full w-100 rounded-2xl border-1 border-primary"
                         />
                         <Typo
                             variant="para"
@@ -76,7 +76,7 @@ export const Header = () => {
                         <Image
                             src={Image3}
                             alt="Menu à la carte"
-                            className="object-cover h-full w-150 rounded-2xl border-1 border-primary"
+                            className="object-cover h-full w-100 rounded-2xl border-1 border-primary"
                         />
                     </div>
                 </div>

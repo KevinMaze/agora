@@ -97,12 +97,12 @@ const Navbar: React.FC<NavbarProps> = ({
                         >
                             À propos
                         </ActiveLink>
-                        <ActiveLink
+                        {/* <ActiveLink
                             href="/design-system"
                             className="block px-6 py-4 text-lg hover:bg-foreground hover:text-white transition-colors"
                         >
                             Design System
-                        </ActiveLink>
+                        </ActiveLink> */}
                     </Typo>
                 </nav>
 

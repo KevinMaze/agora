@@ -33,7 +33,7 @@ export const Footer = () => {
                         weight="bold"
                     >
                         <Link href="/">Accueil</Link> -{" "}
-                        <Link href="/coffeeshop">Coffee Shop</Link> -{" "}
+                        <Link href="/coffeeShop">Coffee Shop</Link> -{" "}
                         <Link href="/bibliotheque">La Bibliothèque</Link> -{" "}
                         <Link href="/librairie">La Librairie</Link> -{" "}
                         <Link href="/gazette">La Gazette</Link> -{" "}
