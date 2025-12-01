@@ -149,11 +149,11 @@ export const CatalogueView = () => {
 
     return (
         <div className="mt-50">
-            <div className="relative w-full h-200 overflow-hidden">
+            <div className="relative w-full h-150 sm:h-200 lg:h-200 overflow-hidden">
                 <Image
                     src={Crack}
                     alt="Effet déchiré"
-                    className="absolute bottom-0 w-full h-60 object-cover z-10 rotate-180"
+                    className="absolute -bottom-9 sm:bottom-0 lg:bottom-0 w-full h-60 object-cover z-10 rotate-180"
                 />
                 <div className="absolute  inset-0">
                     <Image
@@ -170,7 +170,7 @@ export const CatalogueView = () => {
                         variant="para"
                         components="h1"
                         weight="bold"
-                        className="text-8xl uppercase"
+                        className="text-5xl sm:text-8xl lg:text-8xl uppercase"
                     >
                         Le
                     </Typo>
@@ -178,7 +178,7 @@ export const CatalogueView = () => {
                         variant="para"
                         components="h1"
                         weight="bold"
-                        className="text-8xl uppercase"
+                        className="text-5xl sm:text-8xl lg:text-8xl uppercase"
                     >
                         Cata
                         <Typo
@@ -194,7 +194,7 @@ export const CatalogueView = () => {
                 </div>
             </div>
 
-            <Container className="mt-50 mb-50">
+            <Container className="mt-30 mb-50">
                 <div id="filtre" className="relative mb-8 z-20">
                     <button
                         onClick={() => setIsFilterVisible(!isFilterVisible)}
@@ -207,13 +207,13 @@ export const CatalogueView = () => {
                             variant="para"
                             components="p"
                             weight="bold"
-                            className="text-white underline"
+                            className="text-white underline cursor-pointer"
                         >
                             Filtres
                         </Typo>
                         <FaChevronDown
                             className={clsx(
-                                "transition-transform",
+                                "transition-transform cursor-pointer",
                                 isFilterVisible && "rotate-180",
                                 "text-white"
                             )}
@@ -221,8 +221,13 @@ export const CatalogueView = () => {
                     </button>
                     <div
                         className={clsx(
-                            "absolute w-full transition-all duration-300 ease-in-out overflow-hidden",
-                            isFilterVisible ? "max-h-96" : "max-h-0"
+                            "absolute w-full transition-all duration-300 ease-in-out",
+                            {
+                                "opacity-100 transform translate-y-0":
+                                    isFilterVisible,
+                                "opacity-0 transform -translate-y-4 pointer-events-none":
+                                    !isFilterVisible,
+                            }
                         )}
                     >
                         <div className="p-4 bg-foreground/80 backdrop-blur-sm rounded-b-lg text-white">
@@ -244,14 +249,14 @@ export const CatalogueView = () => {
                                             `(${selectedCategories.length})`}
                                         <FaChevronDown
                                             className={clsx(
-                                                "transition-transform",
+                                                "transition-transform cursor-pointer",
                                                 openDropdown === "categories" &&
                                                     "rotate-180"
                                             )}
                                         />
                                     </div>
                                     {openDropdown === "categories" && (
-                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto">
+                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
                                             {categories.map((cat) => (
                                                 <label
                                                     key={cat}
@@ -293,14 +298,14 @@ export const CatalogueView = () => {
                                             `(${selectedAuthors.length})`}
                                         <FaChevronDown
                                             className={clsx(
-                                                "transition-transform",
+                                                "transition-transform cursor-pointer",
                                                 openDropdown === "authors" &&
                                                     "rotate-180"
                                             )}
                                         />
                                     </div>
                                     {openDropdown === "authors" && (
-                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto">
+                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
                                             {authors.map((author) => (
                                                 <label
                                                     key={author}
@@ -342,14 +347,14 @@ export const CatalogueView = () => {
                                             `(${selectedYears.length})`}
                                         <FaChevronDown
                                             className={clsx(
-                                                "transition-transform",
+                                                "transition-transform cursor-pointer",
                                                 openDropdown === "years" &&
                                                     "rotate-180"
                                             )}
                                         />
                                     </div>
                                     {openDropdown === "years" && (
-                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto">
+                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
                                             {releaseYears.map((year) => (
                                                 <label
                                                     key={year}
@@ -381,7 +386,7 @@ export const CatalogueView = () => {
                                         setSelectedAuthors([]);
                                         setSelectedYears([]);
                                     }}
-                                    className="text-sm text-gray-300 hover:underline"
+                                    className="text-sm text-gray-300 hover:underline cursor-pointer"
                                 >
                                     Réinitialiser les filtres
                                 </div>

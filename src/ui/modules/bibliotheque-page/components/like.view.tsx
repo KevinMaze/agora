@@ -25,11 +25,11 @@ export const Like = () => {
 
     return (
         <div className="mt-50">
-            <div className="relative w-full h-200 overflow-hidden">
+            <div className="relative w-full h-150 overflow-hidden">
                 <Image
                     src={Crack}
                     alt="Effet déchiré"
-                    className="absolute top-0 w-full h-60 object-cover z-10"
+                    className="absolute -top-10 sm:top-0 lg:top-0 w-full h-60 object-cover z-10"
                 />
                 <div className="absolute opacity-60 inset-0">
                     <Image
@@ -46,14 +46,14 @@ export const Like = () => {
                         variant="para"
                         components="h1"
                         weight="bold"
-                        className="text-8xl uppercase"
+                        className="text-3xl sm:text-6xl lg:text-7xl uppercase"
                     >
                         Nos coups de coeur
                     </Typo>
                 </div>
             </div>
 
-            <div className="flex justify-center mt-50 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center mt-40">
                 {[...BookLike, ...BookLike].map((book, index) => (
                     <Card key={index} {...book} />
                 ))}

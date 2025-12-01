@@ -22,7 +22,7 @@ export const Header = () => {
                         variant="title"
                         components="h1"
                         weight="bold"
-                        className="mt-3 uppercase text-center text-8xl transform -translate-x-35 -rotate-50"
+                        className="uppercase text-center text-3xl sm:text-7xl lg:text-8xl sm:-translate-x-15 lg:-translate-x-10 -rotate-49 w-50 sm:w-150 lg:w-200"
                     >
                         La Rentrée
                     </Typo>
@@ -30,7 +30,7 @@ export const Header = () => {
                         variant="title"
                         components="h1"
                         weight="bold"
-                        className="mt-3 uppercase text-center text-8xl transform translate-x-10 -rotate-50"
+                        className="mt-3 uppercase text-center text-3xl sm:text-7xl lg:text-8xl sm:-translate-x-20 lg:-translate-x-15 -rotate-50"
                     >
                         Littéraire
                     </Typo>
@@ -38,7 +38,7 @@ export const Header = () => {
                 <Image
                     src={Crack}
                     alt="Effet déchiré"
-                    className="absolute bottom-[-1rem] w-full h-60 object-cover rotate-180"
+                    className="absolute -bottom-9 sm:bottom-[-1rem] lg:bottom-[-1rem] w-full h-60 object-cover rotate-180"
                 />
             </div>
         </div>
