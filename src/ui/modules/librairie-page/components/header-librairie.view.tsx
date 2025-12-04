@@ -15,12 +15,12 @@ export const HeaderLibrairie = () => {
                     priority
                 />
             </div>
-            <div className="relative z-10 h-full flex flex-col justify-center items-start pl-50">
+            <div className="relative z-10 h-full flex flex-col justify-center items-center sm:items-start sm:pl-50">
                 <Typo
                     variant="title"
                     components="h1"
                     weight="bold"
-                    className="mt-3 uppercase text-center text-8xl"
+                    className="mt-3 uppercase text-center sm:text-left text-2xl sm:text-6xl lg:text-8xl"
                 >
                     La
                     <br />

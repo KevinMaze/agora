@@ -51,23 +51,29 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                 {[...Array(fullStars)].map((_, index) => (
                     <span
                         key={`full-${index}`}
-                        className="text-yellow-400 text-3xl"
+                        className="text-yellow-400 text-xl sm:text-3xl"
                     >
                         &#9733;
                     </span> // Étoile pleine
                 ))}
                 {halfStar && (
-                    <span className="text-yellow-400 text-3xl">&#9733;</span> // Pour la simplicité, une étoile pleine pour 0.5 ou plus
+                    <span className="text-yellow-400 text-xl sm:text-3xl">
+                        &#9733;
+                    </span> // Pour la simplicité, une étoile pleine pour 0.5 ou plus
                 )}
                 {[...Array(emptyStars)].map((_, index) => (
                     <span
                         key={`empty-${index}`}
-                        className="text-other text-3xl"
+                        className="text-other text-xl sm:text-3xl"
                     >
                         &#9734;
                     </span> // Étoile vide
                 ))}
-                <Typo variant="para" color="other" className="ml-2 text-lg">
+                <Typo
+                    variant="para"
+                    color="other"
+                    className="ml-2 text-[12px] sm:text-lg"
+                >
                     ({ratings.length} votes)
                 </Typo>
             </div>
@@ -76,20 +82,20 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
 
     return (
         <>
-            <Container className="py-20 border-b-2 border-primary ">
+            <Container className="py-20">
                 <Typo
                     variant="title"
                     components="h2"
                     weight="bold"
                     color="primary"
-                    className="mb-10 uppercase text-4xl text-end"
+                    className="mb-10 uppercase text-[14px] sm:text-3xl lg:text-4xl text-center sm:text-end"
                 >
                     Coup de coeur de la boite aux livres
                 </Typo>
                 <div className="p-10 bg-foreground mx-auto h-full rounded-lg shadow-lg max-w-6xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
                         {/* Colonne de l'image */}
-                        <div className="relative border-2 border-primary rounded-lg">
+                        <div className="relative rounded-lg">
                             <Image
                                 src={Dune}
                                 alt={alt || "Book Cover"}
@@ -101,7 +107,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="p"
                                     weight="bold"
                                     color="primary"
-                                    className="text-xl"
+                                    className="sm:text-xl sm:text-center"
                                 >
                                     Note des lecteurs :
                                 </Typo>
@@ -116,14 +122,14 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="h2"
                                     weight="bold"
                                     color="primary"
-                                    className="uppercase text-3xl underline "
+                                    className="uppercase text-xl sm:text-2xl lg:text-3xl underline "
                                 >
                                     Titre
                                 </Typo>
                                 <Typo
                                     variant="para"
                                     color="other"
-                                    className="mt-2 text-xl"
+                                    className="mt-2  lg:text-xl"
                                 >
                                     Dune
                                 </Typo>
@@ -135,14 +141,14 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="h2"
                                     weight="bold"
                                     color="primary"
-                                    className="mb-2 uppercase text-3xl underline"
+                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
                                 >
                                     Date de parution
                                 </Typo>
                                 <Typo
                                     variant="para"
                                     color="other"
-                                    className="mt-2 text-xl"
+                                    className="mt-2  lg:text-xl"
                                 >
                                     1965
                                 </Typo>
@@ -154,14 +160,14 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="h2"
                                     weight="bold"
                                     color="primary"
-                                    className="mb-2 uppercase text-3xl underline"
+                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
                                 >
                                     Auteur
                                 </Typo>
                                 <Typo
                                     variant="para"
                                     color="other"
-                                    className="mt-2 text-xl"
+                                    className="mt-2  lg:text-xl"
                                 >
                                     Frank Herbert
                                 </Typo>
@@ -172,14 +178,14 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="h2"
                                     weight="bold"
                                     color="primary"
-                                    className="mb-2 uppercase text-3xl underline"
+                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
                                 >
                                     Synopsis
                                 </Typo>
                                 <Typo
                                     variant="para"
                                     color="other"
-                                    className="mt-2 text-xl"
+                                    className="mt-2  lg:text-xl"
                                 >
                                     Set in the distant future amidst a huge
                                     interstellar empire, Dune tells the story of
@@ -197,7 +203,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                             </div>
                         </div>
                     </div>
-                    <div className="mt-10 flex justify-end">
+                    <div className="mt-10 flex justify-center sm:justify-end">
                         <Button
                             variant="primary"
                             size="large"
@@ -219,7 +225,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                     components="h2"
                     weight="bold"
                     color="primary"
-                    className="mb-10 uppercase text-4xl text-end"
+                    className="mb-10 uppercase text-[14px] sm:text-3xl lg:text-4xl text-center sm:text-end"
                 >
                     Derniers avis des lecteurs
                 </Typo>
@@ -235,7 +241,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="h2"
                                     weight="bold"
                                     color="primary"
-                                    className="uppercase text-3xl underline "
+                                    className="uppercase text-xl sm:text-2xl lg:text-3xl underline "
                                 >
                                     Nom / pseudo
                                 </Typo>
@@ -243,7 +249,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     <Typo
                                         variant="para"
                                         color="other"
-                                        className="mt-2 text-xl"
+                                        className="mt-2 lg:text-xl"
                                     >
                                         Jean Dupont
                                     </Typo>
@@ -261,14 +267,14 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="h2"
                                     weight="bold"
                                     color="primary"
-                                    className="mb-2 uppercase text-3xl underline"
+                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
                                 >
                                     Date de publication
                                 </Typo>
                                 <Typo
                                     variant="para"
                                     color="other"
-                                    className="mt-2 text-xl"
+                                    className="mt-2 lg:text-xl"
                                 >
                                     2025-01-15
                                 </Typo>
@@ -280,14 +286,14 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     components="h2"
                                     weight="bold"
                                     color="primary"
-                                    className="mb-2 uppercase text-3xl underline"
+                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
                                 >
                                     Nome du livre
                                 </Typo>
                                 <Typo
                                     variant="para"
                                     color="other"
-                                    className="mt-2 text-xl"
+                                    className="mt-2 lg:text-xl"
                                 >
                                     Dune
                                 </Typo>
@@ -299,14 +305,14 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                 components="h2"
                                 weight="bold"
                                 color="primary"
-                                className="mb-2 uppercase text-3xl underline"
+                                className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
                             >
                                 Avis
                             </Typo>
                             <Typo
                                 variant="para"
                                 color="other"
-                                className="mt-2 text-xl"
+                                className="mt-2 lg:text-xl"
                             >
                                 Un chef-d&#39;œuvre de la science-fiction qui
                                 explore des thèmes profonds tels que la
