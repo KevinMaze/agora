@@ -7,36 +7,42 @@ import { Container } from "@/ui/components/container";
 
 export const HeaderGazette = () => {
     return (
-        <div className="relative mb-20">
+        <div className="">
             <Typo
                 variant="title"
                 components="h1"
                 weight="bold"
-                className="mt-3 uppercase text-center text-8xl"
+                className="mt-3 uppercase text-center text-4xl sm:text-6xl lg:text-8xl"
             >
                 La Gazette
             </Typo>
 
-            <div className="mt-20 h-200 w-full">
-                <div className="relative  h-full w-full">
-                    <Image
-                        src={Women}
-                        alt="Femme"
-                        className="absolute h-70 w-auto rounded-tl-xl left-1/6"
-                    />
-                    <Image
-                        src={Paper}
-                        alt="Papier"
-                        className="absolute z-1 h-100 w-auto rounded-br-xl rounded-tl-xl border-1 border-primary left-1/3 top-1/6"
-                    />
-                    <Image
-                        src={Men}
-                        alt="Homme"
-                        className="absolute h-70 w-auto rounded-br-xl right-1/5 top-1/2"
-                    />
+            <div className="mt-10 w-full">
+                <div className="relative lg:w-[1200px] h-screen mx-auto">
+                    <div className="">
+                        <Image
+                            src={Women}
+                            alt="Femme"
+                            className="absolute h-40 sm:h-50 lg:h-70 w-auto rounded-tl-xl"
+                        />
+                    </div>
+                    <div className="absolute top-[150px] sm:top-[180px] lg:top-[180px] sm:left-[200px] lg:left-[300px] left-[50] z-1">
+                        <Image
+                            src={Paper}
+                            alt="Papier"
+                            className="h-40 sm:h-90 lg:h-100 w-auto rounded-br-xl rounded-tl-xl border-1 border-primary"
+                        />
+                    </div>
+                    <div className="absolute top-[300px] sm:top-[450px] lg:top-[450px] left-[120px] sm:left-[400px] lg:left-[790px] z-0">
+                        <Image
+                            src={Men}
+                            alt="Homme"
+                            className="h-40 sm:h-90 lg:h-70 w-auto rounded-br-xl"
+                        />
+                    </div>
                 </div>
             </div>
-            <div className="border-1 border-primary w-300 m-auto"></div>
+            <div className="border-1 border-primary w-60 sm:w-180 lg:w-250 m-auto mb-20"></div>
         </div>
     );
 };
