@@ -4,8 +4,8 @@ import { Typo } from "@/ui/design-system/typography";
 
 export const AproposFormView = () => {
     return (
-        <Container className="mt-150">
-            <div className="flex flex-row justify-around">
+        <Container className="mt-50 lg:mt-80">
+            <div className="flex flex-col lg:flex-row lg:justify-around justify-center items-center gap-20 lg:gap-0">
                 <div className="">
                     <form action="" className="flex flex-col gap-5">
                         <label htmlFor="name" className="">
@@ -57,7 +57,7 @@ export const AproposFormView = () => {
                         <Button variant="primary">Envoyer</Button>
                     </form>
                 </div>
-                <div className="flex flex-col justify-between items-center">
+                <div className="flex flex-col justify-between items-center gap-25">
                     <Typo
                         variant="para"
                         components="p"

@@ -21,7 +21,7 @@ export const AproposHeaderView = () => {
                         variant="title"
                         components="h1"
                         weight="bold"
-                        className="uppercase text-8xl"
+                        className="uppercase text-6xl sm:text-8xl"
                     >
                         A propos
                     </Typo>
