@@ -4,6 +4,8 @@ import Image from "next/image";
 import Legolas from "@/../public/assets/images/legolas.jpg";
 import Drum from "@/../public/assets/images/drums.jpg";
 import Monkey from "@/../public/assets/images/monkey.jpg";
+import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 export const HardRockCoffee = () => {
     return (
@@ -26,13 +28,13 @@ export const HardRockCoffee = () => {
                 concerts trimestriels (19h/22h)
             </Typo>
 
-            <div className="flex flex-row justify-between bg-foreground/80 rounded-2xl">
+            <div className="flex flex-col lg:flex-row bg-foreground rounded-2xl items-center">
                 <div className="w-full flex flex-col justify-center mt-15">
                     <Typo
                         variant="para"
                         components="h2"
                         color="secondary"
-                        className="text-4xl uppercase text-center mb-20"
+                        className="text-2xl sm:text-4xl lg:text-6xl uppercase text-center mb-10"
                     >
                         Titre
                     </Typo>
@@ -40,7 +42,7 @@ export const HardRockCoffee = () => {
                         variant="para"
                         components="p"
                         color="other"
-                        className="p-5"
+                        className="p-4 text-[14px] sm:text-xl"
                     >
                         Quam quidem partem accusationis admiratus sum et moleste
                         tuli potissimum esse Atratino datam. Neque enim decebat
@@ -54,16 +56,41 @@ export const HardRockCoffee = () => {
                         orationi meae et meum erga te parentemque tuum
                         beneficium tueri debeo.
                     </Typo>
+                    <div className="flex flex-row justify-around mt-5 mb-4">
+                        <FaFacebook className="lg:text-2xl text-primary" />
+                        <FaXTwitter className="lg:text-2xl text-primary" />
+                        <FaInstagram className="lg:text-2xl text-primary" />
+                        <FaYoutube className="lg:text-2xl text-primary" />
+                        <FaTiktok className="lg:text-2xl text-primary" />
+                    </div>
                 </div>
-                <div className="w-full relative">
-                    <div className="absolute w-50">
-                        <Image src={Legolas} alt="" />
+                <div className="w-full relative min-h-[300px] mt-5">
+                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-10 sm:left-40 -rotate-15 z-1">
+                        <Image
+                            src={Legolas}
+                            alt=""
+                            className="rounded-2xl"
+                            objectFit="cover"
+                            fill
+                        />
                     </div>
-                    <div className="absolute w-50">
-                        <Image src={Drum} alt="" />
+                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-20 sm:left-80 rotate-15">
+                        <Image
+                            src={Drum}
+                            alt=""
+                            className="rounded-2xl"
+                            objectFit="cover"
+                            fill
+                        />
                     </div>
-                    <div className="absolute w-50">
-                        <Image src={Monkey} alt="" />
+                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-30">
+                        <Image
+                            src={Monkey}
+                            alt=""
+                            className="rounded-2xl"
+                            objectFit="cover"
+                            fill
+                        />
                     </div>
                 </div>
             </div>
