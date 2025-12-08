@@ -16,12 +16,12 @@ export const SoldCollect = () => {
     ];
 
     return (
-        <Container>
+        <Container className="mb-20 sm:mt-50 -mt-180">
             <Typo
                 variant="title"
                 components="h1"
                 weight="bold"
-                className="mb-20 uppercase underline text-end mr-20 text-4xl"
+                className="uppercase underline sm:text-end sm:mr-10 text-center text-2xl sm:text-4xl lg:text-6xl mb-20"
             >
                 Les Box du moments
             </Typo>

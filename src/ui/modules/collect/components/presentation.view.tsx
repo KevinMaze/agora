@@ -10,24 +10,25 @@ export const PresentationCollect = () => {
                 variant="title"
                 components="h1"
                 weight="bold"
-                className="mt-3 uppercase text-4xl underline"
+                className="mt-3 uppercase text-2xl sm:text-4xl lg:text-6xl underline text-center sm:text-start"
             >
                 Présentation
             </Typo>
-            <div className="relative flex justify-center">
-                <div className="absolute w-[500px] h-[600px] right-150 top-50">
+            <div className="lg:relative sm:flex lg:justify-center sm:flex-col lg:items-center">
+                <div className="lg:absolute lg:w-[500px] lg:h-[400px] lg:right-150 lg:top-60 mb-5">
                     <Image
                         src={BookBox}
                         alt="Image de la box"
                         className="border-1 border-primary rounded-3xl"
+                        objectFit="cover"
                     />
                 </div>
-                <div className="absolute z-1 bg-foreground/80 p-5 rounded-3xl w-[800px] h-[300px] left-90">
+                <div className="lg:absolute z-1 bg-foreground/80 p-5 rounded-3xl lg:top-10 lg:w-[800px] lg:h-[300px] lg:left-90 text-center">
                     <Typo
                         variant="para"
                         components="p"
                         weight="normal"
-                        className="mt-10"
+                        className="text-center mt-5 sm:text-xl"
                         color="other"
                     >
                         Quod opera consulta cogitabatur astute, ut hoc

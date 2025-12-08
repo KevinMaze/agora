@@ -21,7 +21,7 @@ export const HearderCollect = () => {
                         variant="title"
                         components="h1"
                         weight="bold"
-                        className="mt-3 uppercase text-center text-8xl -rotate-25"
+                        className="mt-3 uppercase text-center text-4xl sm:text-6xl lg:text-8xl -rotate-25"
                     >
                         Click & Collect
                     </Typo>
