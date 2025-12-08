@@ -42,7 +42,7 @@ export const HeaderGazette = () => {
                     </div>
                 </div>
             </div>
-            <div className="border-1 border-primary w-60 sm:w-180 lg:w-250 m-auto mb-20"></div>
+            <div className="border-1 border-primary w-60 sm:w-180 lg:w-250 m-auto"></div>
         </div>
     );
 };
