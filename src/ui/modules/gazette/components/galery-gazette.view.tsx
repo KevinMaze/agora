@@ -68,18 +68,18 @@ export const GalleryGazette = () => {
     }, [xTranslation, width, duration, rerender, mustFinish]);
 
     return (
-        <div className="mt-50">
+        <div className="mt-20 lg:mt-50">
             <Container>
                 <Typo
                     variant="para"
                     components="h2"
                     weight="bold"
-                    className="uppercase text-6xl"
+                    className="uppercase text-4xl sm:text-6xl text-center sm:text-start"
                 >
                     Gallery
                 </Typo>
             </Container>
-            <div className="relative h-[500px] w-full overflow-hidden py-8 mb-20 mt-20">
+            <div className="relative h-[180px] lg:h-[500px] overflow-hidden py-8 sm:mb-20 sm:mt-20">
                 <motion.div
                     className="absolute flex gap-4"
                     ref={ref}
@@ -99,7 +99,7 @@ export const GalleryGazette = () => {
                                 src={picture.src}
                                 key={index}
                                 alt={picture.alt}
-                                className="rounded-2xl"
+                                className="rounded-2xl min-w-[100px] h-full"
                             />
                         </div>
                     ))}

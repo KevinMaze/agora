@@ -65,7 +65,7 @@ export const HardRockCoffee = () => {
                     </div>
                 </div>
                 <div className="w-full relative min-h-[300px] mt-5">
-                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-10 sm:left-40 -rotate-15 z-1">
+                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-10 sm:left-40 -rotate-15 z-1 left-25 top-25">
                         <Image
                             src={Legolas}
                             alt=""
@@ -74,7 +74,7 @@ export const HardRockCoffee = () => {
                             fill
                         />
                     </div>
-                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-20 sm:left-80 rotate-15">
+                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-20 sm:left-80 rotate-15 left-45">
                         <Image
                             src={Drum}
                             alt=""
@@ -83,7 +83,7 @@ export const HardRockCoffee = () => {
                             fill
                         />
                     </div>
-                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-30">
+                    <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-30 left-5">
                         <Image
                             src={Monkey}
                             alt=""

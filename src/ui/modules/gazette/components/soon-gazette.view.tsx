@@ -9,12 +9,12 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export const SoonGazette = () => {
     return (
-        <Container className="mb-50">
+        <Container className="mb-40">
             <Typo
                 variant="para"
                 components="h2"
                 weight="bold"
-                className="mb-20 mt-20 uppercase text-6xl text-end"
+                className="mb-20 mt-20 uppercase text-4xl sm:text-6xl sm:text-end text-center"
             >
                 Prochainement
             </Typo>
