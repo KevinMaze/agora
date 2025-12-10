@@ -69,7 +69,7 @@ export const Header = () => {
                 <Image
                     src={Crack}
                     alt=""
-                    className="absolute bottom-[-2rem] sm:bottom-[-1rem] w-full h-60 object-cover rotate-180"
+                    className="absolute bottom-[-3rem] sm:bottom-[-1rem] w-full h-60 object-cover rotate-180"
                 />
             </div>
         </div>

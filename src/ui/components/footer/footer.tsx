@@ -76,8 +76,9 @@ export const Footer = () => {
                         color="secondary"
                         className="flex flex-col md:flex-row items-center gap-2 text-[16px]"
                     >
-                        {`Copyright © ${currentYear} Agora`} -{" "}
-                        <Link href="/mentions-legales">Mentions légales</Link> -{" "}
+                        <Link href="">{`Copyright © ${currentYear} Agora`}</Link>{" "}
+                        - <Link href="/mentions-legales">Mentions légales</Link>{" "}
+                        -{" "}
                         <Link href="/politique-de-confidentialite">
                             Politique de confidentialité
                         </Link>

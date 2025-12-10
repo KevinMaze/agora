@@ -80,7 +80,7 @@ export const PresentationView = () => {
                         size="large"
                         baseUrl="/coffeeShop"
                     >
-                        Coffee Shop
+                        Coffee
                     </Button>
                     <Button
                         icon={{ icon: FaArrowRight }}
