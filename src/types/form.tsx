@@ -5,6 +5,7 @@ export interface FormsType {
     isLoading: boolean;
     register: any;
     handleSubmit: any;
+    watch: any;
 }
 
 export interface RegisterFormFieldsType {

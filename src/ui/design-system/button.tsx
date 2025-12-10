@@ -17,6 +17,7 @@ interface Props {
     linkType?: LinkType;
     action?: Function;
     classname?: string;
+    type?: "button" | "submit" | "reset";
 }
 
 export const Button = ({
@@ -31,6 +32,7 @@ export const Button = ({
     baseUrl,
     linkType,
     classname,
+    type = "button",
     action = () => {},
 }: Props) => {
     let variantStyle: string = "",
@@ -130,7 +132,7 @@ export const Button = ({
 
     const buttonElement = (
         <button
-            type="button"
+            type={type}
             className={clsx(
                 variantStyle,
                 sizeStyle,
