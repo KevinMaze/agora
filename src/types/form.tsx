@@ -14,3 +14,13 @@ export interface RegisterFormFieldsType {
     password: string;
     confirmPassword: string;
 }
+export interface LoginFormFieldsType {
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+export interface ForgetFormFieldsType {
+    username: string;
+    email: string;
+}

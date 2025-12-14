@@ -2,8 +2,13 @@ import { Typo } from "@/ui/design-system/typography";
 import Link from "next/link";
 import Image from "next/image";
 import { LoginForm } from "./components/login-form";
+import { FormsType } from "@/types/form";
 
-export const LoginView = () => {
+interface Props {
+    form: FormsType;
+}
+
+export const LoginView = ({ form }: Props) => {
     return (
         <div className="relative w-full h-screen overflow-hidden flex justify-center items-center">
             <div className="absolute inset-0 opacity-50">
@@ -48,7 +53,7 @@ export const LoginView = () => {
                         </Typo>
                     </div>
                 </div>
-                <LoginForm />
+                <LoginForm form={form} />
             </div>
         </div>
     );

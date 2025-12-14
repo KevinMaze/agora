@@ -141,7 +141,7 @@ export const Button = ({
                 "cursor-pointer"
             )}
             onClick={handleClick}
-            disabled={disabled}
+            disabled={disabled || isLoading}
         >
             {buttonContent}
         </button>

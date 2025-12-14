@@ -2,8 +2,13 @@ import { Typo } from "@/ui/design-system/typography";
 import Link from "next/link";
 import Image from "next/image";
 import { ForgetPasswordForm } from "./components/forget-password.form";
+import { FormsType } from "@/types/form";
 
-export const ForgetPasswordView = () => {
+interface Props {
+    form: FormsType;
+}
+
+export const ForgetPasswordView = ({ form }: Props) => {
     return (
         <div className="relative w-full h-screen overflow-hidden flex justify-center items-center">
             <div className="absolute inset-0 opacity-50">
@@ -36,7 +41,7 @@ export const ForgetPasswordView = () => {
                         <Link href="/connexion">Connexion</Link>
                     </Typo>
                 </div>
-                <ForgetPasswordForm />
+                <ForgetPasswordForm form={form} />
             </div>
         </div>
     );
