@@ -3,6 +3,8 @@ import { RegisterView } from "./register.view";
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useState } from "react";
 import { firebaseCreateUser } from "@/api/authentication";
+import { toast } from "react-toastify";
+import { Button } from "@/ui/design-system/button";
 
 export const RegisterContainer = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -44,14 +46,17 @@ export const RegisterContainer = () => {
         handleCreateUserAuthentification(formData);
     };
     return (
-        <RegisterView
-            form={{
-                errors,
-                register,
-                handleSubmit,
-                onSubmit,
-                isLoading,
-            }}
-        />
+        <>
+            <Button action={() => toast.success("Hello")}> Click me </Button>
+            <RegisterView
+                form={{
+                    errors,
+                    register,
+                    handleSubmit,
+                    onSubmit,
+                    isLoading,
+                }}
+            />
+        </>
     );
 };
