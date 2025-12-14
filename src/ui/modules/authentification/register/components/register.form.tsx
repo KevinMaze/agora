@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const RegisterForm = ({ form }: Props) => {
-    const { register, handleSubmit, onSubmit, isLoading, errors, watch } = form;
+    const { register, handleSubmit, onSubmit, isLoading, errors } = form;
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -35,21 +35,18 @@ export const RegisterForm = ({ form }: Props) => {
                 required={true}
                 isAutoCompleted={false}
             />
-            {/* <Input
+            <Input
                 isLoading={isLoading}
-                placeholder="Confirmer le mot de passe"
-                type="password"
-                register={register} // On passe la fonction register
+                placeholder="Pseudo"
+                type="text"
+                register={register}
                 errors={errors}
-                // On ajoute une règle de validation personnalisée
-                validate={(value: string) =>
-                    value === watch("password") ||
-                    "Les mots de passe ne correspondent pas"
-                }
-                id="passwordConfirme"
-                required={true}
+                errorMsg="Ce champ est requis"
+                id="username"
+                required={false}
                 isAutoCompleted={false}
-            /> */}
+            />
+
             <Button isLoading={isLoading} type="submit">
                 {isLoading ? "Loading..." : "S'inscrire"}
             </Button>

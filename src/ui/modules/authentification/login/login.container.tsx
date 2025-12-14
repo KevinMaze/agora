@@ -25,9 +25,6 @@ export const LoginContainer = () => {
                 handleSubmit,
                 onSubmit,
                 isLoading,
-                watch: () => {
-                    return "Les mots de passe ne correspondent pas";
-                },
             }}
         />
     );

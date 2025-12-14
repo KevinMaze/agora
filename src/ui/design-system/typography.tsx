@@ -48,6 +48,9 @@ export const Typo = ({
         case "other":
             colorStyle = "text-white";
             break;
+        case "danger":
+            colorStyle = "text-danger";
+            break;
     }
 
     return (

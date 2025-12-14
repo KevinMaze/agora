@@ -1,4 +1,3 @@
-import Register from "@/pages/connexion/inscription";
 import { Typo } from "@/ui/design-system/typography";
 import Image from "next/image";
 import Link from "next/link";

@@ -5,14 +5,12 @@ export interface FormsType {
     isLoading: boolean;
     register: any;
     handleSubmit: any;
-    watch: any;
 }
 
 export interface RegisterFormFieldsType {
-    username: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    username: string;
 }
 export interface LoginFormFieldsType {
     username: string;

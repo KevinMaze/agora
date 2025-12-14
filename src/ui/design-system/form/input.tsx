@@ -57,7 +57,7 @@ export const Input = ({
                     isLoading && "cursor-not-allowed",
                     "w-full px-4 py-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500",
                     {
-                        "border-red-600 border-3 placeholder-red-600":
+                        "border-red-600 border-3 placeholder-red-600 ":
                             errors[id],
                         "border-primary": !errors[id],
                     }
