@@ -5,10 +5,9 @@ import React from "react";
 import { firebaseCreateUser } from "@/api/authentication";
 import { toast } from "react-toastify";
 import { useToggle } from "@/hooks/use-toggle";
-import { Button } from "@/ui/design-system/button";
 
 export const RegisterContainer = () => {
-    const { value: isLoading, setValue: setIsLoading, toggle } = useToggle();
+    const { value: isLoading, setValue: setIsLoading } = useToggle();
     const {
         handleSubmit,
         formState: { errors },
@@ -50,7 +49,6 @@ export const RegisterContainer = () => {
     };
     return (
         <>
-            <Button action={toggle}>Test Button</Button>
             <RegisterView
                 form={{
                     errors,
@@ -63,3 +61,5 @@ export const RegisterContainer = () => {
         </>
     );
 };
+
+// épisode 21
