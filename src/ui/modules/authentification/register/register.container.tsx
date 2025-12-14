@@ -1,12 +1,12 @@
 import { RegisterFormFieldsType } from "@/types/form";
 import { RegisterView } from "./register.view";
 import { SubmitHandler, useForm } from "react-hook-form";
+import React, { useState } from "react";
 
 export const RegisterContainer = () => {
-    const isLoading = false;
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const {
         handleSubmit,
-        control,
         formState: { errors },
         register,
         setError,
@@ -16,20 +16,21 @@ export const RegisterContainer = () => {
     const onSubmit: SubmitHandler<RegisterFormFieldsType> = async (
         formData
     ) => {
+        setIsLoading(true);
         console.log("Register form data:", formData);
     };
     return (
-        <>
-            <RegisterView
-                form={{
-                    errors,
-                    control,
-                    register,
-                    handleSubmit,
-                    onSubmit,
-                    isLoading,
-                }}
-            />
-        </>
+        <RegisterView
+            form={{
+                errors,
+                register,
+                handleSubmit,
+                onSubmit,
+                isLoading,
+                watch: () => {
+                    return "Les mots de passe ne correspondent pas";
+                },
+            }}
+        />
     );
 };

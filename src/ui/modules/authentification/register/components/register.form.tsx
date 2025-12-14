@@ -7,15 +7,7 @@ interface Props {
 }
 
 export const RegisterForm = ({ form }: Props) => {
-    const {
-        control,
-        register,
-        handleSubmit,
-        onSubmit,
-        isLoading,
-        errors,
-        watch,
-    } = form;
+    const { register, handleSubmit, onSubmit, isLoading, errors, watch } = form;
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -43,7 +35,7 @@ export const RegisterForm = ({ form }: Props) => {
                 required={true}
                 isAutoCompleted={false}
             />
-            <Input
+            {/* <Input
                 isLoading={isLoading}
                 placeholder="Confirmer le mot de passe"
                 type="password"
@@ -57,7 +49,7 @@ export const RegisterForm = ({ form }: Props) => {
                 id="passwordConfirme"
                 required={true}
                 isAutoCompleted={false}
-            />
+            /> */}
             <Button isLoading={isLoading} type="submit">
                 {isLoading ? "Loading..." : "S'inscrire"}
             </Button>

@@ -1,6 +1,6 @@
 export interface FormsType {
-    control: any;
     onSubmit: any;
+    control?: any;
     errors: any;
     isLoading: boolean;
     register: any;

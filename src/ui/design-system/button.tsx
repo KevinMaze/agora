@@ -103,7 +103,7 @@ export const Button = ({
     const buttonContent = (
         <>
             {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center cursor-not-allowed">
                     {variant === "primary" || variant === "icon" ? (
                         <Spinner size="small" variant="white" />
                     ) : (

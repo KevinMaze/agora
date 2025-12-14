@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import { div } from "framer-motion/client";
+import { Typo } from "../typography";
 
 interface Props {
     isLoading: boolean;
@@ -47,22 +49,36 @@ export const Input = ({
     validate,
 }: Props) => {
     return (
-        <input
-            type={type}
-            placeholder={placeholder}
-            className={clsx(
-                "w-full px-4 py-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500",
-                {
-                    "border-red-500": errors[id],
-                    "border-primary": !errors[id],
-                }
+        <div>
+            <input
+                type={type}
+                placeholder={placeholder}
+                className={clsx(
+                    isLoading && "cursor-not-allowed",
+                    "w-full px-4 py-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500",
+                    {
+                        "border-red-600 border-3 placeholder-red-600":
+                            errors[id],
+                        "border-primary": !errors[id],
+                    }
+                )}
+                disabled={isLoading}
+                {...register(id, {
+                    required: { value: required, message: errorMsg },
+                })}
+                autoComplete={isAutoCompleted ? "on" : "off"}
+                validate={validate}
+            />
+            {errors[id] && (
+                <Typo
+                    variant="para"
+                    components="div"
+                    color="danger"
+                    className="mt-2"
+                >
+                    {errors[id]?.message}
+                </Typo>
             )}
-            disabled={isLoading}
-            {...register(id, {
-                required: { value: required, message: errorMsg },
-            })}
-            autoComplete={isAutoCompleted ? "on" : "off"}
-            validate={validate}
-        />
+        </div>
     );
 };

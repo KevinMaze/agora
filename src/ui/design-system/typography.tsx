@@ -2,8 +2,8 @@ import clsx from "clsx";
 
 interface TypoProps {
     variant?: "title" | "para" | "span";
-    components?: "h1" | "h2" | "p" | "span" | "li";
-    color?: "primary" | "secondary" | "tier" | "other";
+    components?: "h1" | "h2" | "p" | "span" | "li" | "div";
+    color?: "primary" | "secondary" | "tier" | "other" | "danger";
     weight?: "normal" | "bold" | "extrabold";
     className?: string;
     children: React.ReactNode;

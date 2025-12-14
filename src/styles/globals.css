@@ -8,6 +8,7 @@
   --color-secondary: #CC7722;
   --color-tier: #008000;
   --color-other: white;
+  --color-danger: #FF0000;
 
   /* Pour surcharger les polices par défaut de Tailwind */
   --font-sans-custom: 'Montserrat', sans-serif;
@@ -24,6 +25,7 @@
   --color-secondary: var(--color-secondary);
   --color-tier: var(--color-tier);
   --color-other: var(--color-other);
+  --color-danger: var(--color-danger);
 
 
   --myshadow: 10px 5px 20px rgba(74, 74, 74, 1);
