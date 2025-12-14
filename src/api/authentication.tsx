@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/config/firebase-config";
+import { FirebaseError } from "firebase/app";
 
 export const firebaseCreateUser = async (email: string, password: string) => {
     try {
@@ -10,10 +11,11 @@ export const firebaseCreateUser = async (email: string, password: string) => {
         );
         return { data: userCredential.user };
     } catch (error) {
+        const firebaseError = error as FirebaseError;
         return {
             error: {
-                code: (error as { code: string }).code,
-                message: (error as { message: string }).message,
+                code: firebaseError.code,
+                message: firebaseError.message,
             },
         };
     }

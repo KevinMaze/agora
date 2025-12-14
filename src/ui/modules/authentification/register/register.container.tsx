@@ -1,13 +1,14 @@
 import { RegisterFormFieldsType } from "@/types/form";
 import { RegisterView } from "./register.view";
 import { SubmitHandler, useForm } from "react-hook-form";
-import React, { useState } from "react";
+import React from "react";
 import { firebaseCreateUser } from "@/api/authentication";
 import { toast } from "react-toastify";
+import { useToggle } from "@/hooks/use-toggle";
 import { Button } from "@/ui/design-system/button";
 
 export const RegisterContainer = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { value: isLoading, setValue: setIsLoading, toggle } = useToggle();
     const {
         handleSubmit,
         formState: { errors },
@@ -24,10 +25,12 @@ export const RegisterContainer = () => {
         const { data, error } = await firebaseCreateUser(email, password);
         if (error) {
             setIsLoading(false);
-            console.log("Error creating user:", error);
+            toast.error(error.message);
             return;
         }
-        console.log("User created successfully:", data);
+        toast.success(`Bienvenue dans l'Agora, ${username} !`);
+        setIsLoading(false);
+        reset();
     };
 
     const onSubmit: SubmitHandler<RegisterFormFieldsType> = async (
@@ -47,7 +50,7 @@ export const RegisterContainer = () => {
     };
     return (
         <>
-            <Button action={() => toast.success("Hello")}> Click me </Button>
+            <Button action={toggle}>Test Button</Button>
             <RegisterView
                 form={{
                     errors,
