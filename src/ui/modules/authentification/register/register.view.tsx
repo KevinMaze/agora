@@ -52,6 +52,29 @@ export const RegisterView = ({ form }: Props) => {
                     </div>
                 </div>
                 <RegisterForm form={form} />
+                <Typo
+                    variant="para"
+                    components="p"
+                    className="mt-4 text-center px-8 text-[14px]"
+                >
+                    <div>En vous inscrivant, vous acceptez nos</div>
+                    <div>
+                        <Link
+                            href="#"
+                            className=" text-secondary hover:underline"
+                        >
+                            Conditions d'utilisation
+                        </Link>{" "}
+                        et notre{" "}
+                        <Link
+                            href="#"
+                            className=" text-secondary hover:underline"
+                        >
+                            Politique de confidentialité
+                        </Link>
+                        .
+                    </div>
+                </Typo>
             </div>
         </div>
     );

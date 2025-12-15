@@ -6,7 +6,7 @@ import { LinkType, LinkTypes } from "@/lib/link-type";
 
 interface Props {
     size?: "small" | "medium" | "large";
-    variant?: "primary" | "disabled" | "icon";
+    variant?: "primary" | "disabled" | "icon" | "danger";
     icon?: IconProps;
     iconTheme?: "primary" | "disabled";
     iconPosition?: "left" | "right";
@@ -57,6 +57,10 @@ export const Button = ({
                 variantStyle =
                     "bg-foreground text-background cursor-not-allowed rounded-xl";
             }
+            break;
+        case "danger":
+            variantStyle =
+                "bg-red-600 text-other hover:bg-red-700 border-2 border-foreground rounded-xl";
             break;
     }
 

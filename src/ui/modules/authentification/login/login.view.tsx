@@ -54,6 +54,18 @@ export const LoginView = ({ form }: Props) => {
                     </div>
                 </div>
                 <LoginForm form={form} />
+                <Typo
+                    variant="para"
+                    components="p"
+                    className="mt-4 text-center text-[14px]"
+                >
+                    <Link
+                        href="/connexion/mot-de-passe-perdu"
+                        className="hover:underline text-secondary"
+                    >
+                        Mot de passe oublié ?
+                    </Link>
+                </Typo>
             </div>
         </div>
     );

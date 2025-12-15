@@ -1,21 +1,37 @@
-import { useState } from "react";
 import { ForgetPasswordView } from "./forget-password.view";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ForgetFormFieldsType } from "@/types/form";
+import { useToggle } from "@/hooks/use-toggle";
+import { sendEmailToResetPassword } from "@/api/authentication";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 export const ForgetPasswordContainer = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const router = useRouter();
+    const { value: isLoading, setValue: setIsLoading } = useToggle();
     const {
         handleSubmit,
         formState: { errors },
         register,
-        setError,
         reset,
     } = useForm<ForgetFormFieldsType>();
 
+    const handleResetPassword = async ({ email }: ForgetFormFieldsType) => {
+        const { error } = await sendEmailToResetPassword(email);
+        if (error) {
+            setIsLoading(false);
+            toast.error(error.message);
+            return;
+        }
+        toast.success(`Un email vous a été envoyé à l'adresse ${email}!`);
+        setIsLoading(false);
+        reset();
+        router.push("/connexion");
+    };
+
     const onSubmit: SubmitHandler<ForgetFormFieldsType> = async (formData) => {
-        setIsLoading(true);
-        console.log("Register form data:", formData);
+        setIsLoading(false);
+        handleResetPassword(formData);
     };
     return (
         <ForgetPasswordView
@@ -25,9 +41,6 @@ export const ForgetPasswordContainer = () => {
                 handleSubmit,
                 onSubmit,
                 isLoading,
-                watch: () => {
-                    return "Les mots de passe ne correspondent pas";
-                },
             }}
         />
     );

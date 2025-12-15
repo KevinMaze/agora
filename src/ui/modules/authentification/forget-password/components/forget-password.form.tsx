@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const ForgetPasswordForm = ({ form }: Props) => {
-    const { register, handleSubmit, onSubmit, isLoading, errors, watch } = form;
+    const { register, handleSubmit, onSubmit, isLoading, errors } = form;
 
     return (
         <form

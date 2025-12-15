@@ -2,11 +2,20 @@ import { RegisterFormFieldsType } from "@/types/form";
 import { RegisterView } from "./register.view";
 import { SubmitHandler, useForm } from "react-hook-form";
 import React from "react";
-import { firebaseCreateUser } from "@/api/authentication";
+import {
+    firebaseCreateUser,
+    sendEmailVerificationProcedure,
+} from "@/api/authentication";
 import { toast } from "react-toastify";
 import { useToggle } from "@/hooks/use-toggle";
+import {
+    firestoreCreateDocument,
+    firestoreUptadeDocument,
+} from "@/api/firestore";
+import { useRouter } from "next/router";
 
 export const RegisterContainer = () => {
+    const router = useRouter();
     const { value: isLoading, setValue: setIsLoading } = useToggle();
     const {
         handleSubmit,
@@ -15,6 +24,27 @@ export const RegisterContainer = () => {
         setError,
         reset,
     } = useForm<RegisterFormFieldsType>();
+
+    const handleCreateUserDocument = async (
+        collectionName: string,
+        documentId: string,
+        document: object
+    ) => {
+        const { error } = await firestoreCreateDocument(
+            collectionName,
+            documentId,
+            document
+        );
+        if (error) {
+            toast.error(error.message);
+            return;
+        }
+        toast.success(`Bienvenue dans l'Agora !`);
+        setIsLoading(false);
+        reset();
+        sendEmailVerificationProcedure();
+        router.push("/mon_espace");
+    };
 
     const handleCreateUserAuthentification = async ({
         email,
@@ -27,9 +57,14 @@ export const RegisterContainer = () => {
             toast.error(error.message);
             return;
         }
-        toast.success(`Bienvenue dans l'Agora, ${username} !`);
-        setIsLoading(false);
-        reset();
+
+        const userDocumentData = {
+            uid: data.uid,
+            email: email,
+            username: username,
+            creation_date: new Date(),
+        };
+        handleCreateUserDocument("users", data.uid, userDocumentData);
     };
 
     const onSubmit: SubmitHandler<RegisterFormFieldsType> = async (
@@ -61,5 +96,3 @@ export const RegisterContainer = () => {
         </>
     );
 };
-
-// épisode 21
