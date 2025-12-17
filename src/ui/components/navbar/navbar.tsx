@@ -124,4 +124,4 @@ export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
     );
 };
 
-// épisode 24/
+// épisode 24/ fin 23 problème auth
