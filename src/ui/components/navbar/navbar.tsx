@@ -7,22 +7,20 @@ import { Button } from "@/ui/design-system/button";
 import { Logo } from "@/ui/design-system/logo";
 import Link from "next/link";
 import { ActiveLink } from "./active-link";
+import { useAuth } from "@/context/AuthUserContext";
 
-// Définition des props que le composant attend
 interface NavbarProps {
     isOpen: boolean;
     onClose: () => void;
-    isAuthenticated: boolean; // Pour savoir si l'utilisateur est connecté
 }
 
-const Navbar: React.FC<NavbarProps> = ({
-    isOpen,
-    onClose,
-    isAuthenticated,
-}) => {
+export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
+    const { authUser, authUserIsLoading } = useAuth();
+    console.log(authUser);
+    console.log(authUserIsLoading);
+
     return (
         <>
-            {/* Fond semi-transparent qui couvre la page, cliquable pour fermer */}
             <div
                 className={clsx(
                     "fixed inset-0 bg-background/50 z-40 transition-opacity",
@@ -31,7 +29,6 @@ const Navbar: React.FC<NavbarProps> = ({
                 onClick={onClose}
             />
 
-            {/* Le contenu du menu latéral */}
             <aside
                 className={clsx(
                     "fixed top-0 right-0 h-screen w-[300px] bg-background text-primary z-50",
@@ -117,15 +114,14 @@ const Navbar: React.FC<NavbarProps> = ({
                             Username
                         </Typo>
                     </div>
-                    {isAuthenticated ? (
-                        <Button>Déconnexion</Button>
-                    ) : (
-                        <Button baseUrl="/connexion">Connexion</Button>
-                    )}
+
+                    <Button>Déconnexion</Button>
+
+                    <Button baseUrl="/connexion">Connexion</Button>
                 </div>
             </aside>
         </>
     );
 };
 
-export default Navbar;
+// épisode 24/

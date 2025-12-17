@@ -1,15 +1,12 @@
 // src/App.tsx
 import React, { useState } from "react";
-import Navbar from "./navbar";
+import { Navbar } from "./navbar";
 import { TfiMenu, TfiClose } from "react-icons/tfi";
 import clsx from "clsx";
 
 const Sidebar: React.FC = () => {
     // L'état pour contrôler la visibilité du menu
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-    // Un état d'exemple pour simuler la connexion de l'utilisateur
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
@@ -28,11 +25,7 @@ const Sidebar: React.FC = () => {
             </button>
 
             {/* Le composant Sidebar, qui s'affichera quand isSidebarOpen est true */}
-            <Navbar
-                isOpen={isSidebarOpen}
-                onClose={toggleSidebar}
-                isAuthenticated={isAuthenticated}
-            />
+            <Navbar isOpen={isSidebarOpen} onClose={toggleSidebar} />
         </div>
     );
 };
