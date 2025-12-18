@@ -1,4 +1,3 @@
-import { auth } from "@/config/firebase-config";
 import { useAuth } from "@/context/AuthUserContext";
 import { ScreenSpinner } from "@/ui/design-system/screen-spinner";
 import { useRouter } from "next/router";
