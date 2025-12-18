@@ -114,7 +114,6 @@ export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
                             Username
                         </Typo>
                     </div>
-
                     <Button>Déconnexion</Button>
 
                     <Button baseUrl="/connexion">Connexion</Button>

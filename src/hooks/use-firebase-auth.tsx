@@ -19,7 +19,7 @@ export default function useFirebaseAuth() {
 
     const getUserDocument = async (user: UserInterface) => {
         if (auth.currentUser) {
-            const documentRef = doc(db, "user", auth.currentUser.uid);
+            const documentRef = doc(db, "users", auth.currentUser.uid);
             const compactUser = user;
             onSnapshot(documentRef, async (doc) => {
                 if (doc.exists()) {

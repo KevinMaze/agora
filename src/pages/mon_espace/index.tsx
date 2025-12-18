@@ -10,7 +10,7 @@ export default function Connexion() {
                 description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
             />
 
-            <Layout withSideBar>
+            <Layout withSideBar sessionStatus="registered">
                 <UserAccountContainer />
             </Layout>
         </>

@@ -3,13 +3,15 @@ import { Footer } from "../footer/footer";
 import Sidebar from "../navbar/sidebar";
 import { useRouter } from "next/router";
 import { UserAccountNavigation } from "../sidebar-user/user-account-navigation";
+import { Session } from "../session/session";
 
 interface Props {
     children: React.ReactNode;
     withSideBar?: boolean;
+    sessionStatus?: string;
 }
 
-export const Layout = ({ children, withSideBar }: Props) => {
+export const Layout = ({ children, withSideBar, sessionStatus }: Props) => {
     const router = useRouter();
     let view: React.ReactElement = <></>;
 
@@ -29,10 +31,10 @@ export const Layout = ({ children, withSideBar }: Props) => {
     }
 
     return (
-        <>
+        <Session sessionStatus={sessionStatus}>
             <Sidebar />
             {view}
             {!router.pathname.includes("/mon_espace") && <Footer />}
-        </>
+        </Session>
     );
 };

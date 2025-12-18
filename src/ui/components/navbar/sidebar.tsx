@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState } from "react";
 import { Navbar } from "./navbar";
 import { TfiMenu, TfiClose } from "react-icons/tfi";
