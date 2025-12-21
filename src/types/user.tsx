@@ -17,4 +17,5 @@ export interface UserDocument {
     pseudo: string;
     creation_date: Timestamp;
     avatar: string;
+    onboardingIsCompleted: boolean;
 }

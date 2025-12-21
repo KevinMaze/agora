@@ -8,6 +8,7 @@ import { Logo } from "@/ui/design-system/logo";
 import Link from "next/link";
 import { ActiveLink } from "./active-link";
 import { useAuth } from "@/context/AuthUserContext";
+import { AccountAvatarNavigationLink } from "./account-avatar-link";
 
 interface NavbarProps {
     isOpen: boolean;
@@ -15,9 +16,15 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
-    const { authUser, authUserIsLoading } = useAuth();
-    console.log(authUser);
-    console.log(authUserIsLoading);
+    const { authUser } = useAuth();
+    console.log("utilisateur", authUser);
+
+    const authentificationSystem = (
+        <div className="px-6 text-center flex-shrink-0">
+            <Button baseUrl="/connexion">Connexion</Button>
+            <Button baseUrl="/connexion/inscription">Inscription</Button>
+        </div>
+    );
 
     return (
         <>
@@ -103,21 +110,11 @@ export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
                     </Typo>
                 </nav>
 
-                <div className="px-6 text-center flex-shrink-0">
-                    <div className="flex flex-raw items-center space-x-3">
-                        <Avatar
-                            size="large"
-                            alt="avatar"
-                            src="/assets/images/legolas.jpg"
-                        />
-                        <Typo variant="para" className="mt-2">
-                            Username
-                        </Typo>
-                    </div>
-                    <Button>Déconnexion</Button>
-
-                    <Button baseUrl="/connexion">Connexion</Button>
-                </div>
+                {!authUser ? (
+                    authentificationSystem
+                ) : (
+                    <AccountAvatarNavigationLink />
+                )}
             </aside>
         </>
     );
