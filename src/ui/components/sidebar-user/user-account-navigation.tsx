@@ -14,7 +14,6 @@ export const UserAccountNavigation = () => {
             return;
         }
         toast.success("Vous êtes déconnecté.e. À bientôt sur l'Agora !");
-        router.push("/connexion");
     };
     return (
         <div className="flex flex-col gap-7 border-2 border-primary p-8 rounded-lg">

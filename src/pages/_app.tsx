@@ -12,7 +12,6 @@ export default function App({ Component, pageProps }: AppProps) {
                 autoClose={8000}
                 transition={Flip}
             />
-            <Component {...pageProps} />
         </AuthUserProvider>
     );
 }

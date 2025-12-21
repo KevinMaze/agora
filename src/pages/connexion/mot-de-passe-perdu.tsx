@@ -1,4 +1,5 @@
 import { LayoutBack } from "@/ui/components/layout/layout-back";
+import { GUEST } from "@/lib/session-status";
 import Seo from "@/ui/components/seo";
 import { ForgetPasswordContainer } from "@/ui/modules/authentification/forget-password/forget-password.container";
 
@@ -10,7 +11,7 @@ export default function ForgetPassword() {
                 description="Bienvenue sur Agora, le coffee shop littéraire, changez votre mot de passe à votre espace personnel."
             />
 
-            <LayoutBack>
+            <LayoutBack sessionStatus={GUEST}>
                 <ForgetPasswordContainer />
             </LayoutBack>
         </>

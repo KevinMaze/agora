@@ -4,11 +4,12 @@ import Sidebar from "../navbar/sidebar";
 import { useRouter } from "next/router";
 import { UserAccountNavigation } from "../sidebar-user/user-account-navigation";
 import { Session } from "../session/session";
+import { SessionStatusTypes } from "@/types/session-status-types";
 
 interface Props {
     children: React.ReactNode;
     withSideBar?: boolean;
-    sessionStatus?: string;
+    sessionStatus?: SessionStatusTypes;
 }
 
 export const Layout = ({ children, withSideBar, sessionStatus }: Props) => {
