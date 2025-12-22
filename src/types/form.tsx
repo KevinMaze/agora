@@ -10,15 +10,21 @@ export interface FormsType {
 export interface RegisterFormFieldsType {
     email: string;
     password: string;
-    username: string;
 }
 export interface LoginFormFieldsType {
-    username: string;
     email: string;
     password: string;
-    confirmPassword: string;
 }
 export interface ForgetFormFieldsType {
     username: string;
     email: string;
+}
+
+export interface OnboardingProfileFormFieldsType {
+    displayName: string;
+    description: string;
+    adress: string;
+    phoneNumber: string;
+    hobbies: string;
+    styleLove: string;
 }
