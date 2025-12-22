@@ -30,6 +30,8 @@ export const ProfileStep = ({
         formData
     ) => {
         setLoading(true);
+
+        nextStep();
     };
 
     return (
@@ -60,7 +62,16 @@ export const ProfileStep = ({
                     </div>
                     <div className="flex items-center h-full col-span-6">
                         <div className="flex justify-end w-full">
-                            <ProfileStepForm />
+                            <ProfileStepForm
+                                form={{
+                                    errors,
+                                    control,
+                                    register,
+                                    handleSubmit,
+                                    onSubmit,
+                                    isLoading,
+                                }}
+                            />
                         </div>
                     </div>
                 </Container>
