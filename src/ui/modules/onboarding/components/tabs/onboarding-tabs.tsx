@@ -9,8 +9,6 @@ interface Props {
 }
 
 export const OnboardingTabs = ({ tabs, getCurrentStep }: Props) => {
-    console.log("tabs", tabs);
-    console.log("getCurrentStep", getCurrentStep());
     return (
         <div className="relative inline-block">
             <div className="flex items-center space-x-6 ">

@@ -7,6 +7,9 @@ import { ProfileStepForm } from "./profile-step-form";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { OnboardingProfileFormFieldsType } from "@/types/form";
 import { useToggle } from "@/hooks/use-toggle";
+import { firestoreUptadeDocument } from "@/api/firestore";
+import { useAuth } from "@/context/AuthUserContext";
+import { toast } from "react-toastify";
 
 export const ProfileStep = ({
     nextStep,
@@ -16,6 +19,7 @@ export const ProfileStep = ({
     getCurrentStep,
     stepsList,
 }: BaseComponentProps) => {
+    const { authUser } = useAuth();
     const { value: isLoading, setValue: setLoading } = useToggle();
     const {
         handleSubmit,
@@ -26,12 +30,29 @@ export const ProfileStep = ({
         setValue,
     } = useForm<OnboardingProfileFormFieldsType>();
 
+    const handleUptadeUserDocument = async (
+        formData: OnboardingProfileFormFieldsType
+    ) => {
+        const { error } = await firestoreUptadeDocument(
+            "users",
+            authUser.uid,
+            formData
+        );
+        if (error) {
+            setLoading(false);
+            toast.error(error.message);
+            return;
+        }
+        setLoading(false);
+        reset();
+        nextStep();
+    };
+
     const onSubmit: SubmitHandler<OnboardingProfileFormFieldsType> = async (
         formData
     ) => {
         setLoading(true);
-
-        nextStep();
+        handleUptadeUserDocument(formData);
     };
 
     return (
@@ -77,11 +98,14 @@ export const ProfileStep = ({
                 </Container>
             </div>
             <OnboardingFooter
-                nextStep={nextStep}
+                nextStep={handleSubmit(onSubmit)}
                 prevStep={prevStep}
                 isFirstStep={isFirstStep}
                 isFinalStep={isFinalStep}
+                isLoading={isLoading}
             />
         </div>
     );
 };
+
+// episode 26 1:36:41
