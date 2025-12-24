@@ -10,6 +10,7 @@ import { useToggle } from "@/hooks/use-toggle";
 import { firestoreUptadeDocument } from "@/api/firestore";
 import { useAuth } from "@/context/AuthUserContext";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export const ProfileStep = ({
     nextStep,
@@ -29,6 +30,23 @@ export const ProfileStep = ({
         reset,
         setValue,
     } = useForm<OnboardingProfileFormFieldsType>();
+
+    const { displayName, description, hobbies, styleLove } =
+        authUser.userDocument;
+
+    // Display value is exist
+    useEffect(() => {
+        const fieldsToUpdate: (
+            | "displayName"
+            | "description"
+            | "hobbies"
+            | "styleLove"
+        )[] = ["displayName", "description", "hobbies", "styleLove"];
+
+        for (const field of fieldsToUpdate) {
+            setValue(field, authUser.userDocument[field]);
+        }
+    }, []);
 
     const handleUptadeUserDocument = async (
         formData: OnboardingProfileFormFieldsType
@@ -52,7 +70,16 @@ export const ProfileStep = ({
         formData
     ) => {
         setLoading(true);
-        handleUptadeUserDocument(formData);
+        if (
+            displayName !== formData.displayName ||
+            description !== formData.description ||
+            hobbies !== formData.hobbies ||
+            styleLove !== formData.styleLove
+        ) {
+            handleUptadeUserDocument(formData);
+        }
+        setLoading(false);
+        nextStep();
     };
 
     return (
@@ -107,5 +134,3 @@ export const ProfileStep = ({
         </div>
     );
 };
-
-// episode 26 1:36:41
