@@ -21,7 +21,7 @@ export interface ForgetFormFieldsType {
 }
 
 export interface OnboardingProfileFormFieldsType {
-    displayName: string;
+    Name: string;
     description: string;
     adress: string;
     phoneNumber: string;

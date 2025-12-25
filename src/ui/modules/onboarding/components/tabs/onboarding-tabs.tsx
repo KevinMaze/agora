@@ -1,8 +1,6 @@
 import { onboardingSteplistInterface } from "@/types/onboarding-steps-list";
 import { Typo } from "@/ui/design-system/typography";
 import clsx from "clsx";
-import { div } from "framer-motion/client";
-
 interface Props {
     tabs: onboardingSteplistInterface[];
     getCurrentStep: () => onboardingSteplistInterface | undefined;

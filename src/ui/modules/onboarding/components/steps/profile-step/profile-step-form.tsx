@@ -12,14 +12,14 @@ export const ProfileStepForm = ({ form }: Props) => {
     return (
         <form className="w-full max-w-md space-y-4">
             <Input
-                label="Pseudo"
+                label="Name"
                 isLoading={isLoading}
-                placeholder="Pseudo"
+                placeholder="Nom Prénom"
                 type="text"
                 register={register}
                 errors={errors}
                 errorMsg="Tu dois renseigner un pseudo"
-                id="displayName"
+                id="Name"
             />
             <Textarea
                 label="Description"

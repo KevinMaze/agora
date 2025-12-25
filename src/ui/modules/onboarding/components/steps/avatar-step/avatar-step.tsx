@@ -1,19 +1,47 @@
+import { useAuth } from "@/context/AuthUserContext";
+import { useToggle } from "@/hooks/use-toggle";
 import { BaseComponentProps } from "@/types/onboarding-steps-list";
-import { OnboardingFooter } from "../../footer/onboarding-footer";
 import { Container } from "@/ui/components/container";
-import { Typo } from "@/ui/design-system/typography";
 import { OnboardingTabs } from "../../tabs/onboarding-tabs";
-import Image from "next/image";
-import { auth } from "@/config/firebase-config";
+import { Typo } from "@/ui/design-system/typography";
+import { OnboardingFooter } from "../../footer/onboarding-footer";
+import { UploadAvatar } from "@/ui/components/upload-avatar/upload-avatar";
+import { useState } from "react";
 
-export const WelcomeStep = ({
+export const AvatarStep = ({
     nextStep,
-    isFirstStep,
+    prevStep,
     isFinalStep,
     getCurrentStep,
     stepsList,
 }: BaseComponentProps) => {
-    console.log("moi", auth.currentUser);
+    const { authUser } = useAuth();
+
+    console.log("test", authUser);
+    const { value: isLoading, setValue: setLoading } = useToggle();
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<
+        string | ArrayBuffer | null
+    >(null);
+    console.log("imagePreview", imagePreview);
+
+    const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        console.log("file", file);
+        if (file) {
+            setSelectedImage(file);
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                let imageDataUrl: string | ArrayBuffer | null = null;
+                if (event.target) {
+                    imageDataUrl = event.target.result;
+                }
+                setImagePreview(imageDataUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <div className="relative h-screen pb-[85px]">
             <div className="h-full overflow-auto">
@@ -29,7 +57,7 @@ export const WelcomeStep = ({
                                 components="h1"
                                 className="uppercase text-6xl"
                             >
-                                Bienvenue !
+                                Dernière étape !
                             </Typo>
                             <Typo variant="para" components="p">
                                 Lorem ipsum dolor sit, amet consectetur
@@ -41,13 +69,10 @@ export const WelcomeStep = ({
                         </div>
                     </div>
                     <div className="flex items-center h-full col-span-6">
-                        <div className="w-full">
-                            <Image
-                                src="/assets/images/welcome-book.png"
-                                alt="Welcome"
-                                width={811}
-                                height={596}
-                                className="-rotate-25"
+                        <div className="flex justify-center w-full">
+                            <UploadAvatar
+                                handleImageSelect={handleImageSelect}
+                                imagePreview={imagePreview}
                             />
                         </div>
                     </div>
@@ -55,8 +80,9 @@ export const WelcomeStep = ({
             </div>
             <OnboardingFooter
                 nextStep={nextStep}
-                isFirstStep={isFirstStep}
+                prevStep={prevStep}
                 isFinalStep={isFinalStep}
+                isLoading={isLoading}
             />
         </div>
     );
