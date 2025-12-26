@@ -43,18 +43,42 @@ export const PresentationView = () => {
                             className="text-center p-15 text-[10px] sm:text-[12px] lg:text-[16px]"
                             color="other"
                         >
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Aliquam eget sapien quis diam scelerisque
-                            aliquam. Phasellus rhoncus tellus at dapibus
-                            volutpat. Mauris sit amet velit vitae metus luctus
-                            convallis. Quisque sed vulputate mi, a gravida
-                            turpis. Maecenas non libero vel neque semper
-                            ullamcorper et porta dui. Suspendisse ut sagittis
-                            velit. Etiam eu lobortis lectus. Mauris a tortor
-                            malesuada, accumsan enim sollicitudin, vestibulum
-                            ipsum. Mauris aliquam pretium metus eu cursus.
-                            Curabitur nibh quam, dignissim ac justo ut, egestas
-                            elementum arcu.
+                            <span className="text-tier uppercase underline font-extrabold">
+                                Agora :
+                            </span>{" "}
+                            “du grec ancien ἀγορά / agorá, a d'abord désigné,
+                            dans la Grèce antique, une réunion de citoyens,
+                            ainsi que l'espace public où celle-ci a lieu.”. Nous
+                            ne sommes certes pas grecs, mais nous vous
+                            accueillons à L’Agora avec un seul mot d’ordre :
+                            venir vous réunir ici, dans un lieu qui allie
+                            plaisir de l’esprit avec plaisir des papilles.
+                            Librairie neuf et occasion, nous faisons tout pour
+                            vous proposer ce que l’édition fait de plus actuel,
+                            mais aussi ce qu’elle n’a pas su faire exister assez
+                            longtemps. Nous nous donnons également pour mission
+                            de dénicher des ouvrages passés inaperçus, et
+                            trouver pour vous les pépites littéraires que le
+                            monde de l'édition à négligé, afin de démocratiser
+                            une littérature de proximité et/ou émergente. Avec
+                            toutes ces bonnes intentions, profitez-en pour vous
+                            régaler chez nous, avec des boissons et des
+                            gourmandises inspirées d'oeuvres, de titres ou de
+                            personnages littéraires.
+                            <br />
+                            <br />
+                            Avec vous, nous pouvons faire de L’Agora un lieu où
+                            nos pourrons échanger, construire, et partager des
+                            moments de convivialité entre amis, en famille, ou
+                            avec des personnes que nous ne connaissons pas
+                            encore….
+                            <br />
+                            <br />
+                            Cette nouvelle Agora est le pari d’un lieu qui ose
+                            mettre à table les divers supports créatifs qui
+                            communiquent et se rencontrent autour d’un seul et
+                            même ferment : la culture - dans ce qu’elle a de
+                            plus vivant, de plus partageable, de plus indocile.
                         </Typo>
                     </div>
                     <Image
@@ -69,7 +93,7 @@ export const PresentationView = () => {
                     className="w-lg shadow-[var(--myshadow)] rounded-3xl absolute -z-1 border-1 border-primary hidden lg:block"
                     style={{
                         transform: `translateY(${
-                            offsetY * -0.1
+                            offsetY * -0.04
                         }px) translateX(50%) translateY(0%)`,
                     }}
                 />

@@ -123,24 +123,23 @@ export const AproposPresentationView = () => {
                         color="other"
                         className="text-[14px] sm:text-[16px]"
                     >
-                        Quod opera consulta cogitabatur astute, ut hoc
-                        insidiarum genere Galli periret avunculus, ne eum ut
-                        praepotens acueret in fiduciam exitiosa coeptantem.
-                        verum navata est opera diligens hocque dilato Eusebius
-                        praepositus cubiculi missus est Cabillona aurum secum
-                        perferens, quo per turbulentos seditionum concitores
-                        occultius distributo et tumor consenuit militum et salus
-                        est in tuto locata praefecti. deinde cibo abunde perlato
-                        castra die praedicto sunt mota. Quod opera consulta
-                        cogitabatur astute, ut hoc insidiarum genere Galli
-                        periret avunculus, ne eum ut praepotens acueret in
-                        fiduciam exitiosa coeptantem. verum navata est opera
-                        diligens hocque dilato Eusebius praepositus cubiculi
-                        missus est Cabillona aurum secum perferens, quo per
-                        turbulentos seditionum concitores occultius distributo
-                        et tumor consenuit militum et salus est in tuto locata
-                        praefecti. deinde cibo abunde perlato castra die
-                        praedicto sunt mota.
+                        Nous c’est Jordan et Lavinia, associés dans la vie
+                        depuis 2017, et associés en affaires depuis 2024. Dès
+                        2014, Jordan nourrit la vision d’une librairie
+                        désenclavée, qui sait s’ouvrir au monde et aux gens,
+                        sans prendre de grands airs par-dessus ses couvertures
+                        pâles et précieuses. C’est ainsi qu’au fil des années
+                        est née l’Agora, ce lieu de discussion et d’échanges,
+                        une librairie qui s’adapte à tout le monde, et qui
+                        s’enrichit de chaque nouvelle interaction. Parce que
+                        nous sommes ainsi : nous aimons découvrir, partager,
+                        évoluer, sans apriori. Après avoir navigué dans le monde
+                        du travail, nous avons décidé de mener notre propre
+                        barque, et de nous lancer dans l’aventure. Et si les
+                        choses ne sont pas toujours faciles, qu’elles ne sont
+                        pas toujours parfaites, elles sont libres d’être
+                        recommencées, et d’évoluer, et c’est ce qui était pour
+                        nous, le plus important.
                     </Typo>
                 </div>
             </Container>

@@ -11,8 +11,11 @@ export interface RecipeData {
     alt: string;
     title?: string;
     description: string;
+    price?: string;
+    type?: string;
+    temperature?: string;
+    allergènes?: string[];
     ingredients?: string[];
-    history?: string;
 }
 
 interface RecipeModalProps {
@@ -89,8 +92,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
                                 {recipe.description}
                             </Typo>
                         </div>
-
-                        {recipe.history && (
+                        {recipe.allergènes && (
                             <div>
                                 <Typo
                                     variant="para"
@@ -98,10 +100,10 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
                                     color="secondary"
                                     className="mb-2 uppercase "
                                 >
-                                    Son histoire
+                                    Allergènes
                                 </Typo>
                                 <Typo variant="para" color="other">
-                                    {recipe.history}
+                                    {recipe.allergènes}
                                 </Typo>
                             </div>
                         )}

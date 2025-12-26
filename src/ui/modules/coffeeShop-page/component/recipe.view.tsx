@@ -8,155 +8,27 @@ import { Typo } from "@/ui/design-system/typography";
 import clsx from "clsx";
 import { Spinner } from "@/ui/design-system/spinner";
 import { RecipeModal, RecipeData } from "./recipe-modal.view";
+import classicCarte from "@/config/locales/carte";
 
 interface RecipeProps {
-    initialFilter?: "coffee" | "cake";
+    initialFilter?: "beverage" | "cake";
 }
 
-export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
+export const Recipe: React.FC<RecipeProps> = ({
+    initialFilter = "beverage",
+}) => {
     const [activeFilter, setActiveFilter] = useState(initialFilter);
     const [isLoading, setIsLoading] = useState(true);
     const [displayedRecipes, setDisplayedRecipes] = useState<RecipeData[]>([]);
     const [selectedRecipe, setSelectedRecipe] = useState<RecipeData | null>(
         null
     );
-    // Données de recettes complètes (simulant la BDD)
-    const allRecipes = [
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Café Latte",
-            type: "coffee",
-            description:
-                "Un délicieux café latte avec une mousse de lait crémeuse.",
-            ingredients: ["Espresso", "Lait entier", "Mousse de lait"],
-            history:
-                "Le café latte est une boisson chaude originaire d'Italie, où il est traditionnellement consommé au petit-déjeuner. Son nom signifie littéralement 'café au lait'.",
-        },
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Café Latte",
-            type: "coffee",
-            description:
-                "Un délicieux café latte avec une mousse de lait crémeuse.",
-        },
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Café Latte",
-            type: "coffee",
-            description:
-                "Un délicieux café latte avec une mousse de lait crémeuse.",
-        },
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Café Latte",
-            type: "coffee",
-            description:
-                "Un délicieux café latte avec une mousse de lait crémeuse.",
-        },
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Café Latte",
-            type: "coffee",
-            description:
-                "Un délicieux café latte avec une mousse de lait crémeuse.",
-        },
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Café Latte",
-            type: "coffee",
-            description:
-                "Un délicieux café latte avec une mousse de lait crémeuse.",
-        },
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Cappuccino",
-            description: "Un cappuccino riche avec une belle mousse de lait.",
-            type: "coffee",
-        },
-        {
-            src: Coffee,
-            alt: "Recette de café",
-            title: "Espresso",
-            description: "Un espresso corsé avec une crema parfaite.",
-            type: "coffee",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Cheesecake",
-            description:
-                "Un cheesecake crémeux avec un coulis de fruits rouges.",
-            type: "cake",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Cheesecake",
-            description:
-                "Un cheesecake crémeux avec un coulis de fruits rouges.",
-            type: "cake",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Cheesecake",
-            description:
-                "Un cheesecake crémeux avec un coulis de fruits rouges.",
-            type: "cake",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Cheesecake",
-            description:
-                "Un cheesecake crémeux avec un coulis de fruits rouges.",
-            type: "cake",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Cheesecake",
-            description:
-                "Un cheesecake crémeux avec un coulis de fruits rouges.",
-            type: "cake",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Cheesecake",
-            description:
-                "Un cheesecake crémeux avec un coulis de fruits rouges.",
-            type: "cake",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Tarte au Citron",
-            description:
-                "Une tarte au citron acidulée avec une meringue légère.",
-            type: "cake",
-        },
-        {
-            src: Cake,
-            alt: "Recette de gâteau",
-            title: "Brownie",
-            description: "Un brownie fondant au chocolat avec des noix.",
-            type: "cake",
-        },
-    ];
 
     // Simule la récupération des données et le filtrage avec un délai
     useEffect(() => {
         setIsLoading(true);
         const timer = setTimeout(() => {
-            const filtered = allRecipes.filter(
+            const filtered = classicCarte.filter(
                 (recipe) => recipe.type === activeFilter
             );
             setDisplayedRecipes(filtered);
@@ -176,12 +48,12 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
                 <Typo
                     variant="para"
                     components="h2"
-                    weight={activeFilter === "coffee" ? "bold" : "normal"}
+                    weight={activeFilter === "beverage" ? "bold" : "normal"}
                     className={clsx(
                         "mb-20 uppercase text-[14px] sm:text-3xl lg:text-4xl cursor-pointer hover:text-tier",
-                        activeFilter === "coffee" && "underline"
+                        activeFilter === "beverage" && "underline"
                     )}
-                    onClick={() => setActiveFilter("coffee")}
+                    onClick={() => setActiveFilter("beverage")}
                 >
                     Nos Boissons
                 </Typo>
@@ -227,6 +99,16 @@ export const Recipe: React.FC<RecipeProps> = ({ initialFilter = "coffee" }) => {
                     onClose={() => setSelectedRecipe(null)}
                 />
             )}
+            <div className="p-auto m-auto text-center">
+                <Typo
+                    variant="para"
+                    components="p"
+                    color="secondary"
+                    weight="bold"
+                >
+                    Supplément lait végétal: 0.50 € / chantilly - topping: 1 €
+                </Typo>
+            </div>
         </Container>
     );
 };

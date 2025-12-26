@@ -12,7 +12,7 @@ export const PresentationCollect = () => {
                 weight="bold"
                 className="mt-3 uppercase text-2xl sm:text-4xl lg:text-6xl underline text-center sm:text-start"
             >
-                Présentation
+                Les Box Littéraires
             </Typo>
             <div className="lg:relative sm:flex lg:justify-center sm:flex-col lg:items-center">
                 <div className="lg:absolute lg:w-[500px] lg:h-[400px] lg:right-150 lg:top-60 mb-5">
@@ -23,7 +23,7 @@ export const PresentationCollect = () => {
                         objectFit="cover"
                     />
                 </div>
-                <div className="lg:absolute z-1 bg-foreground/80 p-5 rounded-3xl lg:top-10 lg:w-[800px] lg:h-[300px] lg:left-90 text-center">
+                <div className="lg:absolute z-1 bg-foreground/80 p-5 rounded-3xl lg:top-10 lg:w-[800px] lg:left-90 text-center">
                     <Typo
                         variant="para"
                         components="p"
@@ -31,15 +31,25 @@ export const PresentationCollect = () => {
                         className="text-center mt-5 sm:text-xl"
                         color="other"
                     >
-                        Quod opera consulta cogitabatur astute, ut hoc
-                        insidiarum genere Galli periret avunculus, ne eum ut
-                        praepotens acueret in fiduciam exitiosa coeptantem.
-                        verum navata est opera diligens hocque dilato Eusebius
-                        praepositus cubiculi missus est Cabillona aurum secum
-                        perferens, quo per turbulentos seditionum concitores
-                        occultius distributo et tumor consenuit militum et salus
-                        est in tuto locata praefecti. deinde cibo abunde perlato
-                        castra die praedicto sunt mota.
+                        Elles sont destinées à ceux qui savent se faire plaisir
+                        et à ceux qui savent faire plaisir : des box littéraires
+                        pour tous les goûts, soigneusement sélectionnés par vos
+                        libraires : thriller, fantasy, romance, science-fiction,
+                        littérature blanche, etc… disponibles en neuf mais aussi
+                        en occasion. Et pour les plus curieux, une box
+                        transmédia qui vous fera voyager entre les supports.
+                        <br />
+                        <br />
+                        A l’intérieur plein de petites surprises vous attendent
+                        : marque-page originaux, thé en vrac, gourmandises,
+                        bougies, créations d’artisans locaux, t-shirt et
+                        tote-bag, remises, playlist musicale offerte… qui
+                        changeront en fonction des disponibilités et des
+                        saisons. Alors n’hésitez plus : anniversaires, fêtes
+                        nationales, départs à la retraite, occasions spéciales,
+                        nos box littéraires sauront vos séduires !
+                        <br />
+                        <br />
                     </Typo>
                 </div>
             </div>

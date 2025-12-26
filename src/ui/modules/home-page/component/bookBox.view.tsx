@@ -25,32 +25,32 @@ export const BookBox = () => {
                         variant="title"
                         components="h2"
                         weight="bold"
-                        className="mt-3 uppercase underline pl-10 justify-start lg:text-5xl sm:text-4xl text-2xl"
+                        className="mt-3 uppercase underline pt-2 pl-10 justify-start lg:text-5xl sm:text-4xl text-2xl"
                     >
-                        La Book Box
+                        Les box littéraires
                     </Typo>
 
-                    <div className="text-center justify-center sm:pr-20 sm:pl-20 ">
+                    <div className="text-center justify-center items-center flex  sm:pr-20 sm:pl-20 ">
                         <Typo
                             variant="para"
                             components="p"
                             weight="normal"
                             color="other"
-                            className="text-center justify-cente text-[12px] lg:text-[16px]"
+                            className="text-center justify-cente text-[12px] lg:text-xl"
                         >
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Aliquam eget sapien quis diam scelerisque
-                            aliquam. Phasellus rhoncus tellus at dapibus
-                            volutpat. Mauris sit amet velit vitae metus luctus
-                            convallis. Lorem ipsum dolor sit amet, consectetur
-                            adipiscing elit. Aliquam eget sapien quis diam
-                            scelerisque aliquam. Phasellus rhoncus tellus at
-                            dapibus volutpat. Mauris sit amet velit vitae metus
-                            luctus convallis.
+                            A l’intérieur plein de petites surprises vous
+                            attendent : marque-page originaux, thé en vrac,
+                            gourmandises, bougies, créations d’artisans locaux,
+                            t-shirt et tote-bag, remises, playlist musicale
+                            offerte… qui changeront en fonction des
+                            disponibilités et des saisons. Alors n’hésitez plus
+                            : anniversaires, fêtes nationales, départs à la
+                            retraite, occasions spéciales, nos box littéraires
+                            sauront vos séduires !
                         </Typo>
                     </div>
 
-                    <div className="mb-5 pr-10 flex justify-end">
+                    <div className="pb-5 pr-10 flex justify-end">
                         <Button
                             icon={{ icon: FaArrowRight }}
                             size="large"

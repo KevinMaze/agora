@@ -16,7 +16,7 @@ export const SoldCollect = () => {
     ];
 
     return (
-        <Container className="mb-20 sm:mt-50 -mt-180">
+        <Container className="mb-20 sm:mt-50 -mt-180 flex flex-col items-center">
             <Typo
                 variant="title"
                 components="h1"
@@ -25,6 +25,47 @@ export const SoldCollect = () => {
             >
                 Les Box du moments
             </Typo>
+            <div className="z-1 bg-foreground/80 p-5 rounded-3xl lg:w-[900px] text-center">
+                <Typo
+                    variant="para"
+                    components="p"
+                    weight="normal"
+                    className="text-center mt-5 sm:text-xl"
+                    color="other"
+                >
+                    <span className="text-secondary uppercase underline">
+                        Choisis ton format :
+                    </span>{" "}
+                    Pour chaque genre proposé dans les box, deux formats sont
+                    disponibles : un standard et un XXL. Ces box s’adaptent à
+                    vos budgets et à vos envies !
+                    <br />
+                    <br />
+                    <span className="text-tier uppercase underline">
+                        Standard :
+                    </span>{" "}
+                    - Un livre de poche neuf - Goodies - Pochette livres.
+                    <br />
+                    <br />
+                    <span className="text-tier uppercase underline">
+                        Standard d’occasion :
+                    </span>{" "}
+                    - 3 livres d’occasion - Goodies - Un café suspendu (offert).
+                    <br />
+                    <br />
+                    <span className="text-tier uppercase underline">
+                        XXL :
+                    </span>{" "}
+                    - Un livre grand format neuf et un livre petit format neuf -
+                    Un textile (écharpe, t-shirt, tote bag). - Un goodies - Un
+                    coupon -20% dans le magasin.
+                    <br />
+                    <br />
+                    Pour tout premier achat de box, vous avez{" "}
+                    <span className="text-tier">20 points offerts</span> sur
+                    votre compte fidélité.
+                </Typo>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
                 {[...sold, ...sold, ...sold, ...sold, ...sold, ...sold].map(
                     (sold, index) => (

@@ -12,6 +12,7 @@ interface CarProps {
     alt: string;
     title?: string;
     description: string;
+    price?: string;
     onClick: () => void;
 }
 
@@ -20,6 +21,7 @@ export const CardRecipe: React.FC<CarProps> = ({
     alt,
     title,
     description,
+    price,
     onClick,
 }) => {
     const [imgSrc, setImgSrc] = useState(src);
@@ -63,6 +65,14 @@ export const CardRecipe: React.FC<CarProps> = ({
                         className="uppercase"
                     >
                         {title}
+                    </Typo>
+                    <Typo
+                        variant="para"
+                        components="p"
+                        weight="normal"
+                        color="secondary"
+                    >
+                        {price}€
                     </Typo>
                     <div className="border-1 border-primary w-[80%] mt-4 mb-4"></div>
                     <Typo
