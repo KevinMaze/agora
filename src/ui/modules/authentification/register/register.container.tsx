@@ -49,7 +49,6 @@ export const RegisterContainer = () => {
     const handleCreateUserAuthentification = async ({
         email,
         password,
-        username,
     }: RegisterFormFieldsType) => {
         const { data, error } = await firebaseCreateUser(email, password);
         if (error) {
@@ -61,7 +60,6 @@ export const RegisterContainer = () => {
         const userDocumentData = {
             uid: data.uid,
             email: email,
-            username: username,
             creation_date: new Date(),
         };
         handleCreateUserDocument("users", data.uid, userDocumentData);
@@ -96,5 +94,3 @@ export const RegisterContainer = () => {
         </>
     );
 };
-
-// épisode 22

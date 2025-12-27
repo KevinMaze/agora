@@ -2,20 +2,18 @@
 import { useState, useEffect } from "react";
 import { Container } from "@/ui/components/container";
 import { CardRecipe } from "./card-coffee.view";
-import Coffee from "@/../public/assets/images/coffee.png";
-import Cake from "@/../public/assets/images/cake.jpg";
 import { Typo } from "@/ui/design-system/typography";
 import clsx from "clsx";
 import { Spinner } from "@/ui/design-system/spinner";
 import { RecipeModal, RecipeData } from "./recipe-modal.view";
-import classicCarte from "@/config/locales/carte";
+import recipe from "@/config/locales/carte";
 
 interface RecipeProps {
-    initialFilter?: "beverage" | "cake";
+    initialFilter?: "classic-carte" | "moment" | "winters-drink";
 }
 
 export const Recipe: React.FC<RecipeProps> = ({
-    initialFilter = "beverage",
+    initialFilter = "classic-carte",
 }) => {
     const [activeFilter, setActiveFilter] = useState(initialFilter);
     const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +26,7 @@ export const Recipe: React.FC<RecipeProps> = ({
     useEffect(() => {
         setIsLoading(true);
         const timer = setTimeout(() => {
-            const filtered = classicCarte.filter(
+            const filtered = recipe.filter(
                 (recipe) => recipe.type === activeFilter
             );
             setDisplayedRecipes(filtered);
@@ -48,14 +46,16 @@ export const Recipe: React.FC<RecipeProps> = ({
                 <Typo
                     variant="para"
                     components="h2"
-                    weight={activeFilter === "beverage" ? "bold" : "normal"}
+                    weight={
+                        activeFilter === "classic-carte" ? "bold" : "normal"
+                    }
                     className={clsx(
-                        "mb-20 uppercase text-[14px] sm:text-3xl lg:text-4xl cursor-pointer hover:text-tier",
-                        activeFilter === "beverage" && "underline"
+                        "mb-20 uppercase text-[14px] sm:text-2xl lg:text-3xl cursor-pointer hover:text-tier",
+                        activeFilter === "classic-carte" && "underline"
                     )}
-                    onClick={() => setActiveFilter("beverage")}
+                    onClick={() => setActiveFilter("classic-carte")}
                 >
-                    Nos Boissons
+                    Carte classique
                 </Typo>
                 <Typo
                     variant="para"
@@ -68,14 +68,34 @@ export const Recipe: React.FC<RecipeProps> = ({
                 <Typo
                     variant="para"
                     components="h2"
-                    weight={activeFilter === "cake" ? "bold" : "normal"}
+                    weight={activeFilter === "moment" ? "bold" : "normal"}
                     className={clsx(
-                        "mb-20 uppercase text-[14px] sm:text-3xl lg:text-4xl cursor-pointer hover:text-tier",
-                        activeFilter === "cake" && "underline"
+                        "mb-20 uppercase text-[14px] sm:text-2xl lg:text-3xl cursor-pointer hover:text-tier",
+                        activeFilter === "moment" && "underline"
                     )}
-                    onClick={() => setActiveFilter("cake")}
+                    onClick={() => setActiveFilter("moment")}
                 >
-                    Nos Gourmandises
+                    Gourmandises du moment
+                </Typo>
+                <Typo
+                    variant="para"
+                    components="h2"
+                    weight="normal"
+                    className="mb-25 sm:mb-30 lg:mb-40 m-5 sm:m-15 lg:m-20 text-2xl sm:text-4xl lg:text-4xl text-primary"
+                >
+                    /
+                </Typo>
+                <Typo
+                    variant="para"
+                    components="h2"
+                    weight={activeFilter === "moment" ? "bold" : "normal"}
+                    className={clsx(
+                        "mb-20 uppercase text-[14px] sm:text-2xl lg:text-3xl cursor-pointer hover:text-tier",
+                        activeFilter === "moment" && "underline"
+                    )}
+                    onClick={() => setActiveFilter("winters-drink")}
+                >
+                    Boissons d'hiver
                 </Typo>
             </div>
             {isLoading ? (
