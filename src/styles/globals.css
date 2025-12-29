@@ -12,7 +12,7 @@
 
   /* Pour surcharger les polices par défaut de Tailwind */
   --font-sans-custom: 'Montserrat', sans-serif;
-  --font-serif-custom: 'Cinzel Decorative', serif;
+  --font-serif-custom: 'Cinzel Decorative', serif; 
 }
 
 @theme {
