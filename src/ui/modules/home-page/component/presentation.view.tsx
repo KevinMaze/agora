@@ -29,7 +29,7 @@ export const PresentationView = () => {
                     variant="title"
                     components="h1"
                     weight="bold"
-                    className="mt-20 mb-20 uppercase underline text-xl sm:text-4xl lg:text-5xl text-center lg:text-left"
+                    className="mt-20 mb-20 uppercase underline text-xl sm:text-4xl lg:text-5xl text-center lg:text-left tracking-wider underline-offset-8"
                 >
                     Présentation Rapide
                 </Typo>
@@ -43,7 +43,7 @@ export const PresentationView = () => {
                             className="text-center p-15 text-[10px] sm:text-[12px] lg:text-[16px]"
                             color="other"
                         >
-                            <span className="text-tier uppercase underline font-extrabold">
+                            <span className="text-tier uppercase underline font-extrabold text-2xl">
                                 Agora :
                             </span>{" "}
                             “du grec ancien ἀγορά / agorá, a d'abord désigné,
@@ -53,6 +53,8 @@ export const PresentationView = () => {
                             accueillons à L’Agora avec un seul mot d’ordre :
                             venir vous réunir ici, dans un lieu qui allie
                             plaisir de l’esprit avec plaisir des papilles.
+                            <br />
+                            <br />
                             Librairie neuf et occasion, nous faisons tout pour
                             vous proposer ce que l’édition fait de plus actuel,
                             mais aussi ce qu’elle n’a pas su faire exister assez
@@ -60,9 +62,11 @@ export const PresentationView = () => {
                             de dénicher des ouvrages passés inaperçus, et
                             trouver pour vous les pépites littéraires que le
                             monde de l'édition à négligé, afin de démocratiser
-                            une littérature de proximité et/ou émergente. Avec
-                            toutes ces bonnes intentions, profitez-en pour vous
-                            régaler chez nous, avec des boissons et des
+                            une littérature de proximité et/ou émergente.
+                            <br />
+                            <br />
+                            Avec toutes ces bonnes intentions, profitez-en pour
+                            vous régaler chez nous, avec des boissons et des
                             gourmandises inspirées d'oeuvres, de titres ou de
                             personnages littéraires.
                             <br />
@@ -137,10 +141,10 @@ export const PresentationView = () => {
                         components="p"
                         weight="normal"
                         color="secondary"
-                        className="italic"
+                        className="italic mt-5 ml-5"
                     >
-                        &quot;Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit.&quot;
+                        &quot;Si chaque librairie est un fabuleux cosmos, alors
+                        les livres sont ses étoiles. &quot;
                     </Typo>
                 </blockquote>
             </div>

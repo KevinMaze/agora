@@ -34,7 +34,7 @@ export const News = () => {
                 variant="para"
                 components="h2"
                 weight="bold"
-                className="mb-20 mt-20 uppercase text-3xl sm:text-5xl lg:text-6xl underline text-center"
+                className="mb-20 mt-20 uppercase text-3xl sm:text-5xl lg:text-6xl underline underline-offset-8 text-center"
             >
                 Nouveautées
             </Typo>

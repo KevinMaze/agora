@@ -47,7 +47,7 @@ export const Header = () => {
                     <Image
                         src={Logo}
                         alt="Logo de L'Agora"
-                        className="w-60 sm:w-80 lg:w-120"
+                        className="w-60 sm:w-80 lg:w-120 p-auto m-auto"
                     />
                     <motion.div
                         initial={{ opacity: 0, y: -30 }}
@@ -58,7 +58,7 @@ export const Header = () => {
                             variant="title"
                             components="h1"
                             weight="bold"
-                            className="mt-3 uppercase text-center text-2xl sm:text-4xl lg:text-5xl"
+                            className="mt-3 uppercase text-center text-2xl sm:text-4xl lg:text-5xl tracking-[14px]"
                         >
                             {" "}
                             Librairie et Café
