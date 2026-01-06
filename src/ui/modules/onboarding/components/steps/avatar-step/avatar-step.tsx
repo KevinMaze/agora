@@ -7,6 +7,15 @@ import { Typo } from "@/ui/design-system/typography";
 import { OnboardingFooter } from "../../footer/onboarding-footer";
 import { UploadAvatar } from "@/ui/components/upload-avatar/upload-avatar";
 import { useState } from "react";
+import {
+    StorageReference,
+    UploadTask,
+    getDownloadURL,
+    ref,
+    uploadBytesResumable,
+} from "firebase/storage";
+import { toast } from "react-toastify";
+import { storage } from "@/config/firebase-config";
 
 export const AvatarStep = ({
     nextStep,
@@ -16,18 +25,16 @@ export const AvatarStep = ({
     stepsList,
 }: BaseComponentProps) => {
     const { authUser } = useAuth();
-
-    console.log("test", authUser);
-    const { value: isLoading, setValue: setLoading } = useToggle();
+    const { value: isLoading, toggle } = useToggle();
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<
         string | ArrayBuffer | null
     >(null);
-    console.log("imagePreview", imagePreview);
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
+    console.log("progress", uploadProgress);
 
     const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        console.log("file", file);
         if (file) {
             setSelectedImage(file);
             const reader = new FileReader();
@@ -39,6 +46,40 @@ export const AvatarStep = ({
                 setImagePreview(imageDataUrl);
             };
             reader.readAsDataURL(file);
+        }
+    };
+
+    const handleImageUpload = () => {
+        let storageRef: StorageReference;
+        let uploadTask: UploadTask;
+
+        if (selectedImage !== null) {
+            toggle();
+            storageRef = ref(
+                storage,
+                `users-media/${authUser.uid}/avatar-${authUser.uid}`
+            );
+            uploadTask = uploadBytesResumable(storageRef, selectedImage);
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    console.log("error", error);
+                    toggle();
+                    toast.error("Erreur lors du téléchargement de l'image");
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(
+                        (downloadURL) => {
+                            console.log("files", downloadURL);
+                        }
+                    );
+                }
+            );
         }
     };
 
@@ -79,7 +120,7 @@ export const AvatarStep = ({
                 </Container>
             </div>
             <OnboardingFooter
-                nextStep={nextStep}
+                nextStep={handleImageUpload}
                 prevStep={prevStep}
                 isFinalStep={isFinalStep}
                 isLoading={isLoading}

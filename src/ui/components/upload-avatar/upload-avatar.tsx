@@ -10,7 +10,7 @@ interface Props {
 export const UploadAvatar = ({ handleImageSelect, imagePreview }: Props) => {
     return (
         <div className="flex items-center gap-5 ">
-            <label className="inline-block bg-primary hover:bg-secondary text-background rounded px-[15px] py-[10px] text-xl font-medium animated">
+            <label className="inline-block bg-primary hover:bg-secondary text-background rounded-2xl px-[15px] py-[10px] text-xl font-medium animated">
                 <div className="flex items-center gap-2 cursor-pointer">
                     <RiCamera2Fill />
                     <span>Choisir fichier</span>
