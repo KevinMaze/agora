@@ -11,6 +11,8 @@ import { useState, useEffect } from "react";
 import { Spinner } from "@/ui/design-system/spinner";
 import { FaChevronDown } from "react-icons/fa";
 import clsx from "clsx";
+import { firestoreGetDocumentBook } from "@/api/firestore";
+import { toast } from "react-toastify";
 
 export const CatalogueView = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -66,6 +68,18 @@ export const CatalogueView = () => {
             releaseYear: 1986,
         },
     ];
+    const handleShowBook = async (
+        collectionName: string,
+        documentId: string
+    ) => {
+        const doc = await firestoreGetDocumentBook(collectionName, documentId);
+        if (doc != null) {
+            console.log("sdsd", doc);
+            return;
+        }
+    };
+
+    handleShowBook;
 
     const categories = ["Science-Fiction", "Fantastique", "Horreur", "Romance"];
     const authors = [...new Set(BookCatalogue.map((book) => book.autor))];

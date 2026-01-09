@@ -195,12 +195,15 @@ export const BoxBookView = () => {
                                 >
                                     <div>
                                         <Typo weight="bold">{book.title}</Typo>
-                                        <Typo color="secondary" variant="small">
+                                        <Typo
+                                            color="secondary"
+                                            className="text-xl"
+                                        >
                                             {book.author}
                                         </Typo>
                                     </div>
                                     <Button
-                                        variant="secondary"
+                                        variant="primary"
                                         size="small"
                                         action={() => handleReturn(book)}
                                     >
@@ -302,7 +305,7 @@ export const BoxBookView = () => {
                                         action={() =>
                                             handleReserve(selectedBook.id)
                                         }
-                                        className="w-full justify-center"
+                                        // className="w-full justify-center"
                                     >
                                         Réserver ce livre
                                     </Button>

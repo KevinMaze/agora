@@ -16,8 +16,6 @@ export const AvatarStep = ({
     stepsList,
 }: BaseComponentProps) => {
     const { authUser } = useAuth();
-
-    console.log("test", authUser);
     const { value: isLoading, setValue: setLoading } = useToggle();
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<
