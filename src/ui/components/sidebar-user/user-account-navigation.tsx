@@ -9,7 +9,9 @@ export const UserAccountNavigation = () => {
                     <ActiveLink href="/mon_espace">Mon espace</ActiveLink>
                 </Typo>
                 <Typo variant="para">
-                    <ActiveLink href="/mon-espace">Mes livres</ActiveLink>
+                    <ActiveLink href="/mon_espace/add-book">
+                        Ajouter des livres
+                    </ActiveLink>
                 </Typo>
             </div>
         </div>

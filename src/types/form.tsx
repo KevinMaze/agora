@@ -28,3 +28,11 @@ export interface OnboardingProfileFormFieldsType {
     hobbies: string;
     styleLove: string;
 }
+
+export interface AddBookFormFieldsType {
+    name: string;
+    description: string;
+    category: string;
+    releaseYear: string;
+    autor: string;
+}
