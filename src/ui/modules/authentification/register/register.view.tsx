@@ -57,23 +57,15 @@ export const RegisterView = ({ form }: Props) => {
                     components="p"
                     className="mt-4 text-center px-8 text-[14px]"
                 >
-                    <div>En vous inscrivant, vous acceptez nos</div>
-                    <div>
-                        <Link
-                            href="#"
-                            className=" text-secondary hover:underline"
-                        >
-                            Conditions d'utilisation
-                        </Link>{" "}
-                        et notre{" "}
-                        <Link
-                            href="#"
-                            className=" text-secondary hover:underline"
-                        >
-                            Politique de confidentialité
-                        </Link>
-                        .
-                    </div>
+                    En vous inscrivant, vous acceptez nos{" "}
+                    <Link href="#" className=" text-secondary hover:underline">
+                        Conditions d'utilisation
+                    </Link>{" "}
+                    et notre{" "}
+                    <Link href="#" className=" text-secondary hover:underline">
+                        Politique de confidentialité
+                    </Link>
+                    .
                 </Typo>
             </div>
         </div>
