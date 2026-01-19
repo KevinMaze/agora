@@ -25,7 +25,9 @@ export const AvatarStep = ({
     stepsList,
 }: BaseComponentProps) => {
     const { authUser } = useAuth();
-    const { value: isLoading, toggle } = useToggle();
+
+    console.log("test", authUser);
+    const { value: isLoading, setValue: setLoading } = useToggle();
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<
         string | ArrayBuffer | null
@@ -57,7 +59,7 @@ export const AvatarStep = ({
             toggle();
             storageRef = ref(
                 storage,
-                `users-media/${authUser.uid}/avatar-${authUser.uid}`
+                `users-media/${authUser.uid}/avatar-${authUser.uid}`,
             );
             uploadTask = uploadBytesResumable(storageRef, selectedImage);
             uploadTask.on(
@@ -76,9 +78,9 @@ export const AvatarStep = ({
                     getDownloadURL(uploadTask.snapshot.ref).then(
                         (downloadURL) => {
                             console.log("files", downloadURL);
-                        }
+                        },
                     );
-                }
+                },
             );
         }
     };

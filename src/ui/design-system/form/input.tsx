@@ -33,6 +33,7 @@ interface Props {
     label?: string;
     options?: { value: string; label: string }[];
     multiple?: boolean;
+    accept?: string;
 }
 
 export const Input = ({
@@ -70,7 +71,7 @@ export const Input = ({
                             "border-red-600 border-3 placeholder-red-600 ":
                                 errors[id],
                             "border-primary": !errors[id],
-                        }
+                        },
                     )}
                     disabled={isLoading}
                     {...register(id, {
@@ -101,7 +102,7 @@ export const Input = ({
                                     "w-5 h-5 rounded border-2 focus:outline-none focus:ring-2 focus:ring-primary",
                                     errors[id]
                                         ? "border-red-600"
-                                        : "border-gray-300"
+                                        : "border-gray-300",
                                 )}
                                 {...register(id, {
                                     required: {
@@ -131,7 +132,7 @@ export const Input = ({
                             "border-red-600 border-3 placeholder-red-600 ":
                                 errors[id],
                             "border-primary": !errors[id],
-                        }
+                        },
                     )}
                     disabled={isLoading}
                     {...register(id, {

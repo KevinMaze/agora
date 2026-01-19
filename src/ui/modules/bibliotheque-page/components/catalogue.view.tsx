@@ -11,97 +11,99 @@ import { useState, useEffect } from "react";
 import { Spinner } from "@/ui/design-system/spinner";
 import { FaChevronDown } from "react-icons/fa";
 import clsx from "clsx";
+import { getBooks } from "@/api/books";
+import { toast } from "react-toastify";
+import { Timestamp } from "firebase/firestore";
 
 export const CatalogueView = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isFilterVisible, setIsFilterVisible] = useState(false);
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
     const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
-    const [selectedYears, setSelectedYears] = useState<number[]>([]);
+    const [selectedYears, setSelectedYears] = useState<string[]>([]);
+    const [allBooks, setAllBooks] = useState<any[]>([]);
     const [filteredBooks, setFilteredBooks] = useState<any[]>([]);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-    const BookCatalogue = [
-        {
-            src: Dune,
-            alt: "Couverture du livre Dune",
-            title: "Dune",
-            description: "Un classique de la science-fiction.",
-            autor: "Frank Herbert",
-            category: "Science-Fiction",
-            releaseYear: 1965,
-        },
-        {
-            alt: "Couverture du livre Dune 2",
-            title: "Dune 2",
-            description: "Un classique de la science-fiction. Suite de Dune.",
-            autor: "Frank Herbert",
-            category: "Science-Fiction",
-            releaseYear: 1969,
-        },
-        {
-            alt: "Couverture du livre Dune 3",
-            title: "Dune 3",
-            description:
-                "Un classique de la science-fiction. Partie finale de Dune.",
-            autor: "Frank Herbert",
-            category: "Science-Fiction",
-            releaseYear: 1976,
-        },
-        {
-            src: Dune,
-            alt: "Couverture du livre Fantastique",
-            title: "Le Seigneur des Anneaux",
-            description: "Un grand classique de la fantaisie.",
-            autor: "J.R.R. Tolkien",
-            category: "Fantastique",
-            releaseYear: 1954,
-        },
-        {
-            alt: "Couverture du livre Horreur",
-            title: "Ça",
-            description: "Un roman d'horreur emblématique.",
-            autor: "Stephen King",
-            category: "Horreur",
-            releaseYear: 1986,
-        },
-    ];
+    useEffect(() => {
+        const fetchBooks = async () => {
+            setIsLoading(true);
+            try {
+                const booksFromDb = await getBooks();
+                // Adapter les données de Firestore pour le composant
+                const formattedBooks = booksFromDb.map((book) => {
+                    // Gestion sécurisée de la date (Timestamp Firestore ou string/date standard)
+                    let releaseYear = "N/A";
+                    if (book.releaseYear) {
+                        if (book.releaseYear instanceof Timestamp) {
+                            releaseYear = book.releaseYear
+                                .toDate()
+                                .getFullYear()
+                                .toString();
+                        } else {
+                            const date = new Date(book.releaseYear);
+                            if (!isNaN(date.getTime())) {
+                                releaseYear = date.getFullYear().toString();
+                            }
+                        }
+                    }
+                    return {
+                        ...book,
+                        autor: book.autor,
+                        category: book.category,
+                        releaseYear: releaseYear,
+                        src: book.image || Dune, // Image de secours
+                    };
+                });
+                setAllBooks(formattedBooks);
+            } catch (error) {
+                console.error("Failed to fetch books:", error);
+                toast.error("Erreur lors de la récupération des livres.");
+                setAllBooks([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    const categories = ["Science-Fiction", "Fantastique", "Horreur", "Romance"];
-    const authors = [...new Set(BookCatalogue.map((book) => book.autor))];
+        fetchBooks();
+    }, []);
+
+    const category = [...new Set(allBooks.map((book) => book.category))].filter(
+        Boolean
+    );
+    const autors = [...new Set(allBooks.map((book) => book.autor))].filter(
+        Boolean
+    );
     const releaseYears = [
-        ...new Set(BookCatalogue.map((book) => book.releaseYear)),
-    ].sort((a, b) => b - a);
+        ...new Set(allBooks.map((book) => String(book.releaseYear))),
+    ].sort((a, b) => Number(b) - Number(a));
 
     useEffect(() => {
-        setIsLoading(true);
-        const timer = setTimeout(() => {
-            let books = BookCatalogue;
+        let books = allBooks;
 
-            if (selectedCategories.length > 0) {
-                books = books.filter((book) =>
-                    selectedCategories.includes(book.category)
-                );
-            }
+        if (selectedCategory.length > 0) {
+            books = books.filter(
+                (book) =>
+                    book.category && selectedCategory.includes(book.category)
+            );
+        }
 
-            if (selectedAuthors.length > 0) {
-                books = books.filter((book) =>
-                    selectedAuthors.includes(book.autor)
-                );
-            }
+        if (selectedAuthors.length > 0) {
+            books = books.filter(
+                (book) => book.autor && selectedAuthors.includes(book.autor)
+            );
+        }
 
-            if (selectedYears.length > 0) {
-                books = books.filter((book) =>
-                    selectedYears.includes(book.releaseYear)
-                );
-            }
+        if (selectedYears.length > 0) {
+            books = books.filter(
+                (book) =>
+                    book.releaseYear &&
+                    selectedYears.includes(String(book.releaseYear))
+            );
+        }
 
-            setFilteredBooks(books);
-            setIsLoading(false);
-        }, 800);
-
-        return () => clearTimeout(timer);
-    }, [selectedCategories, selectedAuthors, selectedYears]);
+        setFilteredBooks(books);
+    }, [selectedCategory, selectedAuthors, selectedYears, allBooks]);
 
     // Ferme le dropdown si on clique en dehors
     useEffect(() => {
@@ -117,32 +119,32 @@ export const CatalogueView = () => {
     }, [openDropdown]);
 
     const handleMultiSelect = (
-        value: string | number,
-        filterType: "category" | "author" | "year"
+        value: string,
+        filterType: "category" | "autor" | "releaseYear"
     ) => {
         const updateSelection = (
-            currentSelection: (string | number)[],
-            setter: React.Dispatch<React.SetStateAction<any[]>>
+            currentSelection: string[],
+            setter: React.Dispatch<React.SetStateAction<string[]>>
         ) => {
             const newSelection = [...currentSelection];
-            const index = newSelection.indexOf(value);
+            const index = newSelection.indexOf(String(value));
             if (index > -1) {
                 newSelection.splice(index, 1);
             } else {
-                newSelection.push(value);
+                newSelection.push(String(value));
             }
             setter(newSelection);
         };
 
         switch (filterType) {
             case "category":
-                updateSelection(selectedCategories, setSelectedCategories);
+                updateSelection(selectedCategory, setSelectedCategory as any);
                 break;
-            case "author":
-                updateSelection(selectedAuthors, setSelectedAuthors);
+            case "autor":
+                updateSelection(selectedAuthors, setSelectedAuthors as any);
                 break;
-            case "year":
-                updateSelection(selectedYears, setSelectedYears);
+            case "releaseYear":
+                updateSelection(selectedYears, setSelectedYears as any);
                 break;
         }
     };
@@ -237,39 +239,39 @@ export const CatalogueView = () => {
                                     <div
                                         onClick={() =>
                                             setOpenDropdown(
-                                                openDropdown === "categories"
+                                                openDropdown === "category"
                                                     ? null
-                                                    : "categories"
+                                                    : "category"
                                             )
                                         }
                                         className="w-full p-2 bg-background rounded flex justify-between items-center"
                                     >
                                         Catégories{" "}
-                                        {selectedCategories.length > 0 &&
-                                            `(${selectedCategories.length})`}
+                                        {selectedCategory.length > 0 &&
+                                            `(${selectedCategory.length})`}
                                         <FaChevronDown
                                             className={clsx(
                                                 "transition-transform cursor-pointer",
-                                                openDropdown === "categories" &&
+                                                openDropdown === "category" &&
                                                     "rotate-180"
                                             )}
                                         />
                                     </div>
-                                    {openDropdown === "categories" && (
+                                    {openDropdown === "category" && (
                                         <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
-                                            {categories.map((cat) => (
+                                            {category.map((cat) => (
                                                 <label
                                                     key={cat}
                                                     className="flex items-center gap-2 p-1"
                                                 >
                                                     <input
                                                         type="checkbox"
-                                                        checked={selectedCategories.includes(
-                                                            cat
+                                                        checked={selectedCategory.includes(
+                                                            String(cat)
                                                         )}
                                                         onChange={() =>
                                                             handleMultiSelect(
-                                                                cat,
+                                                                String(cat),
                                                                 "category"
                                                             )
                                                         }
@@ -306,24 +308,24 @@ export const CatalogueView = () => {
                                     </div>
                                     {openDropdown === "authors" && (
                                         <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
-                                            {authors.map((author) => (
+                                            {autors.map((autor) => (
                                                 <label
-                                                    key={author}
+                                                    key={autor}
                                                     className="flex items-center gap-2 p-1"
                                                 >
                                                     <input
                                                         type="checkbox"
                                                         checked={selectedAuthors.includes(
-                                                            author
+                                                            String(autor)
                                                         )}
                                                         onChange={() =>
                                                             handleMultiSelect(
-                                                                author,
-                                                                "author"
+                                                                String(autor),
+                                                                "autor"
                                                             )
                                                         }
                                                     />
-                                                    {author}
+                                                    {autor}
                                                 </label>
                                             ))}
                                         </div>
@@ -363,12 +365,12 @@ export const CatalogueView = () => {
                                                     <input
                                                         type="checkbox"
                                                         checked={selectedYears.includes(
-                                                            year
+                                                            String(year)
                                                         )}
                                                         onChange={() =>
                                                             handleMultiSelect(
-                                                                year,
-                                                                "year"
+                                                                String(year),
+                                                                "releaseYear"
                                                             )
                                                         }
                                                     />
@@ -382,7 +384,7 @@ export const CatalogueView = () => {
                             <div className="mt-4 flex justify-end">
                                 <div
                                     onClick={() => {
-                                        setSelectedCategories([]);
+                                        setSelectedCategory([]);
                                         setSelectedAuthors([]);
                                         setSelectedYears([]);
                                     }}

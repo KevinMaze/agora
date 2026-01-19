@@ -1,9 +1,9 @@
 import { REGISTERED } from "@/lib/session-status";
 import { Layout } from "@/ui/components/layout/layout";
 import Seo from "@/ui/components/seo";
-import { AdminAccountContainer } from "@/ui/modules/admin-profile/admin-account/admin-account.container";
+import { AddBookAdminAccountContainer } from "@/ui/modules/admin-profile/admin-account-add-book/add-book-admin-account-container";
 
-export default function UserAccount() {
+export default function AddBook() {
     return (
         <>
             <Seo
@@ -12,7 +12,7 @@ export default function UserAccount() {
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>
-                <AdminAccountContainer />
+                <AddBookAdminAccountContainer />
             </Layout>
         </>
     );

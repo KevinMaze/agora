@@ -1,0 +1,19 @@
+import { FormsType } from "@/types/form";
+import { AddBookForm } from "./components/add-book-form";
+import { Typo } from "@/ui/design-system/typography";
+
+interface Props {
+    form: FormsType;
+}
+
+export const AddBookAdminAccountView = ({ form }: Props) => {
+    return (
+        <div className="flex flex-col items-center justify-center pt-20 pb-40 gap-5">
+            <Typo variant="para" components="p">
+                Bienvenue dans votre espace personnel. Ici vous pouvez ajouter
+                des livres dans votre bibliothèque.
+            </Typo>
+            <AddBookForm form={form} />
+        </div>
+    );
+};

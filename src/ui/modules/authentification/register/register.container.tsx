@@ -8,10 +8,7 @@ import {
 } from "@/api/authentication";
 import { toast } from "react-toastify";
 import { useToggle } from "@/hooks/use-toggle";
-import {
-    firestoreCreateDocument,
-    firestoreUptadeDocument,
-} from "@/api/firestore";
+import { firestoreCreateDocument } from "@/api/firestore";
 import { useRouter } from "next/router";
 
 export const RegisterContainer = () => {
@@ -28,12 +25,12 @@ export const RegisterContainer = () => {
     const handleCreateUserDocument = async (
         collectionName: string,
         documentId: string,
-        document: object
+        document: object,
     ) => {
         const { error } = await firestoreCreateDocument(
             collectionName,
             documentId,
-            document
+            document,
         );
         if (error) {
             toast.error(error.message);
@@ -66,7 +63,7 @@ export const RegisterContainer = () => {
     };
 
     const onSubmit: SubmitHandler<RegisterFormFieldsType> = async (
-        formData
+        formData,
     ) => {
         setIsLoading(true);
         const { password } = formData;
