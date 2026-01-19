@@ -30,7 +30,7 @@ export interface OnboardingProfileFormFieldsType {
 }
 
 export interface AddBookFormFieldsType {
-    name: string;
+    title: string;
     description: string;
     category: string;
     releaseYear: string;

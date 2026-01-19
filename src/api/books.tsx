@@ -60,12 +60,12 @@ export const getBooks = async (): Promise<BookDocument[]> => {
  * @returns Une promesse qui se résout avec un tableau de BookDocuments.
  */
 export const getBooksByCategory = async (
-    category: string
+    category: string,
 ): Promise<BookDocument[]> => {
     try {
         const q = query(
             collection(db, BOOKS_COLLECTION),
-            where("Category", "==", category)
+            where("Category", "==", category),
         );
         const querySnapshot = await getDocs(q);
         return querySnapshot.docs.map((doc) => ({
@@ -75,7 +75,7 @@ export const getBooksByCategory = async (
     } catch (error) {
         console.error(
             "Erreur lors de la récupération des documents par catégorie: ",
-            error
+            error,
         );
         throw error;
     }

@@ -1,64 +1,51 @@
-import { Typo } from "@/ui/design-system/typography";
-import { Input } from "@/ui/design-system/form/input";
-import { Textarea } from "@/ui/design-system/form/textarea";
-import { FormsType } from "@/types/form";
+import { AddBookFormFieldsType } from "@/types/form";
+import { useToggle } from "@/hooks/use-toggle";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { firestoreAddDocument } from "@/api/firestore";
+import { toast } from "react-toastify";
+import { AddBookAdminAccountView } from "./add-book-admin-account-view";
 
-interface Props {
-    form: FormsType;
-}
-export const AddBookAdminAccountContainer = ({ form }: Props) => {
-    const { register, errors, isLoading } = form;
+export const AddBookAdminAccountContainer = () => {
+    const { value: isLoading, setValue: setLoading } = useToggle();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        setError,
+    } = useForm<AddBookFormFieldsType>();
+
+    const handleCreateBookDocument = async (
+        collectionName: string,
+        document: object,
+    ) => {
+        const { error } = await firestoreAddDocument(collectionName, document);
+        if (error) {
+            toast.error(error.message);
+            return;
+        }
+        toast.success(`Livre ajouté avec succès !`);
+        setLoading(false);
+        reset();
+    };
+
+    const onSubmit: SubmitHandler<AddBookFormFieldsType> = async (formData) => {
+        console.log("formData", formData);
+        setLoading(true);
+        handleCreateBookDocument("books", formData);
+    };
 
     return (
-        <div className="flex justify-center pt-20 pb-40">
-            <Typo variant="para" components="p">
-                Bienvenue dans votre espace personnel. Ici vous pouvez ajouter
-                des livres dans votre bibliothèque.
-            </Typo>
-
-            <form className="w-full max-w-md space-y-4">
-                <Input
-                    label="Title"
-                    isLoading={isLoading}
-                    placeholder="Titre du livre"
-                    type="text"
-                    register={register}
-                    errors={errors}
-                    errorMsg="Tu dois renseigner un titre"
-                    id="title"
-                />
-                <Textarea
-                    label="Description"
-                    isLoading={isLoading}
-                    rows={5}
-                    placeholder="Description"
-                    register={register}
-                    errors={errors}
-                    errorMsg="Décris un peu le livre ou entre le synopsis"
-                    id="description"
-                    required={false}
-                />
-                <Input
-                    label="Catégorie"
-                    isLoading={isLoading}
-                    placeholder="Catégorie"
-                    type="text"
-                    register={register}
-                    errors={errors}
-                    errorMsg="Donne-nous la catégorie du livre"
-                    id="category"
-                />
-                <Input
-                    label="Année de sortie"
-                    isLoading={isLoading}
-                    placeholder="Année de sortie"
-                    type="text"
-                    register={register}
-                    errors={errors}
-                    errorMsg="Entre l'année de sortie"
-                    id="releaseYear"
-                />
-            </form>
-        </div>
+        <>
+            <AddBookAdminAccountView
+                form={{
+                    errors,
+                    register,
+                    handleSubmit,
+                    onSubmit,
+                    isLoading,
+                }}
+            />
+        </>
     );
 };
