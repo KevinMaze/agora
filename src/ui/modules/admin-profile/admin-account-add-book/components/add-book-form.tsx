@@ -50,6 +50,17 @@ export const AddBookForm = ({ form }: Props) => {
                 required={true}
             />
             <Input
+                label="Image de couverture"
+                isLoading={isLoading}
+                type="file"
+                register={register}
+                errors={errors}
+                errorMsg="Tu dois ajouter une image"
+                id="image"
+                required={true}
+                accept="image/png, image/jpeg, image/jpg"
+            />
+            <Input
                 label="Catégorie"
                 isLoading={isLoading}
                 placeholder="Catégorie"
