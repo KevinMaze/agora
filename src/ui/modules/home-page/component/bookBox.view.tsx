@@ -1,6 +1,5 @@
 import { Container } from "@/ui/components/container";
 import Image from "next/image";
-import BookB from "@/../public/assets/images/book_box.jpg";
 import { Typo } from "@/ui/design-system/typography";
 import { Button } from "@/ui/design-system/button";
 import { FaArrowRight } from "react-icons/fa";
@@ -11,7 +10,7 @@ export const BookBox = () => {
             <div className="relative h-90 sm:h-100 lg:h-150 w-full overflow-hidden rounded-3xl border-primary border-1">
                 <div className="absolute inset-0 opacity-20">
                     <Image
-                        src={BookB}
+                        src="/assets/images/book_box.jpg"
                         alt=""
                         layout="fill"
                         objectFit="cover"

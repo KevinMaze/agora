@@ -56,7 +56,7 @@ export const AvatarStep = ({
         let uploadTask: UploadTask;
 
         if (selectedImage !== null) {
-            toggle();
+            // toggle();
             storageRef = ref(
                 storage,
                 `users-media/${authUser.uid}/avatar-${authUser.uid}`,
@@ -71,7 +71,7 @@ export const AvatarStep = ({
                 },
                 (error) => {
                     console.log("error", error);
-                    toggle();
+                    // toggle();
                     toast.error("Erreur lors du téléchargement de l'image");
                 },
                 () => {
