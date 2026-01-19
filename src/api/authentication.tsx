@@ -14,14 +14,14 @@ export const firebaseCreateUser = async (email: string, password: string) => {
         const userCredential = await createUserWithEmailAndPassword(
             auth,
             email,
-            password
+            password,
         );
         return { data: userCredential.user };
     } catch (error) {
         const firebaseError = error as FirebaseError;
         const errorMessage = getFirebaseErrorMessage(
             "createUserWithEmailAndPassword",
-            firebaseError.code
+            firebaseError.code,
         );
 
         return {
@@ -38,14 +38,14 @@ export const firebaseSignInUser = async (email: string, password: string) => {
         const userCredential = await signInWithEmailAndPassword(
             auth,
             email,
-            password
+            password,
         );
         return { data: userCredential.user };
     } catch (error) {
         const firebaseError = error as FirebaseError;
         const errorMessage = getFirebaseErrorMessage(
             "signInWithEmailAndPassword",
-            firebaseError.code
+            firebaseError.code,
         );
 
         return {
@@ -65,7 +65,7 @@ export const firebaseLogoutUser = async () => {
         const firebaseError = error as FirebaseError;
         const errorMessage = getFirebaseErrorMessage(
             "signOut",
-            firebaseError.code
+            firebaseError.code,
         );
         return {
             error: {
@@ -84,7 +84,7 @@ export const sendEmailToResetPassword = async (email: string) => {
         const firebaseError = error as FirebaseError;
         const errorMessage = getFirebaseErrorMessage(
             "sendPasswordResetEmail",
-            firebaseError.code
+            firebaseError.code,
         );
         return {
             error: {
@@ -104,7 +104,7 @@ export const sendEmailVerificationProcedure = async () => {
             const firebaseError = error as FirebaseError;
             const errorMessage = getFirebaseErrorMessage(
                 "sendEmailVerification",
-                firebaseError.code
+                firebaseError.code,
             );
             return {
                 error: {
