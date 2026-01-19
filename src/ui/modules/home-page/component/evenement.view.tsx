@@ -1,7 +1,4 @@
 import { Typo } from "@/ui/design-system/typography";
-import Coffee from "@/../public/assets/images/coffee.jpg";
-import Stairway from "@/../public/assets/images/stairway.jpg";
-import Event from "@/../public/assets/images/01.png";
 import { Card } from "./card";
 import useMeasure from "react-use-measure";
 import { animate, motion, useMotionValue } from "framer-motion";
@@ -14,12 +11,20 @@ export const EvenementView = () => {
     // À l'avenir, vous pourrez remplacer ceci par un appel à votre API.
     const events = [
         {
-            src: Event,
+            src: "/assets/images/01.png",
             alt: "Atelier d'écriture créative",
             title: "Atelier d'écriture",
         },
-        { src: Coffee, alt: "Dégustation de café", title: "Dégustation" },
-        { src: Stairway, alt: "Rencontre avec un auteur", title: "Rencontre" },
+        {
+            src: "/assets/images/coffee.jpg",
+            alt: "Dégustation de café",
+            title: "Dégustation",
+        },
+        {
+            src: "/assets/images/stairway.jpg",
+            alt: "Rencontre avec un auteur",
+            title: "Rencontre",
+        },
     ];
 
     const fastDuration = 25;
@@ -50,7 +55,7 @@ export const EvenementView = () => {
                         setMustFinish(false);
                         setRerender(!rerender);
                     },
-                }
+                },
             );
         } else {
             controls = animate(xTranslation, [0, finalPosition], {

@@ -4,9 +4,6 @@ import { Container } from "@/ui/components/container";
 import { Button } from "@/ui/design-system/button";
 import { Typo } from "@/ui/design-system/typography";
 import Image from "next/image";
-import Coffee from "@/../public/assets/images/coffee.jpg";
-import Stairway from "@/../public/assets/images/stairway.jpg";
-import Book from "@/../public/assets/images/book.png";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 import { useEffect, useState } from "react";
@@ -86,14 +83,18 @@ export const PresentationView = () => {
                         </Typo>
                     </div>
                     <Image
-                        src={Stairway}
+                        src="/assets/images/stairway.jpg"
                         alt="Stairway"
+                        width={1280}
+                        height={1920}
                         className="w-sm lg:w-lg shadow-[var(--myshadow)] rounded-3xl border-1 border-primary"
                     />
                 </div>
                 <Image
-                    src={Coffee}
+                    src="/assets/images/coffee.jpg"
                     alt="Coffee"
+                    width={1920}
+                    height={1280}
                     className="w-lg shadow-[var(--myshadow)] rounded-3xl absolute -z-1 border-1 border-primary hidden lg:block"
                     style={{
                         transform: `translateY(${
@@ -129,7 +130,7 @@ export const PresentationView = () => {
                     }}
                 >
                     <Image
-                        src={Book}
+                        src="/assets/images/book.png"
                         alt="Interlude livre"
                         fill
                         className="object-cover"
@@ -138,10 +139,9 @@ export const PresentationView = () => {
                 <blockquote className="absolute">
                     <Typo
                         variant="para"
-                        components="p"
                         weight="normal"
                         color="secondary"
-                        className="italic mt-5 ml-5"
+                        className="italic mt-5 ml-5 text-sm"
                     >
                         &quot;Si chaque librairie est un fabuleux cosmos, alors
                         les livres sont ses étoiles. &quot;

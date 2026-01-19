@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import BG from "@/../public/assets/images/04.png";
-import Logo from "@/../public/assets/images/icon-agora.png";
-import Crack from "@/../public/assets/images/déchiré.png";
 import { Typo } from "@/ui/design-system/typography";
 
 export const Header = () => {
@@ -28,7 +25,7 @@ export const Header = () => {
                 }}
             >
                 <Image
-                    src={BG}
+                    src="/assets/images/04.png"
                     alt="Arrière-plan du coffee shop Agora"
                     layout="fill"
                     objectFit="cover"
@@ -45,9 +42,11 @@ export const Header = () => {
                     transition={{ duration: 1.5, ease: "easeInOut" }}
                 >
                     <Image
-                        src={Logo}
+                        src="/assets/images/icon-agora.png"
                         alt="Logo de L'Agora"
-                        className="w-60 sm:w-80 lg:w-120 p-auto m-auto"
+                        width={320}
+                        height={320}
+                        className="p-auto m-auto w-60 sm:w-80 lg:w-120"
                     />
                     <motion.div
                         initial={{ opacity: 0, y: -30 }}
@@ -67,9 +66,11 @@ export const Header = () => {
                 </motion.div>
                 {/* L'image "déchirée" est maintenant positionnée en bas de manière absolue */}
                 <Image
-                    src={Crack}
+                    src="/assets/images/déchiré.png"
                     alt=""
-                    className="absolute bottom-[-3rem] sm:bottom-[-1rem] w-full h-60 object-cover rotate-180"
+                    width={1920}
+                    height={240}
+                    className="absolute bottom-[-3rem] sm:bottom-[-1rem] w-full h-auto object-cover rotate-180"
                 />
             </div>
         </div>

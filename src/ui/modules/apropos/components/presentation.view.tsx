@@ -2,17 +2,16 @@ import { animate, useMotionValue, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import useMeasure from "react-use-measure";
 import Image from "next/image";
-import Img01 from "@/../public/assets/images/01.png";
-import Img02 from "@/../public/assets/images/02.png";
-import Img03 from "@/../public/assets/images/03.png";
-import Img04 from "@/../public/assets/images/04.png";
-import Img05 from "@/../public/assets/images/05.png";
-import Men from "@/../public/assets/images/men.jpg";
-import Women from "@/../public/assets/images/women.jpg";
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
 
-const Images = [Img01, Img02, Img03, Img04, Img05];
+const Images = [
+    "/assets/images/01.png",
+    "/assets/images/02.png",
+    "/assets/images/03.png",
+    "/assets/images/04.png",
+    "/assets/images/05.png",
+];
 
 export const AproposPresentationView = () => {
     const fastDuration = 25;
@@ -39,7 +38,7 @@ export const AproposPresentationView = () => {
                         setMustFinish(false);
                         setRerender(!rerender);
                     },
-                }
+                },
             );
         } else {
             controls = animate(xTranslation, [0, finalPosition], {
@@ -69,15 +68,15 @@ export const AproposPresentationView = () => {
                         setDuration(fastDuration);
                     }}
                 >
-                    {[...Images, ...Images].map((event, index) => (
+                    {[...Images, ...Images].map((imagePath, index) => (
                         <div
                             key={index}
                             className="w-[200px] h-[200px] relative"
                         >
                             <Image
-                                src={event.src}
+                                src={imagePath}
                                 key={index}
-                                alt={event.src}
+                                alt={imagePath}
                                 layout="fill"
                                 objectFit="cover"
                                 objectPosition="center"
@@ -94,7 +93,7 @@ export const AproposPresentationView = () => {
                 <div className="relative w-full lg:w-1/2 h-[300px] lg:h-[400px] flex justify-center items-center">
                     <div className="absolute h-full w-48 sm:w-60 -rotate-12 left-[calc(50%-10rem)] sm:left-[calc(50%-15rem)]">
                         <Image
-                            src={Men}
+                            src="/assets/images/men.jpg"
                             alt="Image d'un homme"
                             className="rounded-lg"
                             priority
@@ -104,7 +103,7 @@ export const AproposPresentationView = () => {
                     </div>
                     <div className="absolute h-full w-48 sm:w-60 rotate-12 right-[calc(50%-10rem)] sm:right-[calc(50%-15rem)]">
                         <Image
-                            src={Women}
+                            src="/assets/images/women.jpg"
                             alt="Image d'une femme"
                             className="rounded-lg"
                             priority
