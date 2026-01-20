@@ -18,7 +18,7 @@ export interface UserDocument {
     creation_date: Timestamp;
     avatar: string;
     onboardingIsCompleted: boolean;
-    Name: string;
+    name: string;
     description: string;
     hobbies: string;
     styleLove: string;
