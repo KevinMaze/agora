@@ -14,6 +14,7 @@ export default function useFirebaseAuth() {
         displayName: user.displayName,
         emailVerified: user.emailVerified,
         photoURL: user.photoURL,
+        phoneNumber: user.phoneNumber,
     });
 
     const getUserDocument = async (user: UserInterface) => {
