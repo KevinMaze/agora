@@ -4,7 +4,6 @@ import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
 import { OnboardingTabs } from "../../tabs/onboarding-tabs";
 import Image from "next/image";
-import { auth } from "@/config/firebase-config";
 
 export const WelcomeStep = ({
     nextStep,
@@ -13,7 +12,6 @@ export const WelcomeStep = ({
     getCurrentStep,
     stepsList,
 }: BaseComponentProps) => {
-    console.log("moi", auth.currentUser);
     return (
         <div className="relative h-screen pb-[85px]">
             <div className="h-full overflow-auto">

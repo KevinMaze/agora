@@ -25,9 +25,7 @@ export const AvatarStep = ({
     stepsList,
 }: BaseComponentProps) => {
     const { authUser } = useAuth();
-
-    console.log("test", authUser);
-    const { value: isLoading, setValue: setLoading } = useToggle();
+    const { value: isLoading, toggle } = useToggle();
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<
         string | ArrayBuffer | null
@@ -56,7 +54,7 @@ export const AvatarStep = ({
         let uploadTask: UploadTask;
 
         if (selectedImage !== null) {
-            // toggle();
+            toggle();
             storageRef = ref(
                 storage,
                 `users-media/${authUser.uid}/avatar-${authUser.uid}`,
@@ -71,7 +69,7 @@ export const AvatarStep = ({
                 },
                 (error) => {
                     console.log("error", error);
-                    // toggle();
+                    toggle();
                     toast.error("Erreur lors du téléchargement de l'image");
                 },
                 () => {

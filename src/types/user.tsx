@@ -6,19 +6,16 @@ export interface UserInterface {
     displayName: string | null;
     emailVerified: boolean;
     photoURL: string | null;
-    phoneNumber: string | null;
     userDocument?: UserDocument;
 }
 
 export interface UserDocument {
     uid: string;
-    username: string;
-    bio: string;
+    displayName: string;
     pseudo: string;
     creation_date: Timestamp;
     avatar: string;
     onboardingIsCompleted: boolean;
-    name: string;
     description: string;
     hobbies: string;
     styleLove: string;
