@@ -52,6 +52,7 @@ export const ProfileStep = ({
     const handleUptadeUserDocument = async (
         formData: OnboardingProfileFormFieldsType,
     ) => {
+        console.log("user", authUser);
         const { error } = await firestoreUptadeDocument(
             "users",
             authUser.uid,
@@ -71,15 +72,17 @@ export const ProfileStep = ({
         formData,
     ) => {
         setLoading(true);
-        if (
-            displayName !== formData.displayName ||
-            description !== formData.description ||
-            hobbies !== formData.hobbies ||
-            styleLove !== formData.styleLove
-        ) {
-            handleUptadeUserDocument(formData);
-        }
-        setLoading(false);
+        console.log("formData", formData);
+        handleUptadeUserDocument(formData);
+        // if (
+        //     displayName !== formData.displayName ||
+        //     description !== formData.description ||
+        //     hobbies !== formData.hobbies ||
+        //     styleLove !== formData.styleLove
+        // ) {
+
+        // }
+        // setLoading(false);
     };
 
     return (
@@ -125,8 +128,8 @@ export const ProfileStep = ({
                 </Container>
             </div>
             <OnboardingFooter
-                nextStep={handleSubmit(onSubmit)}
                 prevStep={prevStep}
+                nextStep={handleSubmit(onSubmit)}
                 isFirstStep={isFirstStep}
                 isFinalStep={isFinalStep}
                 isLoading={isLoading}

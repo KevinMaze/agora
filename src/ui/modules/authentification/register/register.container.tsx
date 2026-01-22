@@ -34,6 +34,7 @@ export const RegisterContainer = () => {
         );
         if (error) {
             toast.error(error.message);
+            setIsLoading(false);
             return;
         }
         toast.success(`Bienvenue dans l'Agora !`);
@@ -46,6 +47,7 @@ export const RegisterContainer = () => {
     const handleCreateUserAuthentification = async ({
         email,
         password,
+        pseudo,
     }: RegisterFormFieldsType) => {
         const { data, error } = await firebaseCreateUser(email, password);
         if (error) {
@@ -53,13 +55,13 @@ export const RegisterContainer = () => {
             toast.error(error.message);
             return;
         }
-
         const userDocumentData = {
-            uid: data.uid,
             email: email,
+            displayName: pseudo || "",
+            uid: data.uid,
             creation_date: new Date(),
         };
-        handleCreateUserDocument("users", data.uid, userDocumentData);
+        await handleCreateUserDocument("users", data.uid, userDocumentData);
     };
 
     const onSubmit: SubmitHandler<RegisterFormFieldsType> = async (
@@ -73,9 +75,10 @@ export const RegisterContainer = () => {
                 type: "manual",
                 message: "Le mot de passe doit contenir au moins 6 caractères",
             });
+            setIsLoading(false);
             return;
         }
-        handleCreateUserAuthentification(formData);
+        await handleCreateUserAuthentification(formData);
     };
     return (
         <>
@@ -91,3 +94,5 @@ export const RegisterContainer = () => {
         </>
     );
 };
+
+// episode 22 1:01:17
