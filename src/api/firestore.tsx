@@ -7,12 +7,21 @@ export const firestoreCreateDocument = async (
     documentId: string,
     data: object,
 ) => {
+    console.log("firestoreCreateDocument a été appelée avec :", {
+        collectionName,
+        documentId,
+        data,
+    }); // <-- Ajoutez ceci
     try {
         const documentRef = doc(db, collectionName, documentId);
-
         await setDoc(documentRef, data);
+        console.log("Document créé avec succès !"); // <-- Ajoutez ceci en cas de succès
         return { data: true };
     } catch (error) {
+        console.error(
+            "Une erreur s'est produite lors de la création du document :",
+            error,
+        ); // <-- Modifiez ceci pour être sûr de tout loguer
         const firebaseError = error as FirebaseError;
         return {
             error: {
@@ -61,6 +70,8 @@ export const firestoreAddDocument = async (
         };
     }
 };
+
+// ...
 
 // export const firestoreGetDocumentBook = async (
 //     collectionName: string,

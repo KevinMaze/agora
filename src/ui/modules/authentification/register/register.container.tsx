@@ -1,7 +1,6 @@
-import { RegisterFormFieldsType } from "@/types/form";
 import { RegisterView } from "./register.view";
+import { RegisterFormFieldsType } from "@/types/form";
 import { SubmitHandler, useForm } from "react-hook-form";
-import React from "react";
 import {
     firebaseCreateUser,
     sendEmailVerificationProcedure,
@@ -56,9 +55,9 @@ export const RegisterContainer = () => {
             return;
         }
         const userDocumentData = {
-            email: email,
-            displayName: pseudo || "",
             uid: data.uid,
+            email: email,
+            displayName: pseudo,
             creation_date: new Date(),
         };
         await handleCreateUserDocument("users", data.uid, userDocumentData);

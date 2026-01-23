@@ -74,15 +74,14 @@ export const ProfileStep = ({
         setLoading(true);
         console.log("formData", formData);
         handleUptadeUserDocument(formData);
-        // if (
-        //     displayName !== formData.displayName ||
-        //     description !== formData.description ||
-        //     hobbies !== formData.hobbies ||
-        //     styleLove !== formData.styleLove
-        // ) {
-
-        // }
-        // setLoading(false);
+        if (
+            displayName !== formData.displayName ||
+            description !== formData.description ||
+            hobbies !== formData.hobbies ||
+            styleLove !== formData.styleLove
+        ) {
+        }
+        setLoading(false);
     };
 
     return (
