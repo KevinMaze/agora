@@ -26,6 +26,11 @@ export const RegisterContainer = () => {
         documentId: string,
         document: object,
     ) => {
+        console.log("handleCreateUserDocument appelé avec :", {
+            collectionName,
+            documentId,
+            document,
+        });
         const { error } = await firestoreCreateDocument(
             collectionName,
             documentId,
@@ -33,6 +38,7 @@ export const RegisterContainer = () => {
         );
         if (error) {
             toast.error(error.message);
+            console.error("Erreur dans handleCreateUserDocument :", error);
             setIsLoading(false);
             return;
         }
@@ -60,12 +66,15 @@ export const RegisterContainer = () => {
             displayName: pseudo,
             creation_date: new Date(),
         };
+        console.log("Données utilisateur à créer :", userDocumentData);
         await handleCreateUserDocument("users", data.uid, userDocumentData);
+        setIsLoading(false);
     };
 
     const onSubmit: SubmitHandler<RegisterFormFieldsType> = async (
         formData,
     ) => {
+        console.log("Formulaire soumis :", formData);
         setIsLoading(true);
         const { password } = formData;
 
