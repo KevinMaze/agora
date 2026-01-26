@@ -18,7 +18,7 @@ export const Logo = ({ size = "medium" }: Props) => {
             sizeLogo = 48;
             break;
         case "large":
-            sizeLogo = 64;
+            sizeLogo = 72;
             break;
     }
     return (

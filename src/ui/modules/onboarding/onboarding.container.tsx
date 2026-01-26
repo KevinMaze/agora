@@ -4,6 +4,7 @@ import { WelcomeStep } from "./components/steps/welcome-step/welcome-step";
 import { onboardingSteplistInterface } from "@/types/onboarding-steps-list";
 import { ProfileStep } from "./components/steps/profile-step/profile-step";
 import { AvatarStep } from "./components/steps/avatar-step/avatar-step";
+import { FinalStep } from "./components/steps/final-step/final-step";
 
 export const OnboardingContainer = () => {
     const [currentStep, setCurrentStep] = useState<number>(1);
@@ -15,7 +16,7 @@ export const OnboardingContainer = () => {
         },
         {
             id: 2,
-            label: "Profile",
+            label: "Profil",
             component: { step: ProfileStep },
         },
         {
@@ -26,7 +27,7 @@ export const OnboardingContainer = () => {
         {
             id: 4,
             label: "Final",
-            component: { step: WelcomeStep },
+            component: { step: FinalStep },
         },
     ];
 

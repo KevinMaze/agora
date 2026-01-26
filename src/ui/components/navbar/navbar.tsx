@@ -17,7 +17,7 @@ interface NavbarProps {
 
 export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
     const { authUser } = useAuth();
-    console.log("utilisateur", authUser);
+    console.log("utilisateur", authUser.displayName);
 
     const authentificationSystem = (
         <div className="px-6 text-center flex-shrink-0">
@@ -31,7 +31,7 @@ export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
             <div
                 className={clsx(
                     "fixed inset-0 bg-background/50 z-40 transition-opacity",
-                    isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                    isOpen ? "opacity-100" : "opacity-0 pointer-events-none",
                 )}
                 onClick={onClose}
             />
@@ -41,7 +41,7 @@ export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
                     "fixed top-0 right-0 h-screen w-[300px] bg-background text-primary z-50",
                     "flex flex-col py-8 shadow-[-5px_0_15px_rgba(0,0,0,0.2)]",
                     "transition-transform duration-300 ease-in-out",
-                    isOpen ? "translate-x-0" : "translate-x-full shadow-none"
+                    isOpen ? "translate-x-0" : "translate-x-full shadow-none",
                 )}
             >
                 <Link
