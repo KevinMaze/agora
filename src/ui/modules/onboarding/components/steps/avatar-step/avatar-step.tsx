@@ -7,6 +7,7 @@ import { Typo } from "@/ui/design-system/typography";
 import { OnboardingFooter } from "../../footer/onboarding-footer";
 import { UploadAvatar } from "@/ui/components/upload-avatar/upload-avatar";
 import { useState } from "react";
+import { updateUserIdentificationData } from "firebase/auth";
 import {
     StorageReference,
     UploadTask,
@@ -133,6 +134,8 @@ export const AvatarStep = ({
                             <UploadAvatar
                                 handleImageSelect={handleImageSelect}
                                 imagePreview={imagePreview}
+                                uploadProgress={uploadProgress}
+                                isLoading={isLoading}
                             />
                         </div>
                     </div>
@@ -147,3 +150,5 @@ export const AvatarStep = ({
         </div>
     );
 };
+
+// episode 28 à 1:43:02

@@ -1,22 +1,36 @@
 import { Avatar } from "@/ui/design-system/avatar";
 import { RiCamera2Fill } from "react-icons/ri";
 import Camera from "@/../public/assets/images/camera.png";
+import clsx from "clsx";
 
 interface Props {
     handleImageSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
     imagePreview: string | ArrayBuffer | null;
+    uploadProgress: number;
+    isLoading: boolean;
 }
 
-export const UploadAvatar = ({ handleImageSelect, imagePreview }: Props) => {
+export const UploadAvatar = ({
+    handleImageSelect,
+    imagePreview,
+    isLoading,
+    uploadProgress,
+}: Props) => {
     return (
         <div className="flex items-center gap-5 ">
-            <label className="inline-block bg-primary hover:bg-secondary text-background rounded-2xl px-[15px] py-[10px] text-xl font-medium animated">
-                <div className="flex items-center gap-2 cursor-pointer">
+            <label
+                className={clsx(
+                    isLoading ? "cursor-not-allowed" : "cursor-pointer",
+                    "inline-block bg-primary hover:bg-secondary text-background rounded-2xl px-[15px] py-[10px] text-xl font-medium animated",
+                )}
+            >
+                <div className="flex items-center gap-2 ">
                     <RiCamera2Fill />
                     <span>Choisir fichier</span>
                 </div>
                 <input
                     type="file"
+                    disabled={isLoading}
                     className="hidden"
                     onChange={handleImageSelect}
                 />
@@ -24,6 +38,8 @@ export const UploadAvatar = ({ handleImageSelect, imagePreview }: Props) => {
             <Avatar
                 size="very-large"
                 alt="Avatar de l'utilisateur"
+                isLoading={isLoading}
+                progress={uploadProgress}
                 src={
                     imagePreview
                         ? typeof imagePreview === "string"
@@ -35,5 +51,3 @@ export const UploadAvatar = ({ handleImageSelect, imagePreview }: Props) => {
         </div>
     );
 };
-
-// episode 28 58:14 mettre carte bleu
