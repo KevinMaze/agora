@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useToggle } from "@/hooks/use-toggle";
 import { firestoreCreateDocument } from "@/api/firestore";
 import { useRouter } from "next/router";
+import { serverTimestamp } from "firebase/firestore";
 
 export const RegisterContainer = () => {
     const router = useRouter();
@@ -24,7 +25,7 @@ export const RegisterContainer = () => {
     const handleCreateUserDocument = async (
         collectionName: string,
         documentId: string,
-        document: object,
+        document: object
     ) => {
         console.log("handleCreateUserDocument appelé avec :", {
             collectionName,
@@ -34,7 +35,7 @@ export const RegisterContainer = () => {
         const { error } = await firestoreCreateDocument(
             collectionName,
             documentId,
-            document,
+            document
         );
         if (error) {
             toast.error(error.message);
@@ -63,8 +64,8 @@ export const RegisterContainer = () => {
         const userDocumentData = {
             uid: data.uid,
             email: email,
-            displayName: pseudo,
-            creation_date: new Date(),
+            displayName: pseudo || "",
+            creation_date: serverTimestamp(),
         };
         console.log("Données utilisateur à créer :", userDocumentData);
         await handleCreateUserDocument("users", data.uid, userDocumentData);
@@ -72,7 +73,7 @@ export const RegisterContainer = () => {
     };
 
     const onSubmit: SubmitHandler<RegisterFormFieldsType> = async (
-        formData,
+        formData
     ) => {
         console.log("Formulaire soumis :", formData);
         setIsLoading(true);
