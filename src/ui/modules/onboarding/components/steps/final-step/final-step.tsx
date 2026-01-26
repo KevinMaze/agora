@@ -12,7 +12,7 @@ import { on } from "events";
 import { toast } from "react-toastify";
 
 export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
-    const { authUser } = useAuth();
+    const { authUser, reloadAuthUserData } = useAuth();
 
     const { value: isLoading, toggle } = useToggle();
 
@@ -81,6 +81,7 @@ export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
             toast.error(error.message);
             return;
         }
+        reloadAuthUserData();
         toggle();
     };
 
