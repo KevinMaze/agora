@@ -2,6 +2,8 @@ import { Avatar } from "@/ui/design-system/avatar";
 import { RiCamera2Fill } from "react-icons/ri";
 import Camera from "@/../public/assets/images/camera.png";
 import clsx from "clsx";
+import { useAuth } from "@/context/AuthUserContext";
+import { auth } from "@/config/firebase-config";
 
 interface Props {
     handleImageSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -16,8 +18,16 @@ export const UploadAvatar = ({
     isLoading,
     uploadProgress,
 }: Props) => {
+    const { authUser } = useAuth();
+
+    const uploadProgressBarStyle = `fixed top-0 left-0 w-full h-1 bg-secondary animate ${uploadProgress > 0 ? "" : "hidden"}`;
+
     return (
         <div className="flex items-center gap-5 ">
+            <div
+                className={uploadProgressBarStyle}
+                style={{ width: `${uploadProgress}%` }}
+            ></div>
             <label
                 className={clsx(
                     isLoading ? "cursor-not-allowed" : "cursor-pointer",
@@ -45,7 +55,9 @@ export const UploadAvatar = ({
                         ? typeof imagePreview === "string"
                             ? imagePreview
                             : String(imagePreview)
-                        : Camera
+                        : authUser.userDocument.photoURL
+                          ? authUser.userDocument.photoURL
+                          : Camera
                 }
             />
         </div>

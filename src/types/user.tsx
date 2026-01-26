@@ -21,4 +21,5 @@ export interface UserDocument {
     description: string;
     hobbies: string;
     styleLove: string;
+    photoURL: string | null;
 }

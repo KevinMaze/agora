@@ -7,7 +7,7 @@ import { Typo } from "@/ui/design-system/typography";
 import { OnboardingFooter } from "../../footer/onboarding-footer";
 import { UploadAvatar } from "@/ui/components/upload-avatar/upload-avatar";
 import { useState } from "react";
-import { updateUserIdentificationData } from "firebase/auth";
+import { updateUserIdentificationData } from "@/api/authentication";
 import {
     StorageReference,
     UploadTask,
@@ -34,8 +34,8 @@ export const AvatarStep = ({
     >(null);
     const [uploadProgress, setUploadProgress] = useState<number>(0);
 
-    const updateUserDocument = async (photoUrl: string) => {
-        const body = { photoUrl: photoUrl };
+    const updateUserDocument = async (photoURL: string) => {
+        const body = { photoURL: photoURL };
 
         await updateUserIdentificationData(authUser.uid, body);
 
