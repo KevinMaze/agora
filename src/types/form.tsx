@@ -22,6 +22,7 @@ export interface ForgetFormFieldsType {
 }
 
 export interface OnboardingProfileFormFieldsType {
+    name: string;
     displayName: string;
     pseudo: string;
     description: string;

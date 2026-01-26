@@ -31,17 +31,17 @@ export const ProfileStep = ({
         setValue,
     } = useForm<OnboardingProfileFormFieldsType>();
 
-    const { displayName, description, hobbies, styleLove } =
+    const { name, description, hobbies, styleLove } =
         authUser.userDocument || {};
     // Display value is exist
     useEffect(() => {
         if (authUser.userDocument) {
             const fieldsToUpdate: (
-                | "displayName"
+                | "name"
                 | "description"
                 | "hobbies"
                 | "styleLove"
-            )[] = ["displayName", "description", "hobbies", "styleLove"];
+            )[] = ["name", "description", "hobbies", "styleLove"];
 
             for (const field of fieldsToUpdate) {
                 setValue(field, authUser.userDocument[field]);
@@ -75,7 +75,8 @@ export const ProfileStep = ({
         console.log("formData", formData);
         handleUptadeUserDocument(formData);
         if (
-            displayName !== formData.displayName ||
+            name !== formData.name ||
+            name !== formData.name ||
             description !== formData.description ||
             hobbies !== formData.hobbies ||
             styleLove !== formData.styleLove

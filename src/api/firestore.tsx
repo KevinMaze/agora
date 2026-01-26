@@ -5,22 +5,13 @@ import { FirebaseError } from "firebase/app";
 export const firestoreCreateDocument = async (
     collectionName: string,
     documentId: string,
-    data: object
+    data: object,
 ) => {
-    console.log("firestoreCreateDocument a été appelée avec :", {
-        // Garde ce log pour le débogage
-        collectionName,
-        documentId,
-        data,
-    });
     try {
         const documentRef = doc(db, collectionName, documentId);
-        console.log("Tentative d'écriture via setDoc..."); // <-- Log de traçage
         await setDoc(documentRef, data);
-        console.log("Document créé avec succès !"); // Log de succès
         return { data: true, error: null };
     } catch (error) {
-        console.error("Erreur lors de la création du document :", error); // Log d'erreur détaillé
         const firebaseError = error as FirebaseError;
         return {
             data: null,
@@ -35,7 +26,7 @@ export const firestoreCreateDocument = async (
 export const firestoreUptadeDocument = async (
     collectionName: string,
     documentId: string,
-    data: object
+    data: object,
 ) => {
     try {
         const documentRef = doc(db, collectionName, documentId);
@@ -56,7 +47,7 @@ export const firestoreUptadeDocument = async (
 
 export const firestoreAddDocument = async (
     collectionName: string,
-    data: object
+    data: object,
 ) => {
     try {
         const documentRef = await addDoc(collection(db, collectionName), data);

@@ -11,6 +11,7 @@ export interface UserInterface {
 }
 
 export interface UserDocument {
+    name: string;
     uid: string;
     displayName: string;
     pseudo: string;

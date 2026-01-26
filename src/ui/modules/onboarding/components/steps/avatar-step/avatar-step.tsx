@@ -16,6 +16,7 @@ import {
 } from "firebase/storage";
 import { toast } from "react-toastify";
 import { storage } from "@/config/firebase-config";
+import { firestoreUptadeDocument } from "@/api/firestore";
 
 export const AvatarStep = ({
     nextStep,
@@ -31,7 +32,26 @@ export const AvatarStep = ({
         string | ArrayBuffer | null
     >(null);
     const [uploadProgress, setUploadProgress] = useState<number>(0);
-    console.log("progress", uploadProgress);
+
+    const updateUserDocument = async (photoUrl: string) => {
+        const body = { photoUrl: photoUrl };
+
+        await updateUserIdentificationData(authUser.uid, body);
+
+        const { error } = await firestoreUptadeDocument(
+            "users",
+            authUser.uid,
+            body,
+        );
+
+        if (error) {
+            toggle();
+            toast.error(error.message);
+            return;
+        }
+        toggle();
+        nextStep();
+    };
 
     const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -57,7 +77,7 @@ export const AvatarStep = ({
             toggle();
             storageRef = ref(
                 storage,
-                `users-media/${authUser.uid}/avatar-${authUser.uid}`,
+                `users-media/${authUser.uid}/avatar/avatar-${authUser.uid}`,
             );
             uploadTask = uploadBytesResumable(storageRef, selectedImage);
             uploadTask.on(
@@ -68,19 +88,18 @@ export const AvatarStep = ({
                     setUploadProgress(progress);
                 },
                 (error) => {
-                    console.log("error", error);
                     toggle();
                     toast.error("Erreur lors du téléchargement de l'image");
                 },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then(
                         (downloadURL) => {
-                            console.log("files", downloadURL);
+                            updateUserDocument(downloadURL);
                         },
                     );
                 },
             );
-        }
+        } else nextStep();
     };
 
     return (

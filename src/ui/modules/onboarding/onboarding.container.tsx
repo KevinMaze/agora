@@ -23,6 +23,11 @@ export const OnboardingContainer = () => {
             label: "Avatar",
             component: { step: AvatarStep },
         },
+        {
+            id: 4,
+            label: "Final",
+            component: { step: WelcomeStep },
+        },
     ];
 
     const getCurrentStep = () => {
