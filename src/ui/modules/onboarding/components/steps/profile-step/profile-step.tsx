@@ -31,17 +31,17 @@ export const ProfileStep = ({
         setValue,
     } = useForm<OnboardingProfileFormFieldsType>();
 
-    const { name, description, hobbies, styleLove } =
+    const { displayName, description, hobbies, styleLove } =
         authUser.userDocument || {};
     // Display value is exist
     useEffect(() => {
         if (authUser.userDocument) {
             const fieldsToUpdate: (
-                | "name"
+                | "displayName"
                 | "description"
                 | "hobbies"
                 | "styleLove"
-            )[] = ["name", "description", "hobbies", "styleLove"];
+            )[] = ["displayName", "description", "hobbies", "styleLove"];
 
             for (const field of fieldsToUpdate) {
                 setValue(field, authUser.userDocument[field]);
@@ -52,7 +52,6 @@ export const ProfileStep = ({
     const handleUptadeUserDocument = async (
         formData: OnboardingProfileFormFieldsType,
     ) => {
-        console.log("user", authUser);
         const { error } = await firestoreUptadeDocument(
             "users",
             authUser.uid,
@@ -72,11 +71,9 @@ export const ProfileStep = ({
         formData,
     ) => {
         setLoading(true);
-        console.log("formData", formData);
         handleUptadeUserDocument(formData);
         if (
-            name !== formData.name ||
-            name !== formData.name ||
+            displayName !== formData.displayName ||
             description !== formData.description ||
             hobbies !== formData.hobbies ||
             styleLove !== formData.styleLove
@@ -137,3 +134,5 @@ export const ProfileStep = ({
         </div>
     );
 };
+
+//episode29 49:50min
