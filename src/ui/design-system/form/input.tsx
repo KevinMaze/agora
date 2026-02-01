@@ -34,6 +34,7 @@ interface Props {
     options?: { value: string; label: string }[];
     multiple?: boolean;
     accept?: string;
+    className?: string;
 }
 
 export const Input = ({

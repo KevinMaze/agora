@@ -5,79 +5,81 @@ import { firestoreAddDocument } from "@/api/firestore";
 import { storageUploadFile } from "@/api/storage";
 import { toast } from "react-toastify";
 import { AddBookAdminAccountView } from "./add-book-admin-account-view";
+import { useAuth } from "@/context/AuthUserContext";
+import { use, useState } from "react";
 
 export const AddBookAdminAccountContainer = () => {
     const { value: isLoading, setValue: setLoading } = useToggle();
+    const [imagePreview, setImagePreview] = useState<
+        string | ArrayBuffer | null
+    >(null);
+    const { authUser } = useAuth();
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
-        setError,
     } = useForm<AddBookFormFieldsType>();
 
     const onSubmit: SubmitHandler<AddBookFormFieldsType> = async (formData) => {
         setLoading(true);
 
-        // 1. Gérer l'image
-        const imageFile = formData.image[0];
+        const { image, ...bookData } = formData;
+        const imageFile = image[0];
+
         if (!imageFile) {
             setLoading(false);
-            toast.error("Veuillez sélectionner une image pour le livre.");
+            toast.error("Tu dois ajouter une image");
             return;
         }
 
-        const imagePath = `books/${Date.now()}_${imageFile.name}`;
-        const { data: imageUrl, error: storageError } = await storageUploadFile(
-            imagePath,
+        const { data: url, error: storageError } = await storageUploadFile(
+            `books/${authUser.displayName}-${imageFile.name}`,
             imageFile,
         );
 
-        if (storageError || !imageUrl) {
+        if (storageError) {
             setLoading(false);
-            toast.error(
-                storageError?.message ||
-                    "Une erreur est survenue lors de l'envoi de l'image.",
-            );
+            toast.error(storageError.message);
             return;
         }
 
-        // 2. Préparer les données pour Firestore
-        const { image, ...bookData } = formData;
-        const document = {
+        const data = {
             ...bookData,
-            imageUrl: imageUrl,
-            createdAt: new Date(),
+            image: url,
+            userId: authUser.uid,
+            creation_date: new Date(),
         };
 
-        // 3. Ajouter le document à Firestore
         const { error: firestoreError } = await firestoreAddDocument(
             "books",
-            document,
+            data,
         );
 
         if (firestoreError) {
             setLoading(false);
+
             toast.error(firestoreError.message);
             return;
         }
 
-        toast.success("Livre ajouté avec succès !");
-        reset();
         setLoading(false);
+        reset();
+        setImagePreview(null);
+        toast.success("Le livre a bien été ajouté");
     };
 
     return (
-        <>
-            <AddBookAdminAccountView
-                form={{
-                    errors,
-                    register,
-                    handleSubmit,
-                    onSubmit,
-                    isLoading,
-                }}
-            />
-        </>
+        <AddBookAdminAccountView
+            imagePreview={imagePreview}
+            setImagePreview={setImagePreview}
+            form={{
+                errors,
+                register,
+                handleSubmit,
+                onSubmit,
+                isLoading,
+            }}
+        />
     );
 };

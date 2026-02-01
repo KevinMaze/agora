@@ -4,16 +4,26 @@ import { Typo } from "@/ui/design-system/typography";
 
 interface Props {
     form: FormsType;
+    imagePreview: string | ArrayBuffer | null;
+    setImagePreview: (value: string | ArrayBuffer | null) => void;
 }
 
-export const AddBookAdminAccountView = ({ form }: Props) => {
+export const AddBookAdminAccountView = ({
+    form,
+    imagePreview,
+    setImagePreview,
+}: Props) => {
     return (
         <div className="flex flex-col items-center justify-center pt-20 pb-40 gap-5">
             <Typo variant="para" components="p">
                 Bienvenue dans votre espace personnel. Ici vous pouvez ajouter
                 des livres dans votre bibliothèque.
             </Typo>
-            <AddBookForm form={form} />
+            <AddBookForm
+                form={form}
+                imagePreview={imagePreview}
+                setImagePreview={setImagePreview}
+            />
         </div>
     );
 };

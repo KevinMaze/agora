@@ -1,15 +1,32 @@
 import { FormsType } from "@/types/form";
+import { Avatar } from "@/ui/design-system/avatar";
 import { Button } from "@/ui/design-system/button";
 import { Input } from "@/ui/design-system/form/input";
 import { Textarea } from "@/ui/design-system/form/textarea";
+import clsx from "clsx";
+import Camera from "@/../public/assets/images/camera.png";
+import { ChangeEvent, useState } from "react";
 
 interface Props {
     form: FormsType;
+    imagePreview: string | ArrayBuffer | null;
+    setImagePreview: (value: string | ArrayBuffer | null) => void;
 }
 
-export const AddBookForm = ({ form }: Props) => {
+export const AddBookForm = ({ form, imagePreview, setImagePreview }: Props) => {
     const { register, errors, isLoading, handleSubmit, onSubmit } = form;
 
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setImagePreview(e.target?.result || null);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    const { onChange: rhfOnChange, ...rhfImageRegister } = register("image");
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -49,17 +66,41 @@ export const AddBookForm = ({ form }: Props) => {
                 id="description"
                 required={true}
             />
-            <Input
-                label="Image de couverture"
-                isLoading={isLoading}
-                type="file"
-                register={register}
-                errors={errors}
-                errorMsg="Tu dois ajouter une image"
-                id="image"
-                required={true}
-                accept="image/png, image/jpeg, image/jpg"
-            />
+            <div className="flex items-start gap-4">
+                <Avatar
+                    size="very-large"
+                    alt="Aperçu de la couverture du livre"
+                    src={imagePreview ? String(imagePreview) : Camera}
+                />
+                <div className="flex-1">
+                    <label
+                        htmlFor="image"
+                        className={clsx(
+                            isLoading ? "cursor-not-allowed" : "cursor-pointer",
+                            "inline-block bg-primary hover:bg-secondary text-background rounded-2xl px-[15px] py-[10px] text-xl font-medium animated mb-2",
+                        )}
+                    >
+                        Choisir une image
+                    </label>
+                    <input
+                        type="file"
+                        id="image"
+                        className="hidden"
+                        accept="image/png, image/jpeg, image/jpg"
+                        disabled={isLoading}
+                        {...rhfImageRegister}
+                        onChange={(e) => {
+                            rhfOnChange(e);
+                            handleImageChange(e);
+                        }}
+                    />
+                    {errors.image && (
+                        <p className="text-red-500 text-sm">
+                            {errors.image.message as string}
+                        </p>
+                    )}
+                </div>
+            </div>
             <Input
                 label="Catégorie"
                 isLoading={isLoading}

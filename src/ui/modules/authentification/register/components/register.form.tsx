@@ -42,7 +42,7 @@ export const RegisterForm = ({ form }: Props) => {
                 register={register}
                 errors={errors}
                 errorMsg="Ce champ est requis"
-                id="pseudo"
+                id="displayName"
                 required={false}
                 isAutoCompleted={false}
             />

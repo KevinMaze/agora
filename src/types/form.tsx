@@ -10,7 +10,7 @@ export interface FormsType {
 export interface RegisterFormFieldsType {
     email: string;
     password: string;
-    pseudo: string;
+    displayName: string;
 }
 export interface LoginFormFieldsType {
     email: string;

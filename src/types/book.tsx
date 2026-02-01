@@ -1,4 +1,3 @@
-import { StaticImageData } from "next/image";
 import { Timestamp } from "firebase/firestore";
 
 export interface BookInterface {
@@ -6,7 +5,7 @@ export interface BookInterface {
     title: string;
     autor: string;
     description: string;
-    image: StaticImageData;
+    image: string | null;
     bookDocument?: BookDocument;
 }
 
@@ -15,7 +14,7 @@ export interface BookDocument {
     title: string;
     autor: string;
     description: string;
-    image: string;
+    image: string | null;
     releaseYear: string | Timestamp;
     category: string;
     nb_page: string;

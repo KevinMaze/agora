@@ -11,6 +11,8 @@ import { firestoreUptadeDocument } from "@/api/firestore";
 import { useAuth } from "@/context/AuthUserContext";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { auth } from "@/config/firebase-config";
+import { updateUserIdentificationData } from "@/api/authentication";
 
 export const ProfileStep = ({
     nextStep,
@@ -20,7 +22,7 @@ export const ProfileStep = ({
     getCurrentStep,
     stepsList,
 }: BaseComponentProps) => {
-    const { authUser } = useAuth();
+    const { authUser, reloadAuthUserData } = useAuth();
     const { value: isLoading, setValue: setLoading } = useToggle();
     const {
         handleSubmit,
@@ -71,13 +73,30 @@ export const ProfileStep = ({
         formData,
     ) => {
         setLoading(true);
-        handleUptadeUserDocument(formData);
         if (
             displayName !== formData.displayName ||
             description !== formData.description ||
             hobbies !== formData.hobbies ||
             styleLove !== formData.styleLove
         ) {
+            if (
+                displayName !== formData.displayName ||
+                authUser.displayName !== formData.displayName
+            ) {
+                const data = {
+                    displayName: formData.displayName,
+                };
+                const { error } = await updateUserIdentificationData(
+                    authUser.uid,
+                    data,
+                );
+                if (error) {
+                    setLoading(false);
+                    toast.error(error.message);
+                    return;
+                }
+            }
+            handleUptadeUserDocument(formData);
         }
         setLoading(false);
     };

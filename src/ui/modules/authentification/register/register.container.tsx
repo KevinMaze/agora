@@ -48,7 +48,7 @@ export const RegisterContainer = () => {
     const handleCreateUserAuthentification = async ({
         email,
         password,
-        pseudo,
+        displayName,
     }: RegisterFormFieldsType) => {
         const { data, error } = await firebaseCreateUser(email, password);
         if (error) {
@@ -59,7 +59,7 @@ export const RegisterContainer = () => {
         const userDocumentData = {
             uid: data.uid,
             email: email,
-            displayName: pseudo || "",
+            displayName: displayName || "",
             creation_date: serverTimestamp(),
         };
         console.log("Données utilisateur à créer :", userDocumentData);
