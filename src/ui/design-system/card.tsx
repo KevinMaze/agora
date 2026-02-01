@@ -21,7 +21,6 @@ interface CarProps {
 
 export const Card: React.FC<CarProps> = ({
     src = DefaultImage,
-    alt,
     title,
     description,
     autor,
@@ -41,8 +40,9 @@ export const Card: React.FC<CarProps> = ({
                         </div>
                     )}
                     <Image
+                        fill
                         src={imgSrc}
-                        alt={alt}
+                        alt={`image du livre ${title}`}
                         className={`object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-110  ${
                             isLoading ? "opacity-0" : "opacity-100"
                         }`}

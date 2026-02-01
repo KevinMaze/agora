@@ -1,9 +1,12 @@
 import { db } from "@/config/firebase-config"; // Je suppose que votre configuration Firebase est ici
 import { BookDocument } from "@/types/book";
+import { FirebaseError } from "firebase/app";
 import {
     collection,
     doc,
     getDoc,
+    limit,
+    orderBy,
     getDocs,
     query,
     where,
@@ -78,5 +81,30 @@ export const getBooksByCategory = async (
             error,
         );
         throw error;
+    }
+};
+
+export const getLastTenBooks = async () => {
+    try {
+        const q = query(
+            collection(db, BOOKS_COLLECTION),
+            orderBy("creation_date", "desc"),
+            limit(10),
+        );
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map((doc) => ({
+            uid: doc.id,
+            ...doc.data(),
+        })) as unknown as BookDocument[];
+        return { data, error: null };
+    } catch (error) {
+        const firebaseError = error as FirebaseError;
+        return {
+            data: null,
+            error: {
+                code: firebaseError.code,
+                message: firebaseError.message,
+            },
+        };
     }
 };
