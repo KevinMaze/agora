@@ -1,6 +1,5 @@
 import { db } from "@/config/firebase-config"; // Je suppose que votre configuration Firebase est ici
 import { BookDocument } from "@/types/book";
-import { FirebaseError } from "firebase/app";
 import {
     collection,
     doc,
@@ -84,7 +83,7 @@ export const getBooksByCategory = async (
     }
 };
 
-export const getLastTenBooks = async () => {
+export const getLastTenBooks = async (): Promise<BookDocument[]> => {
     try {
         const q = query(
             collection(db, BOOKS_COLLECTION),
@@ -92,19 +91,15 @@ export const getLastTenBooks = async () => {
             limit(10),
         );
         const querySnapshot = await getDocs(q);
-        const data = querySnapshot.docs.map((doc) => ({
-            uid: doc.id,
+        return querySnapshot.docs.map((doc) => ({
+            id: doc.id,
             ...doc.data(),
         })) as unknown as BookDocument[];
-        return { data, error: null };
     } catch (error) {
-        const firebaseError = error as FirebaseError;
-        return {
-            data: null,
-            error: {
-                code: firebaseError.code,
-                message: firebaseError.message,
-            },
-        };
+        console.error(
+            "Erreur lors de la récupération des 10 derniers livres : ",
+            error,
+        );
+        throw error;
     }
 };

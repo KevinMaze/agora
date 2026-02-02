@@ -13,8 +13,16 @@ export const News = () => {
 
     useEffect(() => {
         const fetchBooks = async () => {
-            const data = await getLastTenBooks();
-            setBooks(data);
+            setIsLoading(true);
+            try {
+                const data = await getLastTenBooks();
+                setBooks(data);
+            } catch (error) {
+                console.error(
+                    "Erreur lors de la récupération des nouveautés:",
+                    error,
+                );
+            }
             setIsLoading(false);
         };
         fetchBooks();
@@ -39,7 +47,8 @@ export const News = () => {
                     {books.map((book) => (
                         <Card
                             key={book.uid}
-                            src={book.image}
+                            src={book.image || Error}
+                            alt={book.title}
                             title={book.title}
                             autor={book.autor}
                         />

@@ -6,20 +6,21 @@ import Image from "next/image";
 import { FaTimes } from "react-icons/fa";
 
 // Définir un type plus complet pour les données de la recette
-export interface RecipeData {
-    src: string | StaticImageData;
-    alt: string;
-    title?: string;
+export interface RecipeDocument {
+    uid: string;
+    title: string;
+    type: string;
+    categorie: string;
+    temperature: string;
     description: string;
-    price?: string;
-    type?: string;
-    temperature?: string;
-    allergènes?: string[];
-    ingredients?: string[];
+    ingredients: string[];
+    allergènes: string[];
+    price: string;
+    image: string | null;
 }
 
 interface RecipeModalProps {
-    recipe: RecipeData;
+    recipe: RecipeDocument;
     onClose: () => void;
 }
 
@@ -42,8 +43,8 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
                     {/* Colonne de l'image */}
                     <div className="relative h-80 md:h-[500px] w-full">
                         <Image
-                            src={recipe.src}
-                            alt={recipe.alt}
+                            src={recipe.image || ""}
+                            alt={recipe.title}
                             fill
                             className="object-cover rounded-lg"
                         />
@@ -71,11 +72,8 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
                                 >
                                     Ingrédients
                                 </Typo>
-                                <ul className="list-disc list-inside text-other">
-                                    {recipe.ingredients.map((item, index) => (
-                                        <li key={index}>{item}</li>
-                                    ))}
-                                </ul>
+
+                                {recipe.ingredients}
                             </div>
                         )}
 

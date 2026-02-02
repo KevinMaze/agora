@@ -8,11 +8,18 @@ import React, { useState } from "react";
 import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
 
 interface CarProps {
-    src?: string | StaticImageData; // Rendu optionnel pour le cas où elle n'est pas fournie
-    alt: string;
+    src?: string | StaticImageData;
+    uid: string;
     title?: string;
-    description: string;
+    type?: string;
+    categorie?: string;
+    temperature?: string;
+    description?: string;
+    ingredients?: string[];
+    allergènes?: string[];
     price?: string;
+    image: string | null;
+    alt?: string;
     onClick: () => void;
 }
 
@@ -39,7 +46,8 @@ export const CardRecipe: React.FC<CarProps> = ({
                     )}
                     <Image
                         src={imgSrc}
-                        alt={alt}
+                        alt={title || alt}
+                        fill
                         className={`object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-110 ${
                             isLoading ? "opacity-0" : "opacity-100"
                         }`}

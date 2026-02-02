@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface BookInterface {
     uid: number;
     title: string;
@@ -15,7 +13,7 @@ export interface BookDocument {
     autor: string;
     description: string;
     image: string | null;
-    releaseYear: string | Timestamp;
+    releaseYear: string;
     category: string;
     nb_page: string;
     like: number;

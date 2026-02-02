@@ -1,14 +1,14 @@
-import { AddBookFormFieldsType } from "@/types/form";
+import { AddRecipeFormFieldsType } from "@/types/form";
 import { useToggle } from "@/hooks/use-toggle";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { firestoreAddDocument } from "@/api/firestore";
 import { storageUploadFile } from "@/api/storage";
 import { toast } from "react-toastify";
-import { AddBookAdminAccountView } from "./add-book-admin-account-view";
+import { AddRecipeAdminAccountView } from "./add-recipe-admin-account-view";
 import { useAuth } from "@/context/AuthUserContext";
 import { useState } from "react";
 
-export const AddBookAdminAccountContainer = () => {
+export const AddRecipeAdminAccountContainer = () => {
     const { value: isLoading, setValue: setLoading } = useToggle();
     const [imagePreview, setImagePreview] = useState<
         string | ArrayBuffer | null
@@ -19,12 +19,14 @@ export const AddBookAdminAccountContainer = () => {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<AddBookFormFieldsType>();
+    } = useForm<AddRecipeFormFieldsType>();
 
-    const onSubmit: SubmitHandler<AddBookFormFieldsType> = async (formData) => {
+    const onSubmit: SubmitHandler<AddRecipeFormFieldsType> = async (
+        formData,
+    ) => {
         setLoading(true);
 
-        const { image, ...bookData } = formData;
+        const { image, ...recipeData } = formData;
         const imageFile = image[0];
 
         if (!imageFile) {
@@ -34,7 +36,7 @@ export const AddBookAdminAccountContainer = () => {
         }
 
         const { data: url, error: storageError } = await storageUploadFile(
-            `books/${authUser.displayName}-${imageFile.name}`,
+            `recipes/${authUser.displayName}-${imageFile.name}`,
             imageFile,
         );
 
@@ -45,14 +47,14 @@ export const AddBookAdminAccountContainer = () => {
         }
 
         const data = {
-            ...bookData,
+            ...recipeData,
             image: url,
             userId: authUser.uid,
             creation_date: new Date(),
         };
 
         const { error: firestoreError } = await firestoreAddDocument(
-            "books",
+            "recipes",
             data,
         );
 
@@ -66,11 +68,11 @@ export const AddBookAdminAccountContainer = () => {
         setLoading(false);
         reset();
         setImagePreview(null);
-        toast.success("Le livre a bien été ajouté");
+        toast.success("La recette a bien été ajouté");
     };
 
     return (
-        <AddBookAdminAccountView
+        <AddRecipeAdminAccountView
             imagePreview={imagePreview}
             setImagePreview={setImagePreview}
             form={{

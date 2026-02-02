@@ -5,7 +5,7 @@ import { Input } from "@/ui/design-system/form/input";
 import { Textarea } from "@/ui/design-system/form/textarea";
 import clsx from "clsx";
 import Camera from "@/../public/assets/images/camera.png";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 interface Props {
     form: FormsType;
@@ -13,7 +13,11 @@ interface Props {
     setImagePreview: (value: string | ArrayBuffer | null) => void;
 }
 
-export const AddBookForm = ({ form, imagePreview, setImagePreview }: Props) => {
+export const AddRecipeForm = ({
+    form,
+    imagePreview,
+    setImagePreview,
+}: Props) => {
     const { register, errors, isLoading, handleSubmit, onSubmit } = form;
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,26 +37,60 @@ export const AddBookForm = ({ form, imagePreview, setImagePreview }: Props) => {
             className="w-full max-w-md space-y-4"
         >
             <Input
-                label="Title"
+                label="Titre"
                 isLoading={isLoading}
-                placeholder="Titre du livre"
+                placeholder="Nom de la recette"
                 type="text"
                 register={register}
                 errors={errors}
-                errorMsg="Tu dois renseigner un titre"
+                errorMsg="Tu dois renseigner un nom"
                 id="title"
                 required={true}
             />
             <Input
-                label="Auteur"
+                label="Type"
                 isLoading={isLoading}
-                placeholder="Auteur"
+                placeholder="Type de recette"
                 type="text"
                 register={register}
                 errors={errors}
-                errorMsg="Tu dois renseigner un auteur"
-                id="autor"
+                errorMsg="Tu dois renseigner un type de recette"
+                id="type"
                 required={true}
+            />
+            <Input
+                label="Catégorie"
+                isLoading={isLoading}
+                placeholder="Catégorie"
+                type="select"
+                register={register}
+                errors={errors}
+                errorMsg="Tu dois renseigner une catégorie"
+                id="categorie"
+                required={true}
+                options={[
+                    { value: "coffee", label: "coffé" },
+                    { value: "chocolat", label: "chocolat" },
+                    { value: "juice", label: "jus" },
+                    { value: "the", label: "thé" },
+                    { value: "biscuits", label: "biscuits" },
+                    { value: "sandwich", label: "sandwich" },
+                ]}
+            />
+            <Input
+                label="Température"
+                isLoading={isLoading}
+                placeholder="Température"
+                type="select"
+                register={register}
+                errors={errors}
+                errorMsg="Tu dois renseigner une température"
+                id="temperature"
+                required={true}
+                options={[
+                    { value: "chaud", label: "chaud" },
+                    { value: "froid", label: "froid" },
+                ]}
             />
 
             <Textarea
@@ -62,49 +100,70 @@ export const AddBookForm = ({ form, imagePreview, setImagePreview }: Props) => {
                 placeholder="Description"
                 register={register}
                 errors={errors}
-                errorMsg="Décris un peu le livre ou entre le synopsis"
+                errorMsg="Décrit nous la recette"
                 id="description"
                 required={true}
             />
+
             <Input
-                label="Catégorie"
+                label="Ingrédients"
                 isLoading={isLoading}
-                placeholder="Catégorie"
-                type="checkbox"
-                register={register}
-                errors={errors}
-                errorMsg="Donne-nous la catégorie du livre"
-                id="category"
-                options={[
-                    { value: "Triller", label: "Triller" },
-                    { value: "Romance", label: "Romance" },
-                    { value: "Action", label: "Action" },
-                    { value: "Aventure", label: "Aventure" },
-                    { value: "Science-fiction", label: "Science-fiction" },
-                    { value: "Classique", label: "Classique" },
-                    { value: "Policier", label: "Policier" },
-                    { value: "Historique", label: "Historique" },
-                    { value: "Fantastique", label: "Fantastique" },
-                    { value: "Drame", label: "Drame" },
-                    { value: "Horreur", label: "Horreur" },
-                ]}
-                required={true}
-            />
-            <Input
-                label="Année de sortie"
-                isLoading={isLoading}
-                placeholder="Année de sortie"
+                placeholder="Ingrédients"
                 type="text"
                 register={register}
                 errors={errors}
-                errorMsg="Entre l'année de sortie"
-                id="releaseYear"
+                errorMsg="Tu dois renseigner la liste des ingrédients"
+                id="ingredients"
                 required={true}
             />
+
+            <Input
+                label="Allergènes"
+                isLoading={isLoading}
+                placeholder="Allergènes"
+                type="checkbox"
+                register={register}
+                errors={errors}
+                errorMsg="Donne-nous la liste des allergènes"
+                id="allergènes"
+                options={[
+                    { value: "gluten", label: "Céréales contenant du gluten" },
+                    { value: "crustaces", label: "Crustacés" },
+                    { value: "oeufs", label: "Œufs" },
+                    { value: "poissons", label: "Poissons" },
+                    { value: "arachides", label: "Arachides" },
+                    { value: "soja", label: "Soja" },
+                    { value: "lait", label: "Lait" },
+                    { value: "fruits-a-coque", label: "Fruits à coque" },
+                    { value: "celeri", label: "Céleri" },
+                    { value: "moutarde", label: "Moutarde" },
+                    { value: "sesame", label: "Graines de sésame" },
+                    {
+                        value: "sulfites",
+                        label: "Anhydride sulfureux et sulfites",
+                    },
+                    { value: "lupin", label: "Lupin" },
+                    { value: "mollusques", label: "Mollusques" },
+                ]}
+                required={true}
+            />
+
+            <Input
+                label="Prix"
+                isLoading={isLoading}
+                placeholder="Prix"
+                type="text"
+                register={register}
+                errors={errors}
+                errorMsg="Tu dois renseigner le prix"
+                id="price"
+                required={true}
+            />
+
             <div className="flex items-center text-center gap-4">
                 <Avatar
                     size="very-large"
-                    alt="Aperçu de la couverture du livre"
+                    alt="Aperçu de la recette"
                     src={imagePreview ? String(imagePreview) : Camera}
                 />
                 <div className="flex-1">
@@ -138,7 +197,7 @@ export const AddBookForm = ({ form, imagePreview, setImagePreview }: Props) => {
             </div>
 
             <Button isLoading={isLoading} type="submit">
-                {isLoading ? "Loading..." : "Ajouter le livre"}
+                {isLoading ? "Loading..." : "Ajouter la recette"}
             </Button>
         </form>
     );
