@@ -69,10 +69,10 @@ export const AddRecipeForm = ({
                 id="categorie"
                 required={true}
                 options={[
-                    { value: "coffee", label: "coffé" },
+                    { value: "café", label: "café" },
                     { value: "chocolat", label: "chocolat" },
-                    { value: "juice", label: "jus" },
-                    { value: "the", label: "thé" },
+                    { value: "jus", label: "jus" },
+                    { value: "thé", label: "thé" },
                     { value: "biscuits", label: "biscuits" },
                     { value: "sandwich", label: "sandwich" },
                 ]}

@@ -1,26 +1,16 @@
 "use client";
-
 import { Typo } from "@/ui/design-system/typography";
-import { StaticImageData } from "next/image";
 import Image from "next/image";
 import { FaTimes } from "react-icons/fa";
+import { StaticImageData } from "next/image";
+import { RecipeDocument } from "@/types/recipe";
 
-// Définir un type plus complet pour les données de la recette
-export interface RecipeDocument {
-    uid: string;
-    title: string;
-    type: string;
-    categorie: string;
-    temperature: string;
-    description: string;
-    ingredients: string[];
-    allergènes: string[];
-    price: string;
-    image: string | null;
-}
-
+export type RecipeData = RecipeDocument & {
+    src?: string | StaticImageData | null;
+    alt: string;
+};
 interface RecipeModalProps {
-    recipe: RecipeDocument;
+    recipe: RecipeData;
     onClose: () => void;
 }
 
