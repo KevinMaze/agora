@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Biblio from "@/../public/assets/images/biblio.png";
 import Crack from "@/../public/assets/images/déchiré.png";
-import Dune from "@/../public/assets/images/dune.jpg";
 import { Typo } from "@/ui/design-system/typography";
 import { Container } from "@/ui/components/container";
 import { Card } from "@/ui/design-system/card"; // Assurez-vous que ce composant existe
@@ -13,7 +12,7 @@ import { FaChevronDown } from "react-icons/fa";
 import clsx from "clsx";
 import { getBooks } from "@/api/books";
 import { toast } from "react-toastify";
-import { Timestamp } from "firebase/firestore";
+import error from "@/../public/assets/images/404.png";
 
 export const CatalogueView = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -35,11 +34,8 @@ export const CatalogueView = () => {
                     // Gestion sécurisée de la date (Timestamp Firestore ou string/date standard)
                     let releaseYear = "N/A";
                     if (book.releaseYear) {
-                        if (book.releaseYear instanceof Timestamp) {
-                            releaseYear = book.releaseYear
-                                .toDate()
-                                .getFullYear()
-                                .toString();
+                        if (book.releaseYear) {
+                            releaseYear = book.releaseYear;
                         } else {
                             const date = new Date(book.releaseYear);
                             if (!isNaN(date.getTime())) {
@@ -52,7 +48,7 @@ export const CatalogueView = () => {
                         autor: book.autor,
                         category: book.category,
                         releaseYear: releaseYear,
-                        src: book.image || Dune, // Image de secours
+                        src: book.image || error, // Image de secours
                     };
                 });
                 setAllBooks(formattedBooks);
@@ -69,10 +65,10 @@ export const CatalogueView = () => {
     }, []);
 
     const category = [...new Set(allBooks.map((book) => book.category))].filter(
-        Boolean
+        Boolean,
     );
     const autors = [...new Set(allBooks.map((book) => book.autor))].filter(
-        Boolean
+        Boolean,
     );
     const releaseYears = [
         ...new Set(allBooks.map((book) => String(book.releaseYear))),
@@ -84,13 +80,13 @@ export const CatalogueView = () => {
         if (selectedCategory.length > 0) {
             books = books.filter(
                 (book) =>
-                    book.category && selectedCategory.includes(book.category)
+                    book.category && selectedCategory.includes(book.category),
             );
         }
 
         if (selectedAuthors.length > 0) {
             books = books.filter(
-                (book) => book.autor && selectedAuthors.includes(book.autor)
+                (book) => book.autor && selectedAuthors.includes(book.autor),
             );
         }
 
@@ -98,7 +94,7 @@ export const CatalogueView = () => {
             books = books.filter(
                 (book) =>
                     book.releaseYear &&
-                    selectedYears.includes(String(book.releaseYear))
+                    selectedYears.includes(String(book.releaseYear)),
             );
         }
 
@@ -120,11 +116,11 @@ export const CatalogueView = () => {
 
     const handleMultiSelect = (
         value: string,
-        filterType: "category" | "autor" | "releaseYear"
+        filterType: "category" | "autor" | "releaseYear",
     ) => {
         const updateSelection = (
             currentSelection: string[],
-            setter: React.Dispatch<React.SetStateAction<string[]>>
+            setter: React.Dispatch<React.SetStateAction<string[]>>,
         ) => {
             const newSelection = [...currentSelection];
             const index = newSelection.indexOf(String(value));
@@ -202,7 +198,7 @@ export const CatalogueView = () => {
                         onClick={() => setIsFilterVisible(!isFilterVisible)}
                         className={clsx(
                             "flex items-center justify-between w-full p-4 bg-foreground/80 backdrop-blur-sm rounded-t-lg",
-                            isFilterVisible ? "rounded-b-none" : "rounded-b-lg"
+                            isFilterVisible ? "rounded-b-none" : "rounded-b-lg",
                         )}
                     >
                         <Typo
@@ -217,7 +213,7 @@ export const CatalogueView = () => {
                             className={clsx(
                                 "transition-transform cursor-pointer",
                                 isFilterVisible && "rotate-180",
-                                "text-white"
+                                "text-white",
                             )}
                         />
                     </button>
@@ -229,7 +225,7 @@ export const CatalogueView = () => {
                                     isFilterVisible,
                                 "opacity-0 transform -translate-y-4 pointer-events-none":
                                     !isFilterVisible,
-                            }
+                            },
                         )}
                     >
                         <div className="p-4 bg-foreground/80 backdrop-blur-sm rounded-b-lg text-white">
@@ -241,7 +237,7 @@ export const CatalogueView = () => {
                                             setOpenDropdown(
                                                 openDropdown === "category"
                                                     ? null
-                                                    : "category"
+                                                    : "category",
                                             )
                                         }
                                         className="w-full p-2 bg-background rounded flex justify-between items-center"
@@ -253,7 +249,7 @@ export const CatalogueView = () => {
                                             className={clsx(
                                                 "transition-transform cursor-pointer",
                                                 openDropdown === "category" &&
-                                                    "rotate-180"
+                                                    "rotate-180",
                                             )}
                                         />
                                     </div>
@@ -267,12 +263,12 @@ export const CatalogueView = () => {
                                                     <input
                                                         type="checkbox"
                                                         checked={selectedCategory.includes(
-                                                            String(cat)
+                                                            String(cat),
                                                         )}
                                                         onChange={() =>
                                                             handleMultiSelect(
                                                                 String(cat),
-                                                                "category"
+                                                                "category",
                                                             )
                                                         }
                                                     />
@@ -290,7 +286,7 @@ export const CatalogueView = () => {
                                             setOpenDropdown(
                                                 openDropdown === "authors"
                                                     ? null
-                                                    : "authors"
+                                                    : "authors",
                                             )
                                         }
                                         className="w-full p-2 bg-background rounded flex justify-between items-center"
@@ -302,7 +298,7 @@ export const CatalogueView = () => {
                                             className={clsx(
                                                 "transition-transform cursor-pointer",
                                                 openDropdown === "authors" &&
-                                                    "rotate-180"
+                                                    "rotate-180",
                                             )}
                                         />
                                     </div>
@@ -316,12 +312,12 @@ export const CatalogueView = () => {
                                                     <input
                                                         type="checkbox"
                                                         checked={selectedAuthors.includes(
-                                                            String(autor)
+                                                            String(autor),
                                                         )}
                                                         onChange={() =>
                                                             handleMultiSelect(
                                                                 String(autor),
-                                                                "autor"
+                                                                "autor",
                                                             )
                                                         }
                                                     />
@@ -339,7 +335,7 @@ export const CatalogueView = () => {
                                             setOpenDropdown(
                                                 openDropdown === "years"
                                                     ? null
-                                                    : "years"
+                                                    : "years",
                                             )
                                         }
                                         className="w-full p-2 bg-background rounded flex justify-between items-center"
@@ -351,7 +347,7 @@ export const CatalogueView = () => {
                                             className={clsx(
                                                 "transition-transform cursor-pointer",
                                                 openDropdown === "years" &&
-                                                    "rotate-180"
+                                                    "rotate-180",
                                             )}
                                         />
                                     </div>
@@ -365,12 +361,12 @@ export const CatalogueView = () => {
                                                     <input
                                                         type="checkbox"
                                                         checked={selectedYears.includes(
-                                                            String(year)
+                                                            String(year),
                                                         )}
                                                         onChange={() =>
                                                             handleMultiSelect(
                                                                 String(year),
-                                                                "releaseYear"
+                                                                "releaseYear",
                                                             )
                                                         }
                                                     />

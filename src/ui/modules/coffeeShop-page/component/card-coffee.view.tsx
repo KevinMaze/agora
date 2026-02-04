@@ -25,7 +25,6 @@ interface CarProps {
 
 export const CardRecipe: React.FC<CarProps> = ({
     src = DefaultImage,
-    alt,
     title,
     description,
     price,

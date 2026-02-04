@@ -8,6 +8,7 @@ import { RecipeModal } from "./recipe-modal.view";
 import { getRecipes } from "@/api/recipes";
 import { RecipeDocument } from "@/types/recipe";
 import { Button } from "@/ui/design-system/button";
+import { toast } from "react-toastify";
 
 export const Recipe = () => {
     const [activeFilter, setActiveFilter] = useState();
@@ -27,12 +28,31 @@ export const Recipe = () => {
             setIsLoading(true);
             try {
                 const recipesFromDb = await getRecipes();
+                const formattedRecipes = recipesFromDb.map((recipe) => {
+                    return {
+                        ...recipe,
+                        src: recipe.image || "",
+                        alt: recipe.title,
+                        categorie: recipe.categorie,
+                        type: recipe.type,
+                        price: recipe.price,
+                        description: recipe.description,
+                        ingredients: recipe.ingredients,
+                        allergènes: recipe.allergènes,
+                        image: recipe.image,
+                        title: recipe.title,
+                        uid: recipe.uid,
+                        temperature: recipe.temperature,
+                    };
+                });
                 setRecipes(recipesFromDb);
             } catch (error) {
                 console.error(
                     "Erreur lors de la récupération des recettes:",
                     error,
                 );
+                toast.error("Erreur lors de la récupération des recettes.");
+                setRecipes([]);
             } finally {
                 setIsLoading(false);
             }
@@ -41,33 +61,24 @@ export const Recipe = () => {
     }, []);
 
     // Fonction pour extraire les catégories uniques
-    const availableCategories = useMemo(() => {
-        const categories = Recipes.map((recipe) => recipe.categorie).filter(
-            Boolean,
-        );
-        return [...new Set(categories)];
-    }, [Recipes]);
+
+    const categories = [
+        ...new Set(Recipes.map((recipe) => recipe.categorie)),
+    ].filter(Boolean);
 
     // Met à jour les recettes affichées en fonction des filtres
     useEffect(() => {
-        let filteredRecipes = Recipes.filter(
-            (recipe) => recipe.type === activeFilter,
-        );
+        let filteredRecipes = Recipes;
 
         if (selectedCategories.length > 0) {
-            filteredRecipes = filteredRecipes.filter((recipe) =>
-                selectedCategories.includes(recipe.categorie),
+            filteredRecipes = filteredRecipes.filter(
+                (recipe) =>
+                    recipe.categorie &&
+                    selectedCategories.includes(recipe.categorie),
             );
         }
 
-        // Map RecipeDocument to RecipeData for the view components
-        const recipesForView = filteredRecipes.map((doc) => ({
-            ...doc,
-            src: doc.image || "", // Gérer l'image par défaut dans CardRecipe
-            alt: doc.title,
-        }));
-
-        setDisplayedRecipes(recipesForView);
+        setDisplayedRecipes(filteredRecipes);
     }, [activeFilter, Recipes, selectedCategories]);
 
     const handleCategoryClick = (category: string) => {
@@ -91,18 +102,18 @@ export const Recipe = () => {
                 <Typo variant="para" weight="bold" color="secondary">
                     Catégories :
                 </Typo>
-                {availableCategories.map((category) => (
+                {categories.map((categorie) => (
                     <Button
-                        key={category}
+                        key={categorie}
                         size="large"
                         variant={
-                            selectedCategories.includes(category)
+                            selectedCategories.includes(categorie)
                                 ? "primary"
                                 : "disabled"
                         }
-                        action={() => handleCategoryClick(category)}
+                        action={() => handleCategoryClick(categorie)}
                     >
-                        {category}
+                        {categorie}
                     </Button>
                 ))}
                 {selectedCategories.length > 0 && (
@@ -121,7 +132,7 @@ export const Recipe = () => {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
-                    {Recipes.map((recipe) => (
+                    {displayedRecipes.map((recipe) => (
                         <CardRecipe
                             key={recipe.uid}
                             uid={recipe.uid}
