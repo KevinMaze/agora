@@ -7,7 +7,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
 
-interface CarProps {
+interface CardProps {
     src?: string | StaticImageData;
     uid: string;
     title?: string;
@@ -23,12 +23,13 @@ interface CarProps {
     onClick: () => void;
 }
 
-export const CardRecipe: React.FC<CarProps> = ({
+export const CardRecipe: React.FC<CardProps> = ({
     src = DefaultImage,
     title,
     description,
     price,
     onClick,
+    alt,
 }) => {
     const [imgSrc, setImgSrc] = useState(src);
     const [isLoading, setIsLoading] = useState(true);
@@ -45,7 +46,7 @@ export const CardRecipe: React.FC<CarProps> = ({
                     )}
                     <Image
                         src={imgSrc}
-                        alt={title}
+                        alt={alt || title || "Image de recette"}
                         fill
                         className={`object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-110 ${
                             isLoading ? "opacity-0" : "opacity-100"
@@ -55,12 +56,6 @@ export const CardRecipe: React.FC<CarProps> = ({
                             setImgSrc(DefaultImage);
                             setIsLoading(false);
                         }}
-                        placeholder="blur"
-                        blurDataURL={
-                            typeof imgSrc === "string"
-                                ? imgSrc
-                                : imgSrc.blurDataURL
-                        }
                     />
                 </div>
                 <div className="mt-5">

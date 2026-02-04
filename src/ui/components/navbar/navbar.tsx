@@ -17,8 +17,6 @@ interface NavbarProps {
 
 export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
     const { authUser } = useAuth();
-    console.log("utilisateur", authUser.displayName);
-
     const authentificationSystem = (
         <div className="px-6 text-center flex-shrink-0">
             <Button baseUrl="/connexion">Connexion</Button>

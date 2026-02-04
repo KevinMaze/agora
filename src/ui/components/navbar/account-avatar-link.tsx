@@ -18,6 +18,10 @@ export const AccountAvatarNavigationLink = () => {
 
     const { authUser } = useAuth();
 
+    if (!authUser) {
+        return null;
+    }
+
     const { photoURL, displayName } = authUser;
 
     return (

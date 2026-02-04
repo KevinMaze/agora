@@ -86,13 +86,13 @@ export const ProfileStep = ({
                 const data = {
                     displayName: formData.displayName,
                 };
-                const { error } = await updateUserIdentificationData(
+                const response = await updateUserIdentificationData(
                     authUser.uid,
                     data,
                 );
-                if (error) {
+                if (response && response.error) {
                     setLoading(false);
-                    toast.error(error.message);
+                    toast.error(response.error.message);
                     return;
                 }
             }
