@@ -58,10 +58,28 @@ export const Header = () => {
                             variant="title"
                             components="h1"
                             weight="bold"
+                            className="uppercase text-center text-2xl sm:text-4xl lg:text-5xl tracking-[14px]"
+                        >
+                            {" "}
+                            Librairie
+                        </Typo>
+                        <Typo
+                            variant="title"
+                            components="h1"
+                            weight="bold"
                             className="mt-3 uppercase text-center text-2xl sm:text-4xl lg:text-5xl tracking-[14px]"
                         >
                             {" "}
-                            Librairie et Café
+                            et
+                        </Typo>
+                        <Typo
+                            variant="title"
+                            components="h1"
+                            weight="bold"
+                            className="mt-3 uppercase text-center text-2xl sm:text-4xl lg:text-5xl tracking-[14px]"
+                        >
+                            {" "}
+                            Café
                         </Typo>
                     </motion.div>
                 </motion.div>

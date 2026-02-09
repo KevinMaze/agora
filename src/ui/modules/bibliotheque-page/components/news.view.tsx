@@ -36,7 +36,7 @@ export const News = () => {
                 weight="bold"
                 className="mb-20 mt-20 uppercase text-3xl sm:text-5xl lg:text-6xl underline underline-offset-8 text-center"
             >
-                Nouveautées
+                Nouveautés
             </Typo>
             {isLoading ? (
                 <div className="flex justify-center items-center h-64">

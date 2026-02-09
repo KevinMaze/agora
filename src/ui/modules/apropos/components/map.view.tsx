@@ -21,7 +21,14 @@ export const MapView = () => {
                         components="p"
                         className="lg:text-xl text-[14px]"
                     >
-                        L'Agora Adresse 30000 Nîmes
+                        <Typo
+                            variant="para"
+                            components="p"
+                            className="text-center"
+                        >
+                            L'Agora
+                        </Typo>{" "}
+                        <br /> 3 rue Crémieux 30000 Nîmes
                     </Typo>
                     <Typo
                         variant="para"
@@ -40,10 +47,10 @@ export const MapView = () => {
                 </div>
                 <div className=" h-auto w-auto">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2878.127560143047!2d4.363648912267439!3d43.83245297097366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b42d0fa643cf29%3A0x7d2a0202f82097b0!2zTsOubWVz!5e0!3m2!1sfr!2sfr!4v1763290682656!5m2!1sfr!2sfr"
-                        style={{ border: 1 }}
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5755.627326007375!2d4.358089176654284!3d43.83896144039565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b42d0b9c1d5265%3A0xbaab705976de8b0!2s3%20Rue%20Cr%C3%A9mieux%2C%2030000%20N%C3%AEmes!5e0!3m2!1sfr!2sfr!4v1770635062047!5m2!1sfr!2sfr"
+                        width="600"
+                        height="450"
                         loading="lazy"
-                        className="rounded-xl border-1 border-primary w-80 h-80 lg:w-150 lg:h-87.5"
                     ></iframe>
                 </div>
             </div>

@@ -24,7 +24,7 @@ export const Header = () => {
                         weight="bold"
                         className="uppercase text-center text-3xl sm:text-7xl lg:text-8xl sm:-translate-x-15 lg:-translate-x-10 -rotate-49 w-50 sm:w-150 lg:w-200"
                     >
-                        La Rentrée
+                        Nos Rentrées
                     </Typo>
                     <Typo
                         variant="title"
@@ -32,7 +32,7 @@ export const Header = () => {
                         weight="bold"
                         className="mt-3 uppercase text-center text-3xl sm:text-7xl lg:text-8xl sm:-translate-x-20 lg:-translate-x-15 -rotate-50"
                     >
-                        Littéraire
+                        littéraires
                     </Typo>
                 </div>
                 <Image

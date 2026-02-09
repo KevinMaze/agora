@@ -28,34 +28,48 @@ export const SoldCollect = () => {
             <div className="z-1 bg-foreground/80 p-5 rounded-3xl lg:w-[900px] text-center">
                 <Typo
                     variant="para"
+                    weight="normal"
+                    className="text-secondary uppercase underline sm:text-xl"
+                >
+                    Choisis ton format :
+                </Typo>
+
+                <Typo
+                    variant="para"
                     components="p"
                     weight="normal"
-                    className="text-center mt-5 sm:text-xl"
+                    className="text-center m-5 sm:text-xl"
                     color="other"
                 >
-                    <span className="text-secondary uppercase underline">
-                        Choisis ton format :
-                    </span>{" "}
                     Pour chaque genre proposé dans les box, deux formats sont
                     disponibles : un standard et un XXL. Ces box s’adaptent à
                     vos budgets et à vos envies !
-                    <br />
-                    <br />
-                    <span className="text-tier uppercase underline">
+                    <Typo
+                        variant="para"
+                        components="p"
+                        weight="normal"
+                        className="text-tier uppercase underline m-5"
+                    >
                         Standard :
-                    </span>{" "}
+                    </Typo>
                     - Un livre de poche neuf - Goodies - Pochette livres.
-                    <br />
-                    <br />
-                    <span className="text-tier uppercase underline">
+                    <Typo
+                        variant="para"
+                        components="p"
+                        weight="normal"
+                        className="text-tier uppercase underline m-5"
+                    >
                         Standard d’occasion :
-                    </span>{" "}
+                    </Typo>
                     - 3 livres d’occasion - Goodies - Un café suspendu (offert).
-                    <br />
-                    <br />
-                    <span className="text-tier uppercase underline">
+                    <Typo
+                        variant="para"
+                        components="p"
+                        weight="normal"
+                        className="text-tier uppercase underline m-5"
+                    >
                         XXL :
-                    </span>{" "}
+                    </Typo>
                     - Un livre grand format neuf et un livre petit format neuf -
                     Un textile (écharpe, t-shirt, tote bag). - Un goodies - Un
                     coupon -20% dans le magasin.
@@ -76,7 +90,7 @@ export const SoldCollect = () => {
                             title={sold.title}
                             price={sold.price}
                         ></Card>
-                    )
+                    ),
                 )}
             </div>
         </Container>

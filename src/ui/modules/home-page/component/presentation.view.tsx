@@ -36,13 +36,18 @@ export const PresentationView = () => {
                         <Typo
                             variant="para"
                             components="p"
+                            weight="bold"
+                            className="text-tier uppercase underline font-extrabold text-2xl"
+                        >
+                            Agora :{" "}
+                        </Typo>
+                        <Typo
+                            variant="para"
+                            components="p"
                             weight="normal"
-                            className="text-center p-15 text-[10px] sm:text-[12px] lg:text-[16px]"
+                            className="text-center p-10 text-[10px] sm:text-[12px] lg:text-[16px]"
                             color="other"
                         >
-                            <span className="text-tier uppercase underline font-extrabold text-2xl">
-                                Agora :
-                            </span>{" "}
                             “du grec ancien ἀγορά / agorá, a d'abord désigné,
                             dans la Grèce antique, une réunion de citoyens,
                             ainsi que l'espace public où celle-ci a lieu.”. Nous
