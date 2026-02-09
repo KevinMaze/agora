@@ -48,7 +48,7 @@ export const Footer = () => {
                     >
                         Suivez l`Agora sur
                         <Link
-                            href="https://www.instagram.com"
+                            href="https://www.instagram.com/lagora_coffee_librairie/"
                             target="_blank"
                             className="flex gap-1"
                         >
@@ -60,14 +60,14 @@ export const Footer = () => {
                             target="_blank"
                             className="flex gap-1"
                         >
-                            <FaFacebook /> Facebook
+                            <FaFacebook /> Facebook(soon)
                         </Link>
                         <Link
                             href="https://www.twitter.com"
                             target="_blank"
                             className="flex gap-1"
                         >
-                            <FaXTwitter /> Twitter
+                            <FaXTwitter /> Twitter(soon)
                         </Link>
                     </Typo>
                     <div className="w-full border border-secondary"></div>

@@ -51,6 +51,7 @@ export const MapView = () => {
                         width="600"
                         height="450"
                         loading="lazy"
+                        className="rounded-2xl"
                     ></iframe>
                 </div>
             </div>
