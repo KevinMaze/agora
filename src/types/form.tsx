@@ -50,3 +50,15 @@ export interface AddRecipeFormFieldsType {
     price: string;
     image: FileList;
 }
+
+export interface AddMomentFormFieldsType {
+    title: string;
+    type: string;
+    categorie: string;
+    temperature: string;
+    description: string;
+    ingredients: string[];
+    allergènes: string[];
+    price: string;
+    image: FileList;
+}

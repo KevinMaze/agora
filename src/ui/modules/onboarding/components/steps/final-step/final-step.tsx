@@ -8,7 +8,6 @@ import { OnboardingFooter } from "../../footer/onboarding-footer";
 import { Logo } from "@/ui/design-system/logo";
 import ReactCanvasConfetti from "react-canvas-confetti";
 import { firestoreUptadeDocument } from "@/api/firestore";
-import { on } from "events";
 import { toast } from "react-toastify";
 
 export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {

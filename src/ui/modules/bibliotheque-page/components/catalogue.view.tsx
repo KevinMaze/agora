@@ -13,6 +13,15 @@ import clsx from "clsx";
 import { getBooks } from "@/api/books";
 import { toast } from "react-toastify";
 import error from "@/../public/assets/images/404.png";
+import { Modal } from "@/ui/design-system/modal";
+import { BookDocument } from "@/types/book";
+import { StaticImageData } from "next/image";
+
+type CatalogueBook = BookDocument & {
+    id?: string;
+    src?: string | StaticImageData;
+    alt?: string;
+};
 
 export const CatalogueView = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -20,9 +29,12 @@ export const CatalogueView = () => {
     const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
     const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
     const [selectedYears, setSelectedYears] = useState<string[]>([]);
-    const [allBooks, setAllBooks] = useState<any[]>([]);
-    const [filteredBooks, setFilteredBooks] = useState<any[]>([]);
+    const [allBooks, setAllBooks] = useState<CatalogueBook[]>([]);
+    const [filteredBooks, setFilteredBooks] = useState<CatalogueBook[]>([]);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    const [selectedBook, setSelectedBook] = useState<CatalogueBook | null>(
+        null,
+    );
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -134,13 +146,13 @@ export const CatalogueView = () => {
 
         switch (filterType) {
             case "category":
-                updateSelection(selectedCategory, setSelectedCategory as any);
+                updateSelection(selectedCategory, setSelectedCategory);
                 break;
             case "autor":
-                updateSelection(selectedAuthors, setSelectedAuthors as any);
+                updateSelection(selectedAuthors, setSelectedAuthors);
                 break;
             case "releaseYear":
-                updateSelection(selectedYears, setSelectedYears as any);
+                updateSelection(selectedYears, setSelectedYears);
                 break;
         }
     };
@@ -166,7 +178,7 @@ export const CatalogueView = () => {
                 <div className="relative z-10 h-full flex flex-col justify-around items-center">
                     <Typo
                         variant="para"
-                        components="h1"
+                        component="h1"
                         weight="bold"
                         className="text-5xl sm:text-8xl lg:text-8xl uppercase"
                     >
@@ -174,14 +186,14 @@ export const CatalogueView = () => {
                     </Typo>
                     <Typo
                         variant="para"
-                        components="h1"
+                        component="h1"
                         weight="bold"
                         className="text-5xl sm:text-8xl lg:text-8xl uppercase"
                     >
                         Cata
                         <Typo
                             variant="para"
-                            components="span"
+                            component="span"
                             weight="bold"
                             className="-rotate-12 inline-block "
                         >
@@ -203,7 +215,7 @@ export const CatalogueView = () => {
                     >
                         <Typo
                             variant="para"
-                            components="p"
+                            component="p"
                             weight="bold"
                             className="text-white underline cursor-pointer"
                         >
@@ -400,11 +412,57 @@ export const CatalogueView = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center">
                         {filteredBooks.map((book, index) => (
-                            <Card key={index} {...book} />
+                            <Card
+                                key={book.id || index}
+                                {...book}
+                                onAction={() => setSelectedBook(book)}
+                            />
                         ))}
                     </div>
                 )}
             </Container>
+
+            <Modal
+                isOpen={!!selectedBook}
+                onClose={() => setSelectedBook(null)}
+                title={selectedBook?.title}
+                image={{
+                    src: selectedBook?.image || error,
+                    alt: selectedBook?.title || "Livre",
+                }}
+                sections={[
+                    ...(selectedBook?.autor
+                        ? [
+                              {
+                                  label: "Auteur",
+                                  content: selectedBook.autor,
+                              },
+                          ]
+                        : []),
+                    ...(selectedBook?.releaseYear
+                        ? [
+                              {
+                                  label: "Année",
+                                  content: selectedBook.releaseYear,
+                              },
+                          ]
+                        : []),
+                    ...(selectedBook?.category
+                        ? [
+                              {
+                                  label: "Catégorie",
+                                  content: selectedBook.category,
+                              },
+                          ]
+                        : []),
+                    {
+                        label: "Description",
+                        content:
+                            selectedBook?.description ||
+                            "Aucune description disponible.",
+                    },
+                ]}
+            />
         </div>
     );
 };

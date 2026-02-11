@@ -2,24 +2,25 @@ import clsx from "clsx";
 
 interface TypoProps {
     variant?: "title" | "para" | "span";
-    components?: "h1" | "h2" | "p" | "span" | "li" | "div";
+    component?: "h1" | "h2" | "p" | "span" | "li" | "div";
     color?: "primary" | "secondary" | "tier" | "other" | "danger";
     weight?: "normal" | "bold" | "extrabold";
     className?: string;
     children: React.ReactNode;
-    [key: string]: any; // Permet de passer n'importe quelle autre prop, comme onClick
 }
+
+type TypoPropsWithHtml = TypoProps & React.HTMLAttributes<HTMLElement>;
 
 export const Typo = ({
     variant = "para",
-    components = "p",
+    component,
     color = "primary",
     weight = "normal",
     className,
     children,
     ...rest // Récupère toutes les autres props (ex: onClick)
-}: TypoProps) => {
-    const Component = components;
+}: TypoPropsWithHtml) => {
+    const Component = component || "p";
     let variantStyle: string = "";
     let colorStyle: string = "";
 
@@ -61,7 +62,7 @@ export const Typo = ({
                 weight === "normal" && "font-normal",
                 weight === "bold" && "font-bold",
                 weight === "extrabold" && "font-extrabold",
-                className
+                className,
             )}
             {...rest} // Applique les props supplémentaires ici
         >

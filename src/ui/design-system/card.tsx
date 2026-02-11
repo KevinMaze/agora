@@ -11,12 +11,13 @@ import { FaArrowRight } from "react-icons/fa6";
 
 interface CarProps {
     src?: string | StaticImageData; // Rendu optionnel pour le cas où elle n'est pas fournie
-    alt: string;
+    alt?: string;
     title?: string;
     description?: string;
     autor?: string;
     date?: string;
     price?: string;
+    onAction?: () => void;
 }
 
 export const Card: React.FC<CarProps> = ({
@@ -26,6 +27,7 @@ export const Card: React.FC<CarProps> = ({
     autor,
     date,
     price,
+    onAction,
 }: CarProps) => {
     const [imgSrc, setImgSrc] = useState(src);
     const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +64,7 @@ export const Card: React.FC<CarProps> = ({
                 <div className="flex flex-col justify-center items-center mt-4">
                     <Typo
                         variant="para"
-                        components="h1"
+                        component="h1"
                         weight="bold"
                         color="primary"
                         className="uppercase"
@@ -71,7 +73,7 @@ export const Card: React.FC<CarProps> = ({
                     </Typo>
                     <Typo
                         variant="para"
-                        components="p"
+                        component="p"
                         weight="normal"
                         color="secondary"
                         className="uppercase mt-4"
@@ -80,7 +82,9 @@ export const Card: React.FC<CarProps> = ({
                     </Typo>
                 </div>
                 <div className="mt-4 flex justify-center">
-                    <Button icon={{ icon: FaArrowRight }}> Voir</Button>
+                    <Button icon={{ icon: FaArrowRight }} action={onAction}>
+                        Voir
+                    </Button>
                 </div>
             </div>
         </>

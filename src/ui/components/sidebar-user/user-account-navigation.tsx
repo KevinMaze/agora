@@ -18,6 +18,11 @@ export const UserAccountNavigation = () => {
                         Ajouter des recettes
                     </ActiveLink>
                 </Typo>
+                <Typo variant="para">
+                    <ActiveLink href="/mon_espace/add-moment">
+                        Ajouter un moment
+                    </ActiveLink>
+                </Typo>
             </div>
         </div>
     );
