@@ -14,6 +14,11 @@ export const UserAccountNavigation = () => {
                     </ActiveLink>
                 </Typo>
                 <Typo variant="para">
+                    <ActiveLink href="/mon_espace/add-box">
+                        Ajouter des box
+                    </ActiveLink>
+                </Typo>
+                <Typo variant="para">
                     <ActiveLink href="/mon_espace/add-recipe">
                         Ajouter des recettes
                     </ActiveLink>

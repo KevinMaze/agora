@@ -39,6 +39,15 @@ export interface AddBookFormFieldsType {
     autor: string;
     image: FileList;
 }
+
+export interface AddBoxFormFieldsType {
+    title: string;
+    description: string;
+    type: string;
+    price: string;
+    image: FileList;
+}
+
 export interface AddRecipeFormFieldsType {
     title: string;
     type: string;

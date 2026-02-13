@@ -1,13 +1,19 @@
+import { BoxDocument } from "@/types/box";
 import { HearderCollect } from "./components/hearder-collect.view";
 import { PresentationCollect } from "./components/presentation.view";
 import { SoldCollect } from "./components/sold-collect.vew";
 
-export const CollectPageView = () => {
+interface Props {
+    boxes: BoxDocument[];
+    isLoading: boolean;
+}
+
+export const CollectPageView = ({ boxes, isLoading }: Props) => {
     return (
         <>
             <HearderCollect />
             <PresentationCollect />
-            <SoldCollect />
+            <SoldCollect boxes={boxes} isLoading={isLoading} />
         </>
     );
 };
