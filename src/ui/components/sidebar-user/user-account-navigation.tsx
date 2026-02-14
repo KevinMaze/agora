@@ -28,6 +28,11 @@ export const UserAccountNavigation = () => {
                         Ajouter un moment
                     </ActiveLink>
                 </Typo>
+                <Typo variant="para">
+                    <ActiveLink href="/mon_espace/add-evenements">
+                        Ajouter des événements
+                    </ActiveLink>
+                </Typo>
             </div>
         </div>
     );

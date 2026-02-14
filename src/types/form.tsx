@@ -48,6 +48,18 @@ export interface AddBoxFormFieldsType {
     image: FileList;
 }
 
+export interface AddEvenementFormFieldsType {
+    title: string;
+    date: string;
+    description: string;
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    youtube?: string;
+    twitter?: string;
+    image: FileList;
+}
+
 export interface AddRecipeFormFieldsType {
     title: string;
     type: string;
