@@ -1,19 +1,10 @@
-import type {
-    Control,
-    FieldErrors,
-    FieldValues,
-    SubmitHandler,
-    UseFormHandleSubmit,
-    UseFormRegister,
-} from "react-hook-form";
-
-export interface FormsType<TFieldValues extends FieldValues = FieldValues> {
-    onSubmit: SubmitHandler<TFieldValues>;
-    control?: Control<TFieldValues>;
-    errors: FieldErrors<TFieldValues>;
+export interface FormsType {
+    onSubmit: any;
+    control?: any;
+    errors: any;
     isLoading: boolean;
-    register: UseFormRegister<TFieldValues>;
-    handleSubmit: UseFormHandleSubmit<TFieldValues>;
+    register: any;
+    handleSubmit: any;
 }
 
 export interface RegisterFormFieldsType {
