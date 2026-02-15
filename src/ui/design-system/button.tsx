@@ -15,7 +15,7 @@ interface Props {
     children?: React.ReactNode;
     baseUrl?: string;
     linkType?: LinkType;
-    action?: Function;
+    action?: () => void;
     classname?: string;
     type?: "button" | "submit" | "reset";
 }
@@ -33,7 +33,7 @@ export const Button = ({
     linkType,
     classname,
     type = "button",
-    action = () => {},
+    action,
 }: Props) => {
     let variantStyle: string = "",
         sizeStyle: string = "",
@@ -99,9 +99,7 @@ export const Button = ({
     }
 
     const handleClick = () => {
-        if (action) {
-            action();
-        }
+        action?.();
     };
 
     const buttonContent = (

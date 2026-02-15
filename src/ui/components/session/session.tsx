@@ -1,5 +1,5 @@
 import { useAuth } from "@/context/AuthUserContext";
-import { ADMIN, GUEST, REGISTERED } from "@/lib/session-status";
+import { GUEST, REGISTERED } from "@/lib/session-status";
 import { SessionStatusTypes } from "@/types/session-status-types";
 import { ScreenSpinner } from "@/ui/design-system/screen-spinner";
 import { useRouter } from "next/router";

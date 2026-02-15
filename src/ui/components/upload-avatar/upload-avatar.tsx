@@ -3,7 +3,6 @@ import { RiCamera2Fill } from "react-icons/ri";
 import Camera from "@/../public/assets/images/camera.png";
 import clsx from "clsx";
 import { useAuth } from "@/context/AuthUserContext";
-import { auth } from "@/config/firebase-config";
 
 interface Props {
     handleImageSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;

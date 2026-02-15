@@ -10,13 +10,7 @@ interface Props {
     progress?: number;
 }
 
-export const Avatar = ({
-    size = "medium",
-    src,
-    alt,
-    isLoading,
-    progress,
-}: Props) => {
+export const Avatar = ({ size = "medium", src, alt, isLoading }: Props) => {
     let sizeAvatar: string;
     switch (size) {
         case "small":

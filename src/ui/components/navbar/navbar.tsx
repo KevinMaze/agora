@@ -1,7 +1,6 @@
 // src/components/Sidebar.tsx
 import React from "react";
 import clsx from "clsx";
-import { Avatar } from "@/ui/design-system/avatar";
 import { Typo } from "@/ui/design-system/typography";
 import { Button } from "@/ui/design-system/button";
 import { Logo } from "@/ui/design-system/logo";
