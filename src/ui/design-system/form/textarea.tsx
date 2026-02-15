@@ -1,20 +1,27 @@
 import clsx from "clsx";
+import type {
+    FieldErrors,
+    FieldValues,
+    Path,
+    UseFormRegister,
+} from "react-hook-form";
 import { Typo } from "../typography";
 
-interface Props {
+interface Props<TFieldValues extends FieldValues> {
     isLoading: boolean;
     placeholder?: string;
     rows?: number;
-    register: any;
-    errors: any;
+    register: UseFormRegister<TFieldValues>;
+    errors: FieldErrors<TFieldValues> &
+        Record<string, { message?: string } | undefined>;
     errorMsg?: string;
-    id: string;
+    id: Path<TFieldValues>;
     required?: boolean;
     isAutoCompleted?: boolean;
     label?: string;
 }
 
-export const Textarea = ({
+export const Textarea = <TFieldValues extends FieldValues>({
     isLoading,
     rows = 5,
     placeholder,
@@ -25,7 +32,7 @@ export const Textarea = ({
     required = true,
     isAutoCompleted = false,
     label,
-}: Props) => {
+}: Props<TFieldValues>) => {
     return (
         <div className="space-y-2">
             {label && (
@@ -46,7 +53,7 @@ export const Textarea = ({
                         "border-red-600 border-3 placeholder-red-600 ":
                             errors[id],
                         "border-primary": !errors[id],
-                    }
+                    },
                 )}
                 disabled={isLoading}
                 {...register(id, {
@@ -57,7 +64,7 @@ export const Textarea = ({
             {errors[id] && (
                 <Typo
                     variant="para"
-                    components="div"
+                    component="div"
                     color="danger"
                     className="mt-2"
                 >

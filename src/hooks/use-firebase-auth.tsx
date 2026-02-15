@@ -2,11 +2,12 @@ import { auth, db } from "@/config/firebase-config";
 import { UserDocument, UserInterface } from "@/types/user";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function useFirebaseAuth() {
     const [authUser, setAuthUser] = useState<UserInterface | null>(null);
     const [authUserIsLoading, setAuthUserIsLoading] = useState<boolean>(true);
+    const unsubscribeUserDocumentRef = useRef<null | (() => void)>(null);
 
     //Reload authUserData function
     const reloadAuthUserData = () => {
@@ -26,11 +27,14 @@ export default function useFirebaseAuth() {
         phoneNumber: user.phoneNumber,
     });
 
-    const getUserDocument = async (user: UserInterface) => {
+    const getUserDocument = useCallback(async (user: UserInterface) => {
         if (auth.currentUser) {
             const documentRef = doc(db, "users", auth.currentUser.uid);
             const compactUser = user;
-            onSnapshot(documentRef, async (doc) => {
+            unsubscribeUserDocumentRef.current?.();
+            unsubscribeUserDocumentRef.current = onSnapshot(
+                documentRef,
+                async (doc) => {
                 if (doc.exists()) {
                     compactUser.userDocument = doc.data() as UserDocument;
                 }
@@ -39,12 +43,16 @@ export default function useFirebaseAuth() {
                     ...compactUser,
                 }));
                 setAuthUserIsLoading(false);
-            });
+                },
+            );
         }
-    };
+    }, []);
 
-    const authStateChanged = async (authSate: UserInterface | User | null) => {
+    const authStateChanged = useCallback(
+        async (authSate: UserInterface | User | null) => {
         if (!authSate) {
+            unsubscribeUserDocumentRef.current?.();
+            unsubscribeUserDocumentRef.current = null;
             setAuthUser(null);
             setAuthUserIsLoading(false);
             return;
@@ -52,12 +60,18 @@ export default function useFirebaseAuth() {
         setAuthUserIsLoading(true);
         const formatedUser = formatAuthUser(authSate);
         await getUserDocument(formatedUser);
-    };
+        },
+        [getUserDocument],
+    );
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, authStateChanged);
-        return () => unsubscribe();
-    });
+        return () => {
+            unsubscribe();
+            unsubscribeUserDocumentRef.current?.();
+            unsubscribeUserDocumentRef.current = null;
+        };
+    }, [authStateChanged]);
 
     return {
         authUser,

@@ -16,7 +16,6 @@ interface Props {
     baseUrl?: string;
     linkType?: LinkType;
     action?: () => void;
-    classname?: string;
     type?: "button" | "submit" | "reset";
 }
 
@@ -31,13 +30,11 @@ export const Button = ({
     children,
     baseUrl,
     linkType,
-    classname,
     type = "button",
     action,
 }: Props) => {
     let variantStyle: string = "",
-        sizeStyle: string = "",
-        iconSize: number = 0;
+        sizeStyle: string = "";
 
     switch (variant) {
         case "primary": //default
@@ -74,7 +71,6 @@ export const Button = ({
             } text-sm sm:text-base ${
                 variant === "icon" ? "sm:w-10 sm:h-10" : "sm:px-4 sm:py-2"
             } font-medium uppercase border-2 border-foreground`;
-            iconSize = 20; // iconSize will be handled by responsive classes if needed
             break;
         case "large":
             sizeStyle = ` ${
@@ -85,7 +81,6 @@ export const Button = ({
             } text-sm sm:text-lg ${
                 variant === "icon" ? "sm:w-12 sm:h-12" : "sm:px-6 sm:py-3"
             } font-bold uppercase border-2 border-foreground`;
-            iconSize = 20; // iconSize will be handled by responsive classes if needed
             break;
         case "small":
         default:
@@ -94,7 +89,6 @@ export const Button = ({
                     ? "flex items-center justify-center w-8 h-8"
                     : "px-3 py-1"
             } text-sm font-small uppercase border-2 border-foreground`;
-            iconSize = 20;
             break;
     }
 

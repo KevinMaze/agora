@@ -1,8 +1,14 @@
 import clsx from "clsx";
-import { div } from "framer-motion/client";
+import type {
+    FieldErrors,
+    FieldValues,
+    Path,
+    RegisterOptions,
+    UseFormRegister,
+} from "react-hook-form";
 import { Typo } from "../typography";
 
-interface Props {
+interface Props<TFieldValues extends FieldValues> {
     isLoading: boolean;
     placeholder?: string;
     type?:
@@ -23,13 +29,14 @@ interface Props {
         | "reset"
         | "select"
         | "option";
-    register: any;
-    errors: any;
+    register: UseFormRegister<TFieldValues>;
+    errors: FieldErrors<TFieldValues> &
+        Record<string, { message?: string } | undefined>;
     errorMsg?: string;
-    id: string;
+    id: Path<TFieldValues>;
     required?: boolean;
     isAutoCompleted?: boolean;
-    validate?: (value: string) => boolean | string;
+    validate?: RegisterOptions<TFieldValues, Path<TFieldValues>>["validate"];
     label?: string;
     options?: { value: string; label: string }[];
     multiple?: boolean;
@@ -37,7 +44,7 @@ interface Props {
     className?: string;
 }
 
-export const Input = ({
+export const Input = <TFieldValues extends FieldValues>({
     isLoading,
     placeholder,
     type = "text",
@@ -51,7 +58,7 @@ export const Input = ({
     validate,
     options,
     multiple = false,
-}: Props) => {
+}: Props<TFieldValues>) => {
     return (
         <div className="space-y-2">
             {label && (
@@ -146,7 +153,7 @@ export const Input = ({
             {errors[id] && (
                 <Typo
                     variant="para"
-                    components="div"
+                    component="div"
                     color="danger"
                     className="mt-2"
                 >

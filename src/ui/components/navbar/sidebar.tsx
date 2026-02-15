@@ -7,12 +7,13 @@ const Sidebar: React.FC = () => {
     // L'état pour contrôler la visibilité du menu
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-    const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+    const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
     return (
         <div>
             {/* Le bouton pour ouvrir/fermer le menu */}
             <button
+                type="button"
                 onClick={toggleSidebar}
                 className={clsx(
                     "fixed top-4 right-4 z-[60] p-2 rounded-md text-primary bg-background/50 backdrop-blur-sm transition-transform duration-300 ease-in-out",
