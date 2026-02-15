@@ -5,15 +5,25 @@ import { Input } from "@/ui/design-system/form/input";
 import { Textarea } from "@/ui/design-system/form/textarea";
 import clsx from "clsx";
 import Camera from "@/../public/assets/images/camera.png";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 interface Props {
     form: FormsType;
     imagePreview: string | ArrayBuffer | null;
     setImagePreview: (value: string | ArrayBuffer | null) => void;
+    submitLabel?: string;
+    isSubmitDisabled?: boolean;
+    footer?: React.ReactNode;
 }
 
-export const AddBookForm = ({ form, imagePreview, setImagePreview }: Props) => {
+export const AddBookForm = ({
+    form,
+    imagePreview,
+    setImagePreview,
+    submitLabel = "Ajouter le livre",
+    isSubmitDisabled = false,
+    footer,
+}: Props) => {
     const { register, errors, isLoading, handleSubmit, onSubmit } = form;
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -137,9 +147,14 @@ export const AddBookForm = ({ form, imagePreview, setImagePreview }: Props) => {
                 </div>
             </div>
 
-            <Button isLoading={isLoading} type="submit">
-                {isLoading ? "Loading..." : "Ajouter le livre"}
+            <Button
+                isLoading={isLoading}
+                type="submit"
+                disabled={isSubmitDisabled}
+            >
+                {isLoading ? "Loading..." : submitLabel}
             </Button>
+            {footer}
         </form>
     );
 };

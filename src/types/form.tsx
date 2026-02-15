@@ -34,7 +34,7 @@ export interface OnboardingProfileFormFieldsType {
 export interface AddBookFormFieldsType {
     title: string;
     description: string;
-    category: string;
+    category: string | string[];
     releaseYear: string;
     autor: string;
     image: FileList;

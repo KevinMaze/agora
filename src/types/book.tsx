@@ -8,6 +8,7 @@ export interface BookInterface {
 }
 
 export interface BookDocument {
+    id?: string;
     uid: string;
     title: string;
     autor: string;
