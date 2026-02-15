@@ -11,12 +11,18 @@ interface Props {
     form: FormsType;
     imagePreview: string | ArrayBuffer | null;
     setImagePreview: (value: string | ArrayBuffer | null) => void;
+    submitLabel?: string;
+    isSubmitDisabled?: boolean;
+    footer?: React.ReactNode;
 }
 
 export const AddRecipeForm = ({
     form,
     imagePreview,
     setImagePreview,
+    submitLabel = "Ajouter la recette",
+    isSubmitDisabled = false,
+    footer,
 }: Props) => {
     const { register, errors, isLoading, handleSubmit, onSubmit } = form;
 
@@ -196,9 +202,14 @@ export const AddRecipeForm = ({
                 </div>
             </div>
 
-            <Button isLoading={isLoading} type="submit">
-                {isLoading ? "Loading..." : "Ajouter la recette"}
+            <Button
+                isLoading={isLoading}
+                type="submit"
+                disabled={isSubmitDisabled}
+            >
+                {isLoading ? "Loading..." : submitLabel}
             </Button>
+            {footer}
         </form>
     );
 };

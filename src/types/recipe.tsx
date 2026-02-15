@@ -7,6 +7,7 @@ export interface RecipeInterface {
 }
 
 export interface RecipeDocument {
+    id?: string;
     uid: string;
     alt: string;
     title: string;

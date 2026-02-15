@@ -66,8 +66,8 @@ export interface AddRecipeFormFieldsType {
     categorie: string;
     temperature: string;
     description: string;
-    ingredients: string[];
-    allergènes: string[];
+    ingredients: string | string[];
+    allergènes: string | string[];
     price: string;
     image: FileList;
 }
@@ -78,8 +78,8 @@ export interface AddMomentFormFieldsType {
     categorie: string;
     temperature: string;
     description: string;
-    ingredients: string[];
-    allergènes: string[];
+    ingredients: string | string[];
+    allergènes: string | string[];
     price: string;
     image: FileList;
 }

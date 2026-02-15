@@ -11,9 +11,19 @@ interface Props {
     form: FormsType;
     imagePreview: string | ArrayBuffer | null;
     setImagePreview: (value: string | ArrayBuffer | null) => void;
+    submitLabel?: string;
+    isSubmitDisabled?: boolean;
+    footer?: React.ReactNode;
 }
 
-export const AddBoxForm = ({ form, imagePreview, setImagePreview }: Props) => {
+export const AddBoxForm = ({
+    form,
+    imagePreview,
+    setImagePreview,
+    submitLabel = "Ajouter la box",
+    isSubmitDisabled = false,
+    footer,
+}: Props) => {
     const { register, errors, isLoading, handleSubmit, onSubmit } = form;
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -126,9 +136,14 @@ export const AddBoxForm = ({ form, imagePreview, setImagePreview }: Props) => {
                 </div>
             </div>
 
-            <Button isLoading={isLoading} type="submit">
-                {isLoading ? "Loading..." : "Ajouter la box"}
+            <Button
+                isLoading={isLoading}
+                type="submit"
+                disabled={isSubmitDisabled}
+            >
+                {isLoading ? "Loading..." : submitLabel}
             </Button>
+            {footer}
         </form>
     );
 };

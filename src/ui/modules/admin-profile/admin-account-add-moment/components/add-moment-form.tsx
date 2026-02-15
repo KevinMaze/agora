@@ -11,12 +11,18 @@ interface Props {
     form: FormsType;
     imagePreview: string | ArrayBuffer | null;
     setImagePreview: (value: string | ArrayBuffer | null) => void;
+    submitLabel?: string;
+    isSubmitDisabled?: boolean;
+    footer?: React.ReactNode;
 }
 
 export const AddMomentForm = ({
     form,
     imagePreview,
     setImagePreview,
+    submitLabel = "Ajouter le moment",
+    isSubmitDisabled = false,
+    footer,
 }: Props) => {
     const { register, errors, isLoading, handleSubmit, onSubmit } = form;
 
@@ -203,9 +209,14 @@ export const AddMomentForm = ({
                 </div>
             </div>
 
-            <Button isLoading={isLoading} type="submit">
-                {isLoading ? "Loading..." : "Ajouter le moment"}
+            <Button
+                isLoading={isLoading}
+                type="submit"
+                disabled={isSubmitDisabled}
+            >
+                {isLoading ? "Loading..." : submitLabel}
             </Button>
+            {footer}
         </form>
     );
 };

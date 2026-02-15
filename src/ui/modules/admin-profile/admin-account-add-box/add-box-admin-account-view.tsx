@@ -1,6 +1,7 @@
 import { FormsType } from "@/types/form";
 import { Typo } from "@/ui/design-system/typography";
 import { AddBoxForm } from "./components/add-box-form";
+import { AddBoxList } from "./components/add-box-list";
 
 interface Props {
     form: FormsType;
@@ -24,6 +25,7 @@ export const AddBoxAdminAccountView = ({
                 imagePreview={imagePreview}
                 setImagePreview={setImagePreview}
             />
+            <AddBoxList />
         </div>
     );
 };

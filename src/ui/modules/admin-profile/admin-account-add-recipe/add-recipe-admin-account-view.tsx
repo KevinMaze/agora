@@ -1,6 +1,7 @@
 import { FormsType } from "@/types/form";
 import { AddRecipeForm } from "./components/add-recipe-form";
 import { Typo } from "@/ui/design-system/typography";
+import { AddRecipeList } from "./components/add-recipe-list";
 
 interface Props {
     form: FormsType;
@@ -15,7 +16,7 @@ export const AddRecipeAdminAccountView = ({
 }: Props) => {
     return (
         <div className="flex flex-col items-center justify-center pt-20 pb-40 gap-5">
-            <Typo variant="para" components="p">
+            <Typo variant="para" component="p">
                 Bienvenue dans votre espace personnel. Ici vous pouvez ajouter
                 des recettes dans votre carte.
             </Typo>
@@ -24,6 +25,7 @@ export const AddRecipeAdminAccountView = ({
                 imagePreview={imagePreview}
                 setImagePreview={setImagePreview}
             />
+            <AddRecipeList />
         </div>
     );
 };

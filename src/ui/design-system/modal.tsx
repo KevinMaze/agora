@@ -55,82 +55,84 @@ export const Modal = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 z-50">
             <div
-                className="absolute inset-0"
+                className="absolute inset-0 bg-black/50"
                 onClick={onClose}
                 aria-hidden="true"
             />
-            <div
-                role="dialog"
-                aria-modal="true"
-                className={clsx(
-                    "relative bg-background p-8 sm:p-10 rounded-xl w-full h-[600px] overflow-y-auto",
-                    maxWidthClassName,
-                    contentClassName,
-                )}
-            >
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-primary hover:text-secondary"
-                    aria-label="Fermer la modale"
+            <div className="relative z-10 h-full w-full overflow-y-auto p-4">
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    className={clsx(
+                        "relative bg-background p-8 sm:p-10 rounded-xl w-full mx-auto my-6 max-h-[calc(100vh-3rem)] overflow-y-auto",
+                        maxWidthClassName,
+                        contentClassName,
+                    )}
                 >
-                    <FaTimes size={24} />
-                </button>
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 text-primary hover:text-secondary"
+                        aria-label="Fermer la modale"
+                    >
+                        <FaTimes size={24} />
+                    </button>
 
-                {children ? (
-                    children
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full">
-                        {image && (
-                            <div className="relative h-80 md:h-[500px] w-full">
-                                <Image
-                                    src={image.src}
-                                    alt={image.alt}
-                                    fill
-                                    className="object-cover rounded-lg"
-                                />
-                            </div>
-                        )}
-
-                        <div className="space-y-5 flex flex-col items-center text-center">
-                            {title && (
-                                <Typo
-                                    variant="title"
-                                    component="h2"
-                                    weight="bold"
-                                    color="primary"
-                                    className="uppercase text-3xl underline"
-                                >
-                                    {title}
-                                </Typo>
+                    {children ? (
+                        children
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full">
+                            {image && (
+                                <div className="relative h-80 md:h-[500px] w-full">
+                                    <Image
+                                        src={image.src}
+                                        alt={image.alt}
+                                        fill
+                                        className="object-cover rounded-lg"
+                                    />
+                                </div>
                             )}
 
-                            {sections.map((section) => (
-                                <div key={section.label}>
+                            <div className="space-y-5 flex flex-col items-center text-center">
+                                {title && (
                                     <Typo
-                                        variant="para"
+                                        variant="title"
                                         component="h2"
                                         weight="bold"
-                                        color="secondary"
-                                        className="mb-2 uppercase"
+                                        color="primary"
+                                        className="uppercase text-3xl underline"
                                     >
-                                        {section.label}
+                                        {title}
                                     </Typo>
-                                    <Typo
-                                        variant="para"
-                                        component="div"
-                                        color="other"
-                                    >
-                                        {section.content}
-                                    </Typo>
-                                </div>
-                            ))}
+                                )}
 
-                            {footer}
+                                {sections.map((section) => (
+                                    <div key={section.label}>
+                                        <Typo
+                                            variant="para"
+                                            component="h2"
+                                            weight="bold"
+                                            color="secondary"
+                                            className="mb-2 uppercase"
+                                        >
+                                            {section.label}
+                                        </Typo>
+                                        <Typo
+                                            variant="para"
+                                            component="div"
+                                            color="other"
+                                        >
+                                            {section.content}
+                                        </Typo>
+                                    </div>
+                                ))}
+
+                                {footer}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );
