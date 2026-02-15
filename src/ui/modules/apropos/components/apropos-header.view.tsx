@@ -19,7 +19,7 @@ export const AproposHeaderView = () => {
                 <div className="absolute bottom-0 left-0 mb-10 ml-10">
                     <Typo
                         variant="title"
-                        components="h1"
+                        component="h1"
                         weight="bold"
                         className="uppercase text-6xl sm:text-8xl"
                     >

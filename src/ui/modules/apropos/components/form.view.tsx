@@ -61,28 +61,28 @@ export const AproposFormView = () => {
                 <div className="flex flex-col justify-between items-center gap-25">
                     <Typo
                         variant="para"
-                        components="p"
+                        component="p"
                         className="text-2xl uppercase -rotate-12"
                     >
                         Une demande particulière ?
                     </Typo>
                     <Typo
                         variant="para"
-                        components="p"
+                        component="p"
                         className="text-2xl uppercase rotate-12"
                     >
                         une precision ?
                     </Typo>
                     <Typo
                         variant="para"
-                        components="p"
+                        component="p"
                         className="text-2xl uppercase -rotate-12"
                     >
                         où alors on papotte ?
                     </Typo>
                     <Typo
                         variant="para"
-                        components="p"
+                        component="p"
                         className="text-2xl uppercase rotate-12"
                     >
                         n’hésitez pas à nous écrire

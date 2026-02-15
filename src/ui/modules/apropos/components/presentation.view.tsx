@@ -4,6 +4,8 @@ import useMeasure from "react-use-measure";
 import Image from "next/image";
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
+import Jordan from "@/../public/assets/images/jordan.png";
+import Lavinia from "@/../public/assets/images/lavinia.png";
 
 const Images = [
     "/assets/images/01.png",
@@ -93,7 +95,7 @@ export const AproposPresentationView = () => {
                 <div className="relative w-full lg:w-1/2 h-[300px] lg:h-[400px] flex justify-center items-center">
                     <div className="absolute h-full w-48 sm:w-60 -rotate-12 left-[calc(50%-10rem)] sm:left-[calc(50%-15rem)]">
                         <Image
-                            src="/assets/images/men.jpg"
+                            src={Jordan}
                             alt="Image d'un homme"
                             className="rounded-lg"
                             priority
@@ -103,7 +105,7 @@ export const AproposPresentationView = () => {
                     </div>
                     <div className="absolute h-full w-48 sm:w-60 rotate-12 right-[calc(50%-10rem)] sm:right-[calc(50%-15rem)]">
                         <Image
-                            src="/assets/images/women.jpg"
+                            src={Lavinia}
                             alt="Image d'une femme"
                             className="rounded-lg"
                             priority
@@ -117,7 +119,7 @@ export const AproposPresentationView = () => {
                 <div className="w-full lg:w-1/2 bg-foreground/80 rounded-2xl p-5 lg:p-10">
                     <Typo
                         variant="para"
-                        components="p"
+                        component="p"
                         weight="normal"
                         color="other"
                         className="text-[14px] sm:text-[16px]"

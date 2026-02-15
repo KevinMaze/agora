@@ -1,8 +1,5 @@
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
-import Image from "next/image";
-import Twitch from "@/../public/assets/images/twitch.png";
-import Youtube from "@/../public/assets/images/youtube.png";
 
 export const LiveGazette = () => {
     return (
@@ -10,19 +7,31 @@ export const LiveGazette = () => {
             <div className="flex lg:flex-row lg:justify-around flex-col items-center">
                 <Typo
                     variant="title"
-                    components="p"
+                    component="p"
                     weight="bold"
                     className="mt-3 uppercase text-2xl sm:text-4xl"
                 >
                     Twitch
                 </Typo>
-                <Image src={Twitch} alt="twitch" />
+                <iframe
+                    width="560"
+                    height="315"
+                    src="https://player.twitch.tv/?channel=kebinu_&parent=192.168.1.26:3000/gazette"
+                    title="Twitch live player"
+                    allowFullScreen
+                ></iframe>
             </div>
             <div className="flex lg:flex-row lg:justify-around flex-col-reverse items-center mt-20">
-                <Image src={Youtube} alt="Youtube" className="" />
+                <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/jolaO2Z6xCM?si=9_UstKNX-YpH0uXp"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                ></iframe>
                 <Typo
                     variant="title"
-                    components="p"
+                    component="p"
                     weight="bold"
                     className="mt-3 uppercase text-2xl sm:text-4xl"
                 >
