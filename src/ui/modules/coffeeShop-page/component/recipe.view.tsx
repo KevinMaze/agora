@@ -7,11 +7,13 @@ import { Spinner } from "@/ui/design-system/spinner";
 import { RecipeModal } from "./recipe-modal.view";
 import { getRecipes } from "@/api/recipes";
 import { RecipeDocument } from "@/types/recipe";
-import { Button } from "@/ui/design-system/button";
 import { toast } from "react-toastify";
+import { FaChevronDown } from "react-icons/fa";
+import clsx from "clsx";
 
 export const Recipe = () => {
     const [activeFilter, setActiveFilter] = useState();
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [Recipes, setRecipes] = useState<RecipeDocument[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -61,7 +63,6 @@ export const Recipe = () => {
     }, []);
 
     // Fonction pour extraire les catégories uniques
-
     const categories = [
         ...new Set(Recipes.map((recipe) => recipe.categorie)),
     ].filter(Boolean);
@@ -97,34 +98,78 @@ export const Recipe = () => {
 
     return (
         <Container className="mb-20 sm:mb-60 lg:mb-60">
-            {/* Filtre par catégorie */}
-            <div className="flex justify-center items-center gap-4 my-8 flex-wrap">
-                <Typo variant="para" weight="bold" color="secondary">
-                    Catégories :
-                </Typo>
-                {categories.map((categorie) => (
-                    <Button
-                        key={categorie}
-                        size="large"
-                        variant={
-                            selectedCategories.includes(categorie)
-                                ? "primary"
-                                : "disabled"
-                        }
-                        action={() => handleCategoryClick(categorie)}
+            <div id="filtre" className="relative mb-8 z-20 mt-8">
+                <button
+                    onClick={() => setIsFilterVisible(!isFilterVisible)}
+                    className={clsx(
+                        "flex items-center justify-between w-full p-4 bg-foreground/80 backdrop-blur-sm rounded-t-lg border-2 border-primary",
+                        isFilterVisible
+                            ? "rounded-b-none border-b-0"
+                            : "rounded-b-lg",
+                    )}
+                >
+                    <Typo
+                        variant="para"
+                        component="p"
+                        weight="bold"
+                        className="underline"
                     >
-                        {categorie}
-                    </Button>
-                ))}
-                {selectedCategories.length > 0 && (
-                    <Button
-                        variant="danger"
-                        size="small"
-                        action={() => setSelectedCategories([])}
-                    >
-                        Réinitialiser
-                    </Button>
-                )}
+                        Filtres des recettes
+                    </Typo>
+                    <FaChevronDown
+                        className={clsx(
+                            "transition-transform cursor-pointer text-primary",
+                            isFilterVisible && "rotate-180",
+                        )}
+                    />
+                </button>
+                <div
+                    className={clsx(
+                        "absolute w-full origin-top transform-gpu transition-[opacity,transform] duration-200 ease-out will-change-transform",
+                        {
+                            "opacity-100 translate-y-0 border-2 border-primary border-t-0":
+                                isFilterVisible,
+                            "opacity-0 -translate-y-1 pointer-events-none":
+                                !isFilterVisible,
+                        },
+                    )}
+                >
+                    <div className="p-4 bg-foreground/80 backdrop-blur-sm rounded-b-lg text-white">
+                        <div className="grid grid-cols-1 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                                {categories.map((categorie) => (
+                                    <button
+                                        key={categorie}
+                                        type="button"
+                                        onClick={() =>
+                                            handleCategoryClick(categorie)
+                                        }
+                                        className={clsx(
+                                            "w-full text-left p-2 rounded border-2 transition-colors",
+                                            selectedCategories.includes(
+                                                categorie,
+                                            )
+                                                ? "bg-primary text-background border-primary"
+                                                : "bg-background text-primary border-primary hover:bg-foreground/30",
+                                        )}
+                                    >
+                                        {categorie}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                        {selectedCategories.length > 0 && (
+                            <div className="mt-4 flex justify-end">
+                                <div
+                                    onClick={() => setSelectedCategories([])}
+                                    className="text-sm hover:underline cursor-pointer text-primary"
+                                >
+                                    Réinitialiser les filtres
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
             {isLoading ? (
                 <div className="flex justify-center items-center h-96">

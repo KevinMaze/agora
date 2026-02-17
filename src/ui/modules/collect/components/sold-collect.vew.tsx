@@ -120,41 +120,73 @@ export const SoldCollect = ({ boxes, isLoading }: Props) => {
                 </Typo>
             </div>
 
-            <Container className="w-full max-w-5xl mt-10 mb-8 items-center flex flex-col">
-                <Typo
-                    variant="para"
-                    component="p"
-                    weight="bold"
-                    className="block text-sm font-semibold text-secondary uppercase mb-2"
-                >
-                    Filtrer par type de box
-                </Typo>
-                <FaChevronDown
-                    className={clsx(
-                        "transition-transform cursor-pointer",
-                        isFilterVisible && "rotate-180",
-                        "text-primary",
-                    )}
-                />
-                <div
-                    className={clsx(
-                        "absolute w-full origin-top transform-gpu transition-[opacity,transform] duration-200 ease-out will-change-transform",
-                        {
-                            "opacity-100 translate-y-0 border-2 border-primary border-t-0":
-                                isFilterVisible,
-                            "opacity-0 -translate-y-1 pointer-events-none":
-                                !isFilterVisible,
-                        },
-                    )}
-                >
-                    <div className="p-4 bg-foreground/80 backdrop-blur-sm rounded-b-lg text-white">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                {BOX_TYPES.map((type) => (
-                                    <option key={type.value} value={type.value}>
-                                        {type.label}
-                                    </option>
-                                ))}
+            <Container className="w-full max-w-5xl mt-10 mb-8">
+                <div id="filtre" className="relative mb-8 z-20">
+                    <button
+                        onClick={() => setIsFilterVisible(!isFilterVisible)}
+                        className={clsx(
+                            "flex items-center justify-between w-full p-4 bg-foreground/80 backdrop-blur-sm rounded-t-lg border-2 border-primary",
+                            isFilterVisible
+                                ? "rounded-b-none border-b-0"
+                                : "rounded-b-lg",
+                        )}
+                    >
+                        <Typo
+                            variant="para"
+                            component="p"
+                            weight="bold"
+                            className="underline"
+                        >
+                            Filtres des box
+                        </Typo>
+                        <FaChevronDown
+                            className={clsx(
+                                "transition-transform cursor-pointer",
+                                isFilterVisible && "rotate-180",
+                                "text-primary",
+                            )}
+                        />
+                    </button>
+                    <div
+                        className={clsx(
+                            "absolute w-full origin-top transform-gpu transition-[opacity,transform] duration-200 ease-out will-change-transform",
+                            {
+                                "opacity-100 translate-y-0 border-2 border-primary border-t-0":
+                                    isFilterVisible,
+                                "opacity-0 -translate-y-1 pointer-events-none":
+                                    !isFilterVisible,
+                            },
+                        )}
+                    >
+                        <div className="p-4 bg-foreground/80 backdrop-blur-sm rounded-b-lg text-white">
+                            <div className="grid grid-cols-1 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                                    {BOX_TYPES.map((type) => (
+                                        <button
+                                            key={type.value}
+                                            type="button"
+                                            onClick={() =>
+                                                setSelectedType(type.value)
+                                            }
+                                            className={clsx(
+                                                "w-full text-left p-2 rounded border-2 transition-colors",
+                                                selectedType === type.value
+                                                    ? "bg-primary text-background border-primary"
+                                                    : "bg-background text-primary border-primary hover:bg-foreground/30",
+                                            )}
+                                        >
+                                            {type.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="mt-4 flex justify-end">
+                                <div
+                                    onClick={() => setSelectedType("all")}
+                                    className="text-sm hover:underline cursor-pointer text-primary"
+                                >
+                                    Reinitialiser les filtres
+                                </div>
                             </div>
                         </div>
                     </div>
