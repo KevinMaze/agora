@@ -8,6 +8,8 @@ import { Modal } from "@/ui/design-system/modal";
 import { Spinner } from "@/ui/design-system/spinner";
 import ErrorImage from "@/../public/assets/images/404.png";
 import { useMemo, useState } from "react";
+import { FaChevronDown } from "react-icons/fa";
+import clsx from "clsx";
 
 type CollectBox = BoxDocument & {
     id?: string;
@@ -41,12 +43,15 @@ const getCanonicalType = (value?: string | null) => {
 };
 
 export const SoldCollect = ({ boxes, isLoading }: Props) => {
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
     const [selectedType, setSelectedType] = useState<string>("all");
     const [selectedBox, setSelectedBox] = useState<CollectBox | null>(null);
 
     const filteredBoxes = useMemo(() => {
         if (selectedType === "all") return boxes;
-        return boxes.filter((box) => getCanonicalType(box.type) === selectedType);
+        return boxes.filter(
+            (box) => getCanonicalType(box.type) === selectedType,
+        );
     }, [boxes, selectedType]);
 
     return (
@@ -115,26 +120,46 @@ export const SoldCollect = ({ boxes, isLoading }: Props) => {
                 </Typo>
             </div>
 
-            <div className="w-full max-w-5xl mt-10 mb-8">
-                <label
-                    htmlFor="box-type-filter"
+            <Container className="w-full max-w-5xl mt-10 mb-8 items-center flex flex-col">
+                <Typo
+                    variant="para"
+                    component="p"
+                    weight="bold"
                     className="block text-sm font-semibold text-secondary uppercase mb-2"
                 >
                     Filtrer par type de box
-                </label>
-                <select
-                    id="box-type-filter"
-                    value={selectedType}
-                    onChange={(event) => setSelectedType(event.target.value)}
-                    className="w-full sm:w-[340px] px-4 py-2 border-2 border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other"
+                </Typo>
+                <FaChevronDown
+                    className={clsx(
+                        "transition-transform cursor-pointer",
+                        isFilterVisible && "rotate-180",
+                        "text-primary",
+                    )}
+                />
+                <div
+                    className={clsx(
+                        "absolute w-full origin-top transform-gpu transition-[opacity,transform] duration-200 ease-out will-change-transform",
+                        {
+                            "opacity-100 translate-y-0 border-2 border-primary border-t-0":
+                                isFilterVisible,
+                            "opacity-0 -translate-y-1 pointer-events-none":
+                                !isFilterVisible,
+                        },
+                    )}
                 >
-                    {BOX_TYPES.map((type) => (
-                        <option key={type.value} value={type.value}>
-                            {type.label}
-                        </option>
-                    ))}
-                </select>
-            </div>
+                    <div className="p-4 bg-foreground/80 backdrop-blur-sm rounded-b-lg text-white">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                {BOX_TYPES.map((type) => (
+                                    <option key={type.value} value={type.value}>
+                                        {type.label}
+                                    </option>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Container>
 
             {isLoading ? (
                 <div className="my-12">
