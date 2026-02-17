@@ -28,7 +28,7 @@ export interface OnboardingProfileFormFieldsType {
     description: string;
     adress: string;
     hobbies: string;
-    styleLove: string;
+    styleLove: string | string[];
 }
 
 export interface AddBookFormFieldsType {
@@ -90,7 +90,7 @@ export interface UserProfileFormFieldsType {
     pseudo: string;
     description: string;
     hobbies: string;
-    styleLove: string;
+    styleLove: string | string[];
     email: string;
     facebook: string;
     instagram: string;

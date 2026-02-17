@@ -41,6 +41,7 @@ export const CardAdmin = ({ form }: Props) => {
                         errorMsg="Tu dois renseigner ton pseudo"
                         id="email"
                         readOnly
+                        required={false}
                     />
                     <Input
                         label="Hobbies"

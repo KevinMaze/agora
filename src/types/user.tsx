@@ -12,6 +12,7 @@ export interface UserInterface {
 
 export interface UserDocument {
     name: string;
+    email: string;
     uid: string;
     displayName: string;
     creation_date: Timestamp;
@@ -21,4 +22,9 @@ export interface UserDocument {
     hobbies: string;
     styleLove: string;
     photoURL: string | null;
+    facebook: string;
+    twitter: string;
+    youtube: string;
+    tiktok: string;
+    instagram: string;
 }
