@@ -6,9 +6,17 @@ import { Textarea } from "@/ui/design-system/form/textarea";
 
 interface Props {
     form: FormsType;
+    imagePreview: string | ArrayBuffer | null;
+    uploadProgress: number;
+    handleImageSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const CardAdmin = ({ form }: Props) => {
+export const CardAdmin = ({
+    form,
+    imagePreview,
+    uploadProgress,
+    handleImageSelect,
+}: Props) => {
     const { onSubmit, errors, isLoading, register, handleSubmit } = form;
     return (
         <form
@@ -16,7 +24,12 @@ export const CardAdmin = ({ form }: Props) => {
             className="border-2 border-primary with-full rounded-xl p-5 w-full space-y-4"
         >
             <div className="flex items-center justify-between py-5">
-                {/* <UploadAvatar /> */}
+                <UploadAvatar
+                    handleImageSelect={handleImageSelect}
+                    imagePreview={imagePreview}
+                    uploadProgress={uploadProgress}
+                    isLoading={isLoading}
+                />
             </div>
 
             <div className="grid grid-cols-12 gap-6">

@@ -14,16 +14,16 @@ export const Avatar = ({ size = "medium", src, alt, isLoading }: Props) => {
     let sizeAvatar: string;
     switch (size) {
         case "small":
-            sizeAvatar = "w-[26] h-[26]";
-            break;
-        case "medium": //default
             sizeAvatar = "w-[32] h-[32]";
             break;
+        case "medium": //default
+            sizeAvatar = "w-[45] h-[45]";
+            break;
         case "large":
-            sizeAvatar = "w-[48] h-[48]";
+            sizeAvatar = "w-[68] h-[68]";
             break;
         case "very-large":
-            sizeAvatar = "w-[64] h-[64]";
+            sizeAvatar = "w-[80] h-[80]";
             break;
     }
     return (

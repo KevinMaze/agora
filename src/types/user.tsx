@@ -20,7 +20,7 @@ export interface UserDocument {
     onboardingIsCompleted: boolean;
     description: string;
     hobbies: string;
-    styleLove: string;
+    styleLove: string | string[];
     photoURL: string | null;
     facebook: string;
     twitter: string;

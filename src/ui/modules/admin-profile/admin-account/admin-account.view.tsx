@@ -5,9 +5,17 @@ import { FormsType } from "@/types/form";
 
 interface Props {
     form: FormsType;
+    imagePreview: string | ArrayBuffer | null;
+    uploadProgress: number;
+    handleImageSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const AdminAccountView = ({ form }: Props) => {
+export const AdminAccountView = ({
+    form,
+    imagePreview,
+    uploadProgress,
+    handleImageSelect,
+}: Props) => {
     return (
         <div className="grid">
             <div className="flex justify-center pt-20 pb-20">
@@ -19,7 +27,12 @@ export const AdminAccountView = ({ form }: Props) => {
                 <Typo variant="para" components="p" className="text-center">
                     Ma carte utilisateur
                 </Typo>
-                <CardAdmin form={form} />
+                <CardAdmin
+                    imagePreview={imagePreview}
+                    uploadProgress={uploadProgress}
+                    handleImageSelect={handleImageSelect}
+                    form={form}
+                />
             </Container>
         </div>
     );

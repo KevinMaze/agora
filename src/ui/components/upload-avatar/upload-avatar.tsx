@@ -30,7 +30,7 @@ export const UploadAvatar = ({
             <label
                 className={clsx(
                     isLoading ? "cursor-not-allowed" : "cursor-pointer",
-                    "inline-block bg-primary hover:bg-secondary text-background rounded-2xl px-[15px] py-[10px] text-xl font-medium animated",
+                    "inline-block bg-primary hover:bg-secondary text-background rounded-2xl px-[15px] py-[10px] text-xl font-medium animated hover:text-tier",
                 )}
             >
                 <div className="flex items-center gap-2 ">

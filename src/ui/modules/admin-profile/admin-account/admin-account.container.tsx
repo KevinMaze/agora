@@ -3,13 +3,27 @@ import { AdminAccountView } from "./admin-account.view";
 import { useToggle } from "@/hooks/use-toggle";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UserProfileFormFieldsType } from "@/types/form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { firestoreUptadeDocument } from "@/api/firestore";
 import { toast } from "react-toastify";
+import {
+    getDownloadURL,
+    ref,
+    StorageReference,
+    uploadBytesResumable,
+    UploadTask,
+} from "firebase/storage";
+import { storage } from "@/config/firebase-config";
+import { updateUserIdentificationData } from "@/api/authentication";
 
 export const AdminAccountContainer = () => {
-    const { authUser } = useAuth();
+    const { authUser, reloadAuthUserData } = useAuth();
     const { value: isLoading, setValue: setLoading } = useToggle();
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<
+        string | ArrayBuffer | null
+    >(null);
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
 
     const {
         handleSubmit,
@@ -62,6 +76,80 @@ export const AdminAccountContainer = () => {
         }
     }, []);
 
+    const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setSelectedImage(file);
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                let imageDataUrl: string | ArrayBuffer | null = null;
+                if (event.target) {
+                    imageDataUrl = event.target.result;
+                }
+                setImagePreview(imageDataUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleImageUpload = () => {
+        let storageRef: StorageReference;
+        let uploadTask: UploadTask;
+
+        if (selectedImage !== null) {
+            setLoading(true);
+            storageRef = ref(
+                storage,
+                `users-media/${authUser.uid}/avatar/avatar-${authUser.uid}`,
+            );
+            uploadTask = uploadBytesResumable(storageRef, selectedImage);
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    if (error) {
+                        setLoading(false);
+                        toast.error("Erreur lors du téléchargement de l'image");
+                        setUploadProgress(0);
+                    }
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(
+                        (downloadURL) => {
+                            updateUserAvatar(downloadURL);
+                            setSelectedImage(null);
+                            setTimeout(() => {
+                                setUploadProgress(0);
+                            }, 1000);
+                        },
+                    );
+                },
+            );
+        }
+    };
+
+    const updateUserAvatar = async (photoURL: string) => {
+        const body = { photoURL: photoURL };
+
+        await updateUserIdentificationData(authUser.uid, body);
+        const { error } = await firestoreUptadeDocument(
+            "users",
+            authUser.uid,
+            body,
+        );
+        if (error) {
+            setLoading(false);
+            toast.error(error.message);
+            return;
+        }
+        reloadAuthUserData();
+        setLoading(false);
+    };
+
     const handleUpdateUserDocument = async (
         formData: UserProfileFormFieldsType,
     ) => {
@@ -83,7 +171,10 @@ export const AdminAccountContainer = () => {
     const onSubmit: SubmitHandler<UserProfileFormFieldsType> = async (
         formData,
     ) => {
-        // upload avatar
+        if (selectedImage) {
+            handleImageUpload();
+            return;
+        }
 
         if (formData.facebook && !formData.facebook.includes("facebook.com/")) {
             setError("facebook", {
@@ -135,6 +226,23 @@ export const AdminAccountContainer = () => {
             tiktok !== formData.tiktok ||
             instagram !== formData.instagram
         ) {
+            if (
+                displayName !== formData.displayName ||
+                authUser.displayName !== formData.displayName
+            ) {
+                const body = { displayName: formData.displayName };
+                const result = await updateUserIdentificationData(
+                    authUser.uid,
+                    body,
+                );
+                if (result?.error) {
+                    setLoading(false);
+                    toast.error(result.error.message);
+                    return;
+                }
+                reloadAuthUserData();
+            }
+
             for (const key in formData) {
                 if (
                     formData.hasOwnProperty(key) &&
@@ -151,6 +259,9 @@ export const AdminAccountContainer = () => {
 
     return (
         <AdminAccountView
+            imagePreview={imagePreview}
+            uploadProgress={uploadProgress}
+            handleImageSelect={handleImageSelect}
             form={{
                 onSubmit,
                 control,
