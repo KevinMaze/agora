@@ -4,7 +4,7 @@ import { Typo } from "@/ui/design-system/typography";
 import { Spinner } from "@/ui/design-system/spinner";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
 
 interface CardProps {
@@ -31,8 +31,15 @@ export const CardRecipe: React.FC<CardProps> = ({
     onClick,
     alt,
 }) => {
-    const [imgSrc, setImgSrc] = useState(src);
+    const [imgSrc, setImgSrc] = useState<string | StaticImageData>(
+        src || DefaultImage,
+    );
     const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setImgSrc(src || DefaultImage);
+        setIsLoading(true);
+    }, [src]);
 
     return (
         <>
