@@ -83,3 +83,18 @@ export interface AddMomentFormFieldsType {
     price: string;
     image: FileList;
 }
+
+export interface UserProfileFormFieldsType {
+    name: string;
+    displayName: string;
+    pseudo: string;
+    description: string;
+    hobbies: string;
+    styleLove: string;
+    email: string;
+    facebook: string;
+    instagram: string;
+    tiktok: string;
+    youtube: string;
+    twitter: string;
+}
