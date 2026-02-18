@@ -1,59 +1,79 @@
-import { ActiveLink } from "../navbar/active-link";
+import { useAuth } from "@/context/AuthUserContext";
+import { canAccessRole, getUserRole, UserRole } from "@/lib/roles";
+import { ADMIN, REGISTERED } from "@/lib/session-status";
 import { Typo } from "@/ui/design-system/typography";
+import { ActiveLink } from "../navbar/active-link";
+
+type AccountNavItem = {
+    href: string;
+    label: string;
+    allowedRoles: UserRole[];
+};
 
 export const UserAccountNavigation = () => {
+    const { authUser } = useAuth();
+    const userRole = getUserRole(authUser);
+
+    const navItems: AccountNavItem[] = [
+        {
+            href: "/mon_espace",
+            label: "Mon espace",
+            allowedRoles: [REGISTERED, ADMIN],
+        },
+        {
+            href: "/mon_espace/add-book",
+            label: "Espace des livres",
+            allowedRoles: [ADMIN],
+        },
+        {
+            href: "/mon_espace/add-box",
+            label: "Espace des box",
+            allowedRoles: [ADMIN],
+        },
+        {
+            href: "/mon_espace/add-recipe",
+            label: "Espace des recettes",
+            allowedRoles: [ADMIN],
+        },
+        {
+            href: "/mon_espace/add-moment",
+            label: "Recette du moment",
+            allowedRoles: [ADMIN],
+        },
+        {
+            href: "/mon_espace/add-evenements",
+            label: "Espace des événements",
+            allowedRoles: [ADMIN],
+        },
+        {
+            href: "/mon_espace/add-users",
+            label: "Espace des membres",
+            allowedRoles: [ADMIN],
+        },
+        {
+            href: "/mon_espace/users",
+            label: "Espace membres",
+            allowedRoles: [REGISTERED, ADMIN],
+        },
+    ];
+
+    const visibleNavItems = navItems.filter((item) =>
+        canAccessRole(userRole, item.allowedRoles),
+    );
+
     return (
         <div className="border-2 border-primary rounded-lg bg-foreground overflow-hidden">
             <div className="flex flex-col w-full py-4">
                 <Typo variant="para" color="primary">
-                    <ActiveLink
-                        href="/mon_espace"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Mon espace
-                    </ActiveLink>
-                    <ActiveLink
-                        href="/mon_espace/add-book"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Espace des livres
-                    </ActiveLink>
-                    <ActiveLink
-                        href="/mon_espace/add-box"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Espace des box
-                    </ActiveLink>
-                    <ActiveLink
-                        href="/mon_espace/add-recipe"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Espace des recettes
-                    </ActiveLink>
-                    <ActiveLink
-                        href="/mon_espace/add-moment"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Recette du moment
-                    </ActiveLink>
-                    <ActiveLink
-                        href="/mon_espace/add-evenements"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Espace des événements
-                    </ActiveLink>
-                    <ActiveLink
-                        href="/mon_espace/add-users"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Espace des membres
-                    </ActiveLink>
-                    <ActiveLink
-                        href="/mon_espace/users"
-                        className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
-                    >
-                        Espace membres
-                    </ActiveLink>
+                    {visibleNavItems.map((item) => (
+                        <ActiveLink
+                            key={item.href}
+                            href={item.href}
+                            className="block w-full px-4 py-2 hover:bg-background hover:text-white transition-colors"
+                        >
+                            {item.label}
+                        </ActiveLink>
+                    ))}
                 </Typo>
             </div>
         </div>

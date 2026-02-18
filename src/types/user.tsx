@@ -11,6 +11,7 @@ export interface UserInterface {
 }
 
 export interface UserDocument {
+    role?: "admin" | "registered";
     name: string;
     email: string;
     uid: string;
