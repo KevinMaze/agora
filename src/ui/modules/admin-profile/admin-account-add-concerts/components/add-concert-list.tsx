@@ -5,7 +5,7 @@ import {
     firestoreDeleteDocument,
     firestoreUptadeDocument,
 } from "@/api/firestore";
-import { storageUploadFile } from "@/api/storage";
+import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
 import { AddConcertFormFieldsType } from "@/types/form";
@@ -18,6 +18,7 @@ import { useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { AddConcertForm } from "./add-concert-form";
+import Image from "next/image";
 
 type ConcertListItem = {
     id: string;
@@ -29,7 +30,7 @@ type ConcertListItem = {
     tiktok?: string;
     youtube?: string;
     twitter?: string;
-    image: string | null;
+    images: string[];
 };
 
 export const AddConcertList = () => {
@@ -39,9 +40,11 @@ export const AddConcertList = () => {
     const [selectedConcert, setSelectedConcert] =
         useState<ConcertListItem | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [imagePreview, setImagePreview] = useState<
-        string | ArrayBuffer | null
-    >(null);
+    const [editableImages, setEditableImages] = useState<string[]>([]);
+    const [newImagePreviews, setNewImagePreviews] = useState<string[]>([]);
+    const [selectedImageIndexes, setSelectedImageIndexes] = useState<number[]>(
+        [],
+    );
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
     const { value: isDeleting, setValue: setIsDeleting } = useToggle();
 
@@ -82,7 +85,11 @@ export const AddConcertList = () => {
                     tiktok: concert.tiktok || "",
                     youtube: concert.youtube || "",
                     twitter: concert.twitter || "",
-                    image: concert.image || null,
+                    images: Array.isArray(concert.images)
+                        ? concert.images.filter(Boolean)
+                        : concert.image
+                          ? [concert.image]
+                          : [],
                 }))
                 .filter((concert) => !!concert.id) as ConcertListItem[];
             setConcerts(normalized);
@@ -101,7 +108,9 @@ export const AddConcertList = () => {
 
     const handleOpenEdit = (concert: ConcertListItem) => {
         setSelectedConcert(concert);
-        setImagePreview(concert.image);
+        setEditableImages(concert.images || []);
+        setNewImagePreviews([]);
+        setSelectedImageIndexes([]);
         reset({
             title: concert.title,
             date: concert.date,
@@ -116,7 +125,25 @@ export const AddConcertList = () => {
 
     const closeModal = () => {
         setSelectedConcert(null);
-        setImagePreview(null);
+        setEditableImages([]);
+        setNewImagePreviews([]);
+        setSelectedImageIndexes([]);
+    };
+
+    const toggleImageSelection = (index: number) => {
+        setSelectedImageIndexes((prev) =>
+            prev.includes(index)
+                ? prev.filter((item) => item !== index)
+                : [...prev, index],
+        );
+    };
+
+    const handleRemoveSelectedImages = () => {
+        if (selectedImageIndexes.length === 0) return;
+        setEditableImages((prev) =>
+            prev.filter((_, index) => !selectedImageIndexes.includes(index)),
+        );
+        setSelectedImageIndexes([]);
     };
 
     const onSubmitEdit: SubmitHandler<AddConcertFormFieldsType> = async (
@@ -126,26 +153,78 @@ export const AddConcertList = () => {
         setIsUpdating(true);
 
         const { image, ...concertData } = formData;
-        let imageUrl = selectedConcert.image;
-        const imageFile = image?.[0];
+        let imageUrls = [...editableImages];
+        const imageFiles = Array.from(image || []);
 
-        if (imageFile) {
-            const { data: url, error: storageError } = await storageUploadFile(
-                `concerts/${authUser.displayName}-${imageFile.name}`,
-                imageFile,
+        if (imageFiles.length > 3) {
+            setIsUpdating(false);
+            toast.error("Tu peux envoyer maximum 3 images");
+            return;
+        }
+
+        if (imageFiles.length > 0) {
+            const uploadResults = await Promise.all(
+                imageFiles.map((imageFile) =>
+                    storageUploadFile(
+                        `concerts/${authUser.displayName}-${Date.now()}-${imageFile.name}`,
+                        imageFile,
+                    ),
+                ),
             );
 
+            const storageError = uploadResults.find(
+                (result) => !!result.error,
+            )?.error;
             if (storageError) {
                 setIsUpdating(false);
                 toast.error(storageError.message);
                 return;
             }
-            imageUrl = url || imageUrl;
+
+            imageUrls = uploadResults
+                .map((result) => result.data)
+                .filter((url): url is string => !!url);
+
+            const nextImages = [...editableImages];
+            let uploadIndex = 0;
+            const sortedSelection = [...selectedImageIndexes].sort(
+                (a, b) => a - b,
+            );
+
+            for (const selectedIndex of sortedSelection) {
+                if (uploadIndex >= imageUrls.length) break;
+                if (selectedIndex >= 0 && selectedIndex < nextImages.length) {
+                    nextImages[selectedIndex] = imageUrls[uploadIndex];
+                    uploadIndex += 1;
+                }
+            }
+
+            while (uploadIndex < imageUrls.length && nextImages.length < 3) {
+                nextImages.push(imageUrls[uploadIndex]);
+                uploadIndex += 1;
+            }
+
+            if (uploadIndex < imageUrls.length) {
+                setIsUpdating(false);
+                toast.error(
+                    "Pas assez de place: supprime des images ou selectionne celles a remplacer.",
+                );
+                return;
+            }
+
+            imageUrls = nextImages;
+        }
+
+        if (imageUrls.length === 0) {
+            setIsUpdating(false);
+            toast.error("Tu dois garder au moins une image.");
+            return;
         }
 
         const payload = {
             ...concertData,
-            image: imageUrl,
+            images: imageUrls,
+            image: imageUrls[0] || null,
         };
 
         const { error } = await firestoreUptadeDocument(
@@ -169,6 +248,7 @@ export const AddConcertList = () => {
                     : concert,
             ),
         );
+        setEditableImages(imageUrls);
         toast.success("Concert modifie avec succes.");
         setIsUpdating(false);
         closeModal();
@@ -183,6 +263,27 @@ export const AddConcertList = () => {
         if (!confirmed) return;
 
         setIsDeleting(true);
+        const imageUrlsToDelete = Array.from(new Set(selectedConcert.images || []));
+
+        if (imageUrlsToDelete.length > 0) {
+            const deleteResults = await Promise.all(
+                imageUrlsToDelete.map((url) => storageDeleteFileByUrl(url)),
+            );
+
+            const blockingStorageError = deleteResults.find((result) => {
+                if (!result.error) return false;
+                return result.error.code !== "storage/object-not-found";
+            })?.error;
+
+            if (blockingStorageError) {
+                setIsDeleting(false);
+                toast.error(
+                    `Impossible de supprimer les images du concert: ${blockingStorageError.message}`,
+                );
+                return;
+            }
+        }
+
         const { error } = await firestoreDeleteDocument(
             "concerts",
             selectedConcert.id,
@@ -260,7 +361,7 @@ export const AddConcertList = () => {
                     {filteredConcerts.map((concert) => (
                         <Card
                             key={concert.id}
-                            src={concert.image || undefined}
+                            src={concert.images[0] || undefined}
                             title={concert.title}
                             autor={concert.date}
                             onAction={() => handleOpenEdit(concert)}
@@ -285,19 +386,76 @@ export const AddConcertList = () => {
                             onSubmit: onSubmitEdit,
                             isLoading: isUpdating,
                         }}
-                        imagePreview={imagePreview}
-                        setImagePreview={setImagePreview}
+                        imagePreviews={newImagePreviews}
+                        setImagePreviews={setNewImagePreviews}
                         submitLabel="Valider les modifications"
                         isSubmitDisabled={isSubmitDisabled}
                         footer={
-                            <Button
-                                type="button"
-                                variant="danger"
-                                action={handleDelete}
-                                isLoading={isDeleting}
-                            >
-                                Supprimer le concert
-                            </Button>
+                            <div className="flex flex-col gap-3">
+                                <div className="flex flex-col gap-2">
+                                    <Typo variant="para" component="p">
+                                        Images actuelles (
+                                        {editableImages.length}/3)
+                                    </Typo>
+                                    {editableImages.length === 0 ? (
+                                        <Typo
+                                            variant="para"
+                                            component="p"
+                                            className="text-sm"
+                                        >
+                                            Aucune image actuellement.
+                                        </Typo>
+                                    ) : (
+                                        <div className="grid grid-cols-3 gap-2">
+                                            {editableImages.map(
+                                                (url, index) => (
+                                                    <button
+                                                        key={`${url}-${index}`}
+                                                        type="button"
+                                                        onClick={() =>
+                                                            toggleImageSelection(
+                                                                index,
+                                                            )
+                                                        }
+                                                        className={`relative rounded-md border-2 overflow-hidden ${selectedImageIndexes.includes(index) ? "border-primary" : "border-transparent"}`}
+                                                    >
+                                                        <Image
+                                                            src={url}
+                                                            width="140"
+                                                            height="140"
+                                                            alt={`Concert image ${index + 1}`}
+                                                            className="w-full h-20 object-cover"
+                                                        />
+                                                    </button>
+                                                ),
+                                            )}
+                                        </div>
+                                    )}
+                                    <Button
+                                        type="button"
+                                        variant={
+                                            selectedImageIndexes.length > 0
+                                                ? "danger"
+                                                : "disabled"
+                                        }
+                                        disabled={
+                                            selectedImageIndexes.length === 0
+                                        }
+                                        action={handleRemoveSelectedImages}
+                                    >
+                                        Supprimer la selection
+                                    </Button>
+                                </div>
+
+                                <Button
+                                    type="button"
+                                    variant="danger"
+                                    action={handleDelete}
+                                    isLoading={isDeleting}
+                                >
+                                    Supprimer le concert
+                                </Button>
+                            </div>
                         }
                     />
                 )}

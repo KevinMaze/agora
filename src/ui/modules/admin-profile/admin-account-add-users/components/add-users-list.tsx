@@ -5,6 +5,7 @@ import {
     firestoreDeleteDocument,
     firestoreUptadeDocument,
 } from "@/api/firestore";
+import { storageDeleteFileByUrl } from "@/api/storage";
 import { useToggle } from "@/hooks/use-toggle";
 import { useAuth } from "@/context/AuthUserContext";
 import { Modal } from "@/ui/design-system/modal";
@@ -234,6 +235,23 @@ export const AddUsersList = () => {
         if (!confirmed) return;
 
         setIsDeleting(true);
+        if (selectedUser.photoURL) {
+            const { error: storageDeleteError } = await storageDeleteFileByUrl(
+                selectedUser.photoURL,
+            );
+            if (
+                storageDeleteError &&
+                storageDeleteError.code !== "storage/object-not-found" &&
+                storageDeleteError.code !== "storage/invalid-url"
+            ) {
+                setIsDeleting(false);
+                toast.error(
+                    `Impossible de supprimer la photo utilisateur: ${storageDeleteError.message}`,
+                );
+                return;
+            }
+        }
+
         const { error } = await firestoreDeleteDocument(
             "users",
             selectedUser.id,

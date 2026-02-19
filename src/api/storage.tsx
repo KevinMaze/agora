@@ -1,6 +1,6 @@
 import { storage } from "@/config/firebase-config";
 import { FirebaseError } from "firebase/app";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const storageUploadFile = async (path: string, file: File) => {
     try {
@@ -11,6 +11,23 @@ export const storageUploadFile = async (path: string, file: File) => {
     } catch (error) {
         const firebaseError = error as FirebaseError;
         return {
+            error: {
+                code: firebaseError.code,
+                message: firebaseError.message,
+            },
+        };
+    }
+};
+
+export const storageDeleteFileByUrl = async (fileUrl: string) => {
+    try {
+        const storageRef = ref(storage, fileUrl);
+        await deleteObject(storageRef);
+        return { data: true, error: null };
+    } catch (error) {
+        const firebaseError = error as FirebaseError;
+        return {
+            data: null,
             error: {
                 code: firebaseError.code,
                 message: firebaseError.message,
