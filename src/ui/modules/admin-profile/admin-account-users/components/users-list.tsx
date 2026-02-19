@@ -129,11 +129,9 @@ export const UsersList = () => {
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "")
                 .toLowerCase();
-            const role = getRoleLabel(user.role).toLowerCase();
             return (
                 displayName.includes(normalizedSearchQuery) ||
-                email.includes(normalizedSearchQuery) ||
-                role.includes(normalizedSearchQuery)
+                email.includes(normalizedSearchQuery)
             );
         });
     }, [users, normalizedSearchQuery]);
@@ -174,7 +172,7 @@ export const UsersList = () => {
                     type="text"
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
-                    placeholder="Rechercher par pseudo, email ou rôle"
+                    placeholder="Rechercher par pseudo, email"
                     className="w-full px-4 py-2 border-2 border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500"
                 />
             </div>
@@ -260,50 +258,99 @@ export const UsersList = () => {
                     <div className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Email
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.email || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Nom
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.name || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Pseudo
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
-                                    {selectedUser.displayName || "Non renseigné"}
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
+                                    {selectedUser.displayName ||
+                                        "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Rôle
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {getRoleLabel(selectedUser.role)}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Hobbies
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.hobbies || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Styles
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {Array.isArray(selectedUser.styleLove)
                                         ? selectedUser.styleLove.join(", ")
                                         : selectedUser.styleLove ||
@@ -311,66 +358,133 @@ export const UsersList = () => {
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3 sm:col-span-2">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Description
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
-                                    {selectedUser.description || "Non renseigné"}
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
+                                    {selectedUser.description ||
+                                        "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Facebook
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.facebook || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Instagram
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.instagram || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Tiktok
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.tiktok || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Youtube
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.youtube || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3 sm:col-span-2">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Twitter
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.twitter || "Non renseigné"}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Inscription
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
-                                    {formatCreationDate(selectedUser.creation_date)}
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
+                                    {formatCreationDate(
+                                        selectedUser.creation_date,
+                                    )}
                                 </Typo>
                             </div>
                             <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo variant="para" component="p" weight="bold">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    weight="bold"
+                                >
                                     Onboarding terminé
                                 </Typo>
-                                <Typo variant="para" component="p" color="other">
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                >
                                     {selectedUser.onboardingIsCompleted
                                         ? "Oui"
                                         : "Non"}
