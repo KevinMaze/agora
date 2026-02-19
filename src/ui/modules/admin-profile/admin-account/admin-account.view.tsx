@@ -23,7 +23,7 @@ export const AdminAccountView = ({
                     Bienvenue dans votre espace personnel.
                 </Typo>
             </div>
-            <Container>
+            <Container className="sm">
                 <Typo variant="para" components="p" className="text-center">
                     Ma carte utilisateur
                 </Typo>

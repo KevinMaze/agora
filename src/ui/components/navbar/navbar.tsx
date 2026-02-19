@@ -17,7 +17,7 @@ interface NavbarProps {
 export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
     const { authUser } = useAuth();
     const authentificationSystem = (
-        <div className="px-6 text-center flex-shrink-0">
+        <div className="px-6 text-center flex flex-col flex-shrink-0">
             <Button baseUrl="/connexion">Connexion</Button>
             <Button baseUrl="/connexion/inscription">Inscription</Button>
         </div>
@@ -53,49 +53,49 @@ export const Navbar = ({ isOpen, onClose }: NavbarProps) => {
                     <Typo variant="para" color="primary">
                         <ActiveLink
                             href="/"
-                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
+                            className="block px-6 py-3 sm:py-4 sm:text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             Accueil
                         </ActiveLink>
 
                         <ActiveLink
                             href="/coffeeShop"
-                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
+                            className="block px-6 py-3 sm:py-4 sm:text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             Coffee Shop
                         </ActiveLink>
 
                         <ActiveLink
                             href="/bibliotheque"
-                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
+                            className="block px-6 py-3 sm:py-4 sm:text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             La Bibliothèque
                         </ActiveLink>
 
                         <ActiveLink
                             href="/librairie"
-                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
+                            className="block px-6 py-3 sm:py-4 sm:text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             La Librairie
                         </ActiveLink>
 
                         <ActiveLink
                             href="/gazette"
-                            className="block px-6 py-4 text-lg hover:bg-foreground hover:text-white transition-colors"
+                            className="block px-6 py-3 sm:py-4 sm:text-lg hover:bg-foreground hover:text-white transition-colors"
                         >
                             La Gazette
                         </ActiveLink>
 
                         <ActiveLink
                             href="/collect"
-                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
+                            className="block px-6 py-3 sm:py-4 sm:text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             Click and Collect
                         </ActiveLink>
 
                         <ActiveLink
                             href="/apropos"
-                            className="block px-6 py-4 text-lg  hover:bg-foreground hover:text-white transition-colors"
+                            className="block px-6 py-3 sm:py-4 sm:text-lg  hover:bg-foreground hover:text-white transition-colors"
                         >
                             À propos
                         </ActiveLink>

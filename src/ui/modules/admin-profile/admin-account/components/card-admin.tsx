@@ -21,7 +21,7 @@ export const CardAdmin = ({
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="border-2 border-primary with-full rounded-xl p-5 w-full space-y-4"
+            className="border-2 border-primary rounded-xl p-5 w-full space-y-4"
         >
             <div className="flex items-center justify-between py-5">
                 <UploadAvatar
@@ -32,8 +32,8 @@ export const CardAdmin = ({
                 />
             </div>
 
-            <div className="grid grid-cols-12 gap-6">
-                <div className="col-span-6 space-y-4">
+            <div className="grid sm:grid-cols-12 gap-6">
+                <div className="sm:col-span-6 space-y-4">
                     <Input
                         label="Pseudo"
                         isLoading={isLoading}
@@ -86,7 +86,7 @@ export const CardAdmin = ({
                         ]}
                     />
                 </div>
-                <div className="col-span-6 space-y-4">
+                <div className="sm:col-span-6 space-y-4">
                     <Input
                         label="Facebook"
                         isLoading={isLoading}

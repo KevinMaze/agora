@@ -92,11 +92,11 @@ export const AproposPresentationView = () => {
 
             <Container className="flex flex-col lg:flex-row items-center justify-center gap-5">
                 {/* Section Images */}
-                <div className="relative w-full lg:w-1/2 h-[300px] lg:h-[400px] flex justify-center items-center">
+                <div className="relative w-full lg:w-1/2 h-[300px] lg:h-[400px] flex justify-center items-center ">
                     <div className="absolute h-full w-48 sm:w-60 -rotate-12 left-[calc(50%-10rem)] sm:left-[calc(50%-15rem)]">
                         <Image
                             src={Jordan}
-                            alt="Image d'un homme"
+                            alt="Image de Jordan"
                             className="rounded-lg"
                             priority
                             layout="fill"
@@ -106,7 +106,7 @@ export const AproposPresentationView = () => {
                     <div className="absolute h-full w-48 sm:w-60 rotate-12 right-[calc(50%-10rem)] sm:right-[calc(50%-15rem)]">
                         <Image
                             src={Lavinia}
-                            alt="Image d'une femme"
+                            alt="Image de Lavinia"
                             className="rounded-lg"
                             priority
                             layout="fill"

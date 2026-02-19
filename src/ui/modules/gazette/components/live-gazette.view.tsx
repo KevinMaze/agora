@@ -14,20 +14,18 @@ export const LiveGazette = () => {
                     Twitch
                 </Typo>
                 <iframe
-                    width="560"
-                    height="315"
                     src="https://player.twitch.tv/?channel=kebinu_&parent=192.168.1.26:3000/gazette"
                     title="Twitch live player"
                     allowFullScreen
+                    className="sm:w-[560px] sm:h-[315px] "
                 ></iframe>
             </div>
             <div className="flex lg:flex-row lg:justify-around flex-col-reverse items-center mt-20">
                 <iframe
-                    width="560"
-                    height="315"
                     src="https://www.youtube.com/embed/jolaO2Z6xCM?si=9_UstKNX-YpH0uXp"
                     title="YouTube video player"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    className="sm:w-[560px] sm:h-[315px] "
                 ></iframe>
                 <Typo
                     variant="title"

@@ -20,12 +20,12 @@ export const Layout = ({ children, withSideBar, sessionStatus }: Props) => {
     if (withSideBar) {
         view = (
             <Container className="mb-14">
-                <div className="grid grid-cols-12 gap-7">
-                    <div className="col-span-3 space-y-8">
+                <div className="grid sm:grid-cols-12 gap-7">
+                    <div className="sm:col-span-3 space-y-8">
                         <UserAccountNavigation />
                         <CallToActionSidebar />
                     </div>
-                    <div className="col-span-9">{children}</div>
+                    <div className="sm:col-span-9">{children}</div>
                 </div>
             </Container>
         );

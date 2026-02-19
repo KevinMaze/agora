@@ -33,9 +33,11 @@ export const UploadAvatar = ({
                     "inline-block bg-primary hover:bg-secondary text-background rounded-2xl px-[15px] py-[10px] text-xl font-medium animated hover:text-tier",
                 )}
             >
-                <div className="flex items-center gap-2 ">
+                <div className="flex items-center gap-2">
                     <RiCamera2Fill />
-                    <span>Choisir fichier</span>
+                    <span className="text-[12px] sm:text-xl">
+                        Choisir fichier
+                    </span>
                 </div>
                 <input
                     type="file"
