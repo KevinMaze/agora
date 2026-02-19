@@ -64,7 +64,9 @@ export const GalleryImages = () => {
             ),
         );
 
-        const storageError = uploadResults.find((result) => !!result.error)?.error;
+        const storageError = uploadResults.find(
+            (result) => !!result.error,
+        )?.error;
         if (storageError) {
             setIsLoading(false);
             toast.error(storageError.message);
@@ -135,7 +137,7 @@ export const GalleryImages = () => {
                     ).map((src, index) => (
                         <div
                             key={`${src}-${index}`}
-                            className="relative w-full h-24 overflow-hidden rounded-lg border border-primary"
+                            className="relative w-full h-35 overflow-hidden rounded-lg"
                         >
                             <Image
                                 src={src}

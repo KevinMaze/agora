@@ -1,5 +1,6 @@
 "use client";
 
+import { getGalleryImages, GalleryDocument } from "@/api/gallery";
 import { getConcerts } from "@/api/concerts";
 import { getEvenements } from "@/api/evenements";
 import { ConcertDocument } from "@/types/concert";
@@ -11,8 +12,10 @@ import { GazetteView } from "./gazette-page.view";
 export const GazetteContainer = () => {
     const [evenements, setEvenements] = useState<EvenementDocument[]>([]);
     const [concerts, setConcerts] = useState<ConcertDocument[]>([]);
+    const [galleryImages, setGalleryImages] = useState<GalleryDocument[]>([]);
     const [isLoadingEvenements, setIsLoadingEvenements] = useState(true);
     const [isLoadingConcerts, setIsLoadingConcerts] = useState(true);
+    const [isLoadingGallery, setIsLoadingGallery] = useState(true);
 
     useEffect(() => {
         const fetchEvenements = async () => {
@@ -50,12 +53,32 @@ export const GazetteContainer = () => {
         fetchConcerts();
     }, []);
 
+    useEffect(() => {
+        const fetchGallery = async () => {
+            setIsLoadingGallery(true);
+            try {
+                const data = await getGalleryImages();
+                setGalleryImages(data);
+            } catch (error) {
+                console.error("Erreur lors de la recuperation de la galerie:", error);
+                toast.error("Impossible de charger la galerie.");
+                setGalleryImages([]);
+            } finally {
+                setIsLoadingGallery(false);
+            }
+        };
+
+        fetchGallery();
+    }, []);
+
     return (
         <GazetteView
             evenements={evenements}
             isLoadingEvenements={isLoadingEvenements}
             concerts={concerts}
             isLoadingConcerts={isLoadingConcerts}
+            galleryImages={galleryImages}
+            isLoadingGallery={isLoadingGallery}
         />
     );
 };
