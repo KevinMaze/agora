@@ -4,9 +4,6 @@ import { GalleryDocument } from "@/api/gallery";
 import Image from "next/image";
 import { Typo } from "@/ui/design-system/typography";
 import { Container } from "@/ui/components/container";
-import Legolas from "@/../public/assets/images/legolas.jpg";
-import Drum from "@/../public/assets/images/drums.jpg";
-import Monkey from "@/../public/assets/images/monkey.jpg";
 import { useEffect, useMemo } from "react";
 import useMeasure from "react-use-measure";
 import { animate, motion, useMotionValue } from "framer-motion";
@@ -17,21 +14,6 @@ interface Props {
 }
 
 export const GalleryGazette = ({ galleryImages, isLoading }: Props) => {
-    const fallbackPictures = [
-        {
-            src: Legolas,
-            alt: "Legolas",
-        },
-        {
-            src: Drum,
-            alt: "Drum",
-        },
-        {
-            src: Monkey,
-            alt: "Monkay",
-        },
-    ];
-
     const dynamicPictures = galleryImages
         .map((item, index) => ({
             src: item.image || "",
@@ -39,10 +21,7 @@ export const GalleryGazette = ({ galleryImages, isLoading }: Props) => {
         }))
         .filter((item) => !!item.src);
 
-    const Pictures =
-        !isLoading && dynamicPictures.length > 0
-            ? dynamicPictures
-            : fallbackPictures;
+    const Pictures = !isLoading ? dynamicPictures : [];
 
     const duration = 25;
 
@@ -93,30 +72,44 @@ export const GalleryGazette = ({ galleryImages, isLoading }: Props) => {
                 ref={viewportRef}
                 className="relative h-[250px] lg:h-[500px] overflow-hidden py-8 sm:mb-20 sm:mt-20"
             >
-                <motion.div
-                    className="absolute flex"
-                    style={{ x: xTranslation }}
-                >
-                    {Array.from({ length: repeatCount }).map((_, group) => (
-                        <div
-                            key={`gallery-group-${group}`}
-                            ref={group === 0 ? setRef : undefined}
-                            className="flex gap-4 pr-4"
+                {Pictures.length === 0 ? (
+                    <div className="w-full h-full flex items-center justify-center px-4">
+                        <Typo
+                            variant="para"
+                            component="p"
+                            className="text-center sm:text-xl"
                         >
-                            {Pictures.map((picture, index) => (
-                                <div key={`gallery-picture-${group}-${index}`}>
-                                    <Image
-                                        src={picture.src}
-                                        width={"320"}
-                                        height={"1"}
-                                        alt={picture.alt}
-                                        className="rounded-2xl min-w-[120px] sm:min-w-[220px] lg:min-w-[220px] h-full object-cover"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </motion.div>
+                            Image des concerts a venir
+                        </Typo>
+                    </div>
+                ) : (
+                    <motion.div
+                        className="absolute flex"
+                        style={{ x: xTranslation }}
+                    >
+                        {Array.from({ length: repeatCount }).map((_, group) => (
+                            <div
+                                key={`gallery-group-${group}`}
+                                ref={group === 0 ? setRef : undefined}
+                                className="flex gap-4 pr-4"
+                            >
+                                {Pictures.map((picture, index) => (
+                                    <div
+                                        key={`gallery-picture-${group}-${index}`}
+                                    >
+                                        <Image
+                                            src={picture.src}
+                                            width={"320"}
+                                            height={"1"}
+                                            alt={picture.alt}
+                                            className="rounded-2xl min-w-[120px] sm:min-w-[220px] lg:min-w-[220px] h-full object-cover"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </motion.div>
+                )}
             </div>
         </div>
     );
