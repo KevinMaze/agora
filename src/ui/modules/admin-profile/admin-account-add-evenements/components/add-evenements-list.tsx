@@ -5,7 +5,7 @@ import {
     firestoreDeleteDocument,
     firestoreUptadeDocument,
 } from "@/api/firestore";
-import { storageUploadFile } from "@/api/storage";
+import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
 import { AddEvenementFormFieldsType } from "@/types/form";
@@ -184,6 +184,22 @@ export const AddEvenementsList = () => {
         if (!confirmed) return;
 
         setIsDeleting(true);
+        if (selectedEvent.image) {
+            const { error: storageDeleteError } = await storageDeleteFileByUrl(
+                selectedEvent.image,
+            );
+            if (
+                storageDeleteError &&
+                storageDeleteError.code !== "storage/object-not-found"
+            ) {
+                setIsDeleting(false);
+                toast.error(
+                    `Impossible de supprimer l'image de l'evenement: ${storageDeleteError.message}`,
+                );
+                return;
+            }
+        }
+
         const { error } = await firestoreDeleteDocument(
             "evenements",
             selectedEvent.id,

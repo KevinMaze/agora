@@ -17,7 +17,7 @@ const Sidebar: React.FC = () => {
                 onClick={toggleSidebar}
                 className={clsx(
                     "fixed top-4 right-4 z-[60] p-2 rounded-md text-primary bg-background/50 backdrop-blur-sm transition-transform duration-300 ease-in-out",
-                    isSidebarOpen && "translate-x-[-320px]"
+                    isSidebarOpen && "translate-x-[-300px]",
                 )}
                 aria-label="Toggle sidebar"
             >

@@ -5,7 +5,7 @@ import {
     firestoreDeleteDocument,
     firestoreUptadeDocument,
 } from "@/api/firestore";
-import { storageUploadFile } from "@/api/storage";
+import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
 import { AddBoxFormFieldsType } from "@/types/form";
@@ -167,6 +167,22 @@ export const AddBoxList = () => {
         if (!confirmed) return;
 
         setIsDeleting(true);
+        if (selectedBox.image) {
+            const { error: storageDeleteError } = await storageDeleteFileByUrl(
+                selectedBox.image,
+            );
+            if (
+                storageDeleteError &&
+                storageDeleteError.code !== "storage/object-not-found"
+            ) {
+                setIsDeleting(false);
+                toast.error(
+                    `Impossible de supprimer l'image de la box: ${storageDeleteError.message}`,
+                );
+                return;
+            }
+        }
+
         const { error } = await firestoreDeleteDocument("boxes", selectedBox.id);
         if (error) {
             setIsDeleting(false);

@@ -89,8 +89,10 @@ export const AvatarStep = ({
                     setUploadProgress(progress);
                 },
                 (error) => {
-                    toggle();
-                    toast.error("Erreur lors du téléchargement de l'image");
+                    if (error) {
+                        toggle();
+                        toast.error("Erreur lors du téléchargement de l'image");
+                    }
                 },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then(
@@ -150,5 +152,3 @@ export const AvatarStep = ({
         </div>
     );
 };
-
-// episode 28 à 1:43:02

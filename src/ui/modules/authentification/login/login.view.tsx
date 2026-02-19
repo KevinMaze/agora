@@ -23,16 +23,16 @@ export const LoginView = ({ form }: Props) => {
             </div>
 
             <div className="relative w-[800px] h-[400px] bg-foreground/80 flex flex-col justify-center items-center border-1 border-primary rounded-2xl">
-                <div className="flex items-center justify-around w-full">
+                <div className="flex sm:flex-row flex-col items-center justify-around w-full">
                     <Typo
                         variant="title"
                         components="h1"
                         weight="bold"
-                        className="text-2xl uppercase underline"
+                        className="text-2xl uppercase underline mb-5 sm:mb-0"
                     >
                         Connexion
                     </Typo>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 mb-5 sm:mb-0">
                         <Typo
                             variant="para"
                             components="p"

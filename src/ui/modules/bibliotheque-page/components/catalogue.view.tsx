@@ -209,15 +209,17 @@ export const CatalogueView = () => {
                     <button
                         onClick={() => setIsFilterVisible(!isFilterVisible)}
                         className={clsx(
-                            "flex items-center justify-between w-full p-4 bg-foreground/80 backdrop-blur-sm rounded-t-lg",
-                            isFilterVisible ? "rounded-b-none" : "rounded-b-lg",
+                            "flex items-center justify-between w-full p-4 bg-foreground/80 backdrop-blur-sm rounded-t-lg border-2 border-primary",
+                            isFilterVisible
+                                ? "rounded-b-none border-b-0"
+                                : "rounded-b-lg",
                         )}
                     >
                         <Typo
                             variant="para"
                             component="p"
                             weight="bold"
-                            className="text-white underline cursor-pointer"
+                            className=" underline cursor-pointer"
                         >
                             Filtres
                         </Typo>
@@ -225,17 +227,17 @@ export const CatalogueView = () => {
                             className={clsx(
                                 "transition-transform cursor-pointer",
                                 isFilterVisible && "rotate-180",
-                                "text-white",
+                                "text-primary",
                             )}
                         />
                     </button>
                     <div
                         className={clsx(
-                            "absolute w-full transition-all duration-300 ease-in-out",
+                            "absolute w-full origin-top transform-gpu transition-[opacity,transform] duration-200 ease-out will-change-transform",
                             {
-                                "opacity-100 transform translate-y-0":
+                                "opacity-100 translate-y-0 border-2 border-primary border-t-0":
                                     isFilterVisible,
-                                "opacity-0 transform -translate-y-4 pointer-events-none":
+                                "opacity-0 -translate-y-1 pointer-events-none":
                                     !isFilterVisible,
                             },
                         )}
@@ -252,21 +254,25 @@ export const CatalogueView = () => {
                                                     : "category",
                                             )
                                         }
-                                        className="w-full p-2 bg-background rounded flex justify-between items-center"
+                                        className={clsx(
+                                            "w-full p-2 bg-background rounded flex justify-between items-center text-primary border-2 border-primary",
+                                            openDropdown === "category" &&
+                                                "border-b-0 rounded-b-none",
+                                        )}
                                     >
                                         Catégories{" "}
                                         {selectedCategory.length > 0 &&
                                             `(${selectedCategory.length})`}
                                         <FaChevronDown
                                             className={clsx(
-                                                "transition-transform cursor-pointer",
+                                                "transition-transform cursor-pointer text-primary",
                                                 openDropdown === "category" &&
                                                     "rotate-180",
                                             )}
                                         />
                                     </div>
                                     {openDropdown === "category" && (
-                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
+                                        <div className="absolute w-full mt-0 p-2 bg-background rounded-b-lg border-2 border-primary border-t-0 shadow-lg max-h-48 overflow-y-auto z-2">
                                             {category.map((cat) => (
                                                 <label
                                                     key={cat}
@@ -301,21 +307,25 @@ export const CatalogueView = () => {
                                                     : "authors",
                                             )
                                         }
-                                        className="w-full p-2 bg-background rounded flex justify-between items-center"
+                                        className={clsx(
+                                            "w-full p-2 bg-background rounded flex justify-between items-center border-2 border-primary text-primary",
+                                            openDropdown === "authors" &&
+                                                "border-b-0 rounded-b-none",
+                                        )}
                                     >
                                         Auteurs{" "}
                                         {selectedAuthors.length > 0 &&
                                             `(${selectedAuthors.length})`}
                                         <FaChevronDown
                                             className={clsx(
-                                                "transition-transform cursor-pointer",
+                                                "transition-transform cursor-pointer text-primary",
                                                 openDropdown === "authors" &&
                                                     "rotate-180",
                                             )}
                                         />
                                     </div>
                                     {openDropdown === "authors" && (
-                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
+                                        <div className="absolute w-full mt-0 p-2 bg-background rounded-b-lg border-2 border-primary border-t-0 shadow-lg max-h-48 overflow-y-auto z-2">
                                             {autors.map((autor) => (
                                                 <label
                                                     key={autor}
@@ -350,21 +360,25 @@ export const CatalogueView = () => {
                                                     : "years",
                                             )
                                         }
-                                        className="w-full p-2 bg-background rounded flex justify-between items-center"
+                                        className={clsx(
+                                            "w-full p-2 bg-background rounded flex justify-between items-center text-primary border-2 border-primary",
+                                            openDropdown === "years" &&
+                                                "border-b-0 rounded-b-none",
+                                        )}
                                     >
                                         Année de sortie{" "}
                                         {selectedYears.length > 0 &&
                                             `(${selectedYears.length})`}
                                         <FaChevronDown
                                             className={clsx(
-                                                "transition-transform cursor-pointer",
+                                                "transition-transform cursor-pointer text-primary",
                                                 openDropdown === "years" &&
                                                     "rotate-180",
                                             )}
                                         />
                                     </div>
                                     {openDropdown === "years" && (
-                                        <div className="absolute w-full mt-1 p-2 bg-background rounded shadow-lg max-h-48 overflow-y-auto z-2">
+                                        <div className="absolute w-full mt-0 p-2 bg-background rounded-b-lg border-2 border-primary border-t-0 shadow-lg max-h-48 overflow-y-auto z-2">
                                             {releaseYears.map((year) => (
                                                 <label
                                                     key={year}
@@ -396,7 +410,7 @@ export const CatalogueView = () => {
                                         setSelectedAuthors([]);
                                         setSelectedYears([]);
                                     }}
-                                    className="text-sm text-gray-300 hover:underline cursor-pointer"
+                                    className="text-sm text-gray-300 hover:underline cursor-pointer text-primary"
                                 >
                                     Réinitialiser les filtres
                                 </div>

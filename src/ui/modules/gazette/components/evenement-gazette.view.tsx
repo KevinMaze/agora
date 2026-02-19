@@ -227,12 +227,18 @@ export const EvenementGazette = ({ evenements, isLoading }: Props) => {
                                     {upcomingEvents.map((event, index) => (
                                         <div
                                             key={event.id || index}
-                                            className="flex flex-row justify-center sm:justify-start items-start gap-4"
+                                            className="flex flex-col sm:flex-row justify-center sm:justify-start items-start gap-4"
                                         >
                                             <div className="relative w-40 h-40 sm:w-52 sm:h-52 shrink-0">
                                                 <Image
-                                                    src={event.image || ErrorImage}
-                                                    alt={event.title || "Événement"}
+                                                    src={
+                                                        event.image ||
+                                                        ErrorImage
+                                                    }
+                                                    alt={
+                                                        event.title ||
+                                                        "Événement"
+                                                    }
                                                     fill
                                                     className="rounded-2xl object-cover"
                                                 />
@@ -244,7 +250,8 @@ export const EvenementGazette = ({ evenements, isLoading }: Props) => {
                                                     weight="extrabold"
                                                     className="uppercase text-[14px] sm:text-2xl"
                                                 >
-                                                    {event.title || "Sans titre"}
+                                                    {event.title ||
+                                                        "Sans titre"}
                                                 </Typo>
                                                 <Typo
                                                     variant="para"

@@ -37,7 +37,7 @@ export const AccountAvatarNavigationLink = () => {
                 />
                 <Typo
                     variant="para"
-                    className="mt-2 uppercase text-xl truncate max-w-[250px]"
+                    className="mt-2 uppercase sm:text-xl truncate max-w-[250px]"
                 >
                     {displayName ? displayName : "Bienvenue"}
                 </Typo>

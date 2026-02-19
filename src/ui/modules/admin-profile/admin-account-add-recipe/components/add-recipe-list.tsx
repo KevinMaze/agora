@@ -2,7 +2,7 @@
 
 import { firestoreDeleteDocument, firestoreUptadeDocument } from "@/api/firestore";
 import { getRecipes } from "@/api/recipes";
-import { storageUploadFile } from "@/api/storage";
+import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
 import { AddRecipeFormFieldsType } from "@/types/form";
@@ -193,6 +193,22 @@ export const AddRecipeList = () => {
         if (!confirmed) return;
 
         setIsDeleting(true);
+        if (selectedRecipe.image) {
+            const { error: storageDeleteError } = await storageDeleteFileByUrl(
+                selectedRecipe.image,
+            );
+            if (
+                storageDeleteError &&
+                storageDeleteError.code !== "storage/object-not-found"
+            ) {
+                setIsDeleting(false);
+                toast.error(
+                    `Impossible de supprimer l'image de la recette: ${storageDeleteError.message}`,
+                );
+                return;
+            }
+        }
+
         const { error } = await firestoreDeleteDocument(
             "recipes",
             selectedRecipe.id,

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { UserAccountNavigation } from "../sidebar-user/user-account-navigation";
 import { Session } from "../session/session";
 import { SessionStatusTypes } from "@/types/session-status-types";
+import { CallToActionSidebar } from "../call-to-action-sidebar/call-to-action-sidebar";
 
 interface Props {
     children: React.ReactNode;
@@ -19,11 +20,12 @@ export const Layout = ({ children, withSideBar, sessionStatus }: Props) => {
     if (withSideBar) {
         view = (
             <Container className="mb-14">
-                <div className="grid grid-cols-12 gap-7">
-                    <div className="col-span-3">
+                <div className="grid sm:grid-cols-12 gap-7">
+                    <div className="sm:col-span-3 space-y-8">
                         <UserAccountNavigation />
+                        <CallToActionSidebar />
                     </div>
-                    <div className="col-span-9">{children}</div>
+                    <div className="sm:col-span-9">{children}</div>
                 </div>
             </Container>
         );

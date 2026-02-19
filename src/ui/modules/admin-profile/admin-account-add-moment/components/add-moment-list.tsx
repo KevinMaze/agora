@@ -2,7 +2,7 @@
 
 import { firestoreDeleteDocument, firestoreUptadeDocument } from "@/api/firestore";
 import { getMoments } from "@/api/moments";
-import { storageUploadFile } from "@/api/storage";
+import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
 import { AddMomentFormFieldsType } from "@/types/form";
@@ -193,6 +193,22 @@ export const AddMomentList = () => {
         if (!confirmed) return;
 
         setIsDeleting(true);
+        if (selectedMoment.image) {
+            const { error: storageDeleteError } = await storageDeleteFileByUrl(
+                selectedMoment.image,
+            );
+            if (
+                storageDeleteError &&
+                storageDeleteError.code !== "storage/object-not-found"
+            ) {
+                setIsDeleting(false);
+                toast.error(
+                    `Impossible de supprimer l'image du moment: ${storageDeleteError.message}`,
+                );
+                return;
+            }
+        }
+
         const { error } = await firestoreDeleteDocument(
             "moments",
             selectedMoment.id,

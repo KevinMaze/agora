@@ -11,7 +11,9 @@ export interface UserInterface {
 }
 
 export interface UserDocument {
+    role?: "admin" | "registered";
     name: string;
+    email: string;
     uid: string;
     displayName: string;
     creation_date: Timestamp;
@@ -19,6 +21,11 @@ export interface UserDocument {
     onboardingIsCompleted: boolean;
     description: string;
     hobbies: string;
-    styleLove: string;
+    styleLove: string | string[];
     photoURL: string | null;
+    facebook: string;
+    twitter: string;
+    youtube: string;
+    tiktok: string;
+    instagram: string;
 }

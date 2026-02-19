@@ -28,7 +28,7 @@ export interface OnboardingProfileFormFieldsType {
     description: string;
     adress: string;
     hobbies: string;
-    styleLove: string;
+    styleLove: string | string[];
 }
 
 export interface AddBookFormFieldsType {
@@ -49,6 +49,18 @@ export interface AddBoxFormFieldsType {
 }
 
 export interface AddEvenementFormFieldsType {
+    title: string;
+    date: string;
+    description: string;
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    youtube?: string;
+    twitter?: string;
+    image: FileList;
+}
+
+export interface AddConcertFormFieldsType {
     title: string;
     date: string;
     description: string;
@@ -82,4 +94,19 @@ export interface AddMomentFormFieldsType {
     allergènes: string | string[];
     price: string;
     image: FileList;
+}
+
+export interface UserProfileFormFieldsType {
+    name: string;
+    displayName: string;
+    pseudo: string;
+    description: string;
+    hobbies: string;
+    styleLove: string | string[];
+    email: string;
+    facebook: string;
+    instagram: string;
+    tiktok: string;
+    youtube: string;
+    twitter: string;
 }
