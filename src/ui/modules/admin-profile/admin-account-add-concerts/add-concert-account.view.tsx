@@ -2,6 +2,7 @@ import { FormsType } from "@/types/form";
 import { Typo } from "@/ui/design-system/typography";
 import { AddConcertForm } from "./components/add-concert-form";
 import { AddConcertList } from "./components/add-concert-list";
+import { GalleryImages } from "./components/add-gallery-form";
 
 interface Props {
     form: FormsType;
@@ -25,6 +26,7 @@ export const AddConcertAdminAccountView = ({
                 setImagePreviews={setImagePreviews}
             />
             <AddConcertList />
+            <GalleryImages />
         </div>
     );
 };

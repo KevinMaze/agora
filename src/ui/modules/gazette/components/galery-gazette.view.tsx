@@ -1,71 +1,60 @@
+"use client";
+
+import { GalleryDocument } from "@/api/gallery";
 import Image from "next/image";
 import { Typo } from "@/ui/design-system/typography";
 import { Container } from "@/ui/components/container";
-import Legolas from "@/../public/assets/images/legolas.jpg";
-import Drum from "@/../public/assets/images/drums.jpg";
-import Monkey from "@/../public/assets/images/monkey.jpg";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import useMeasure from "react-use-measure";
-import { animate, useMotionValue, motion } from "framer-motion";
-import { div } from "framer-motion/client";
+import { animate, motion, useMotionValue } from "framer-motion";
 
-export const GalleryGazette = () => {
-    const Pictures = [
-        {
-            src: Legolas,
-            alt: "Legolas",
-        },
-        {
-            src: Drum,
-            alt: "Drum",
-        },
-        {
-            src: Monkey,
-            alt: "Monkay",
-        },
-    ];
+interface Props {
+    galleryImages: GalleryDocument[];
+    isLoading: boolean;
+}
 
-    const fastDuration = 25;
-    const slowDuration = 75;
+export const GalleryGazette = ({ galleryImages, isLoading }: Props) => {
+    const dynamicPictures = galleryImages
+        .map((item, index) => ({
+            src: item.image || "",
+            alt: `Gallery ${index + 1}`,
+        }))
+        .filter((item) => !!item.src);
 
-    const [duration, setDuration] = useState(fastDuration);
+    const Pictures = !isLoading ? dynamicPictures : [];
 
-    const [ref, { width }] = useMeasure();
+    const duration = 25;
+
+    const [viewportRef, { width: viewportWidth }] = useMeasure();
+    const [setRef, { width: singleSetWidth }] = useMeasure();
 
     const xTranslation = useMotionValue(0);
 
-    const [mustFinish, setMustFinish] = useState(false);
-    const [rerender, setRerender] = useState(false);
+    const repeatCount = useMemo(() => {
+        if (Pictures.length === 0) return 0;
+        if (!viewportWidth || !singleSetWidth) return 2;
+
+        const minTrackWidth = viewportWidth * 2;
+        return Math.max(2, Math.ceil(minTrackWidth / singleSetWidth) + 1);
+    }, [Pictures.length, viewportWidth, singleSetWidth]);
 
     useEffect(() => {
-        let controls;
-        const finalPosition = -width / 2 - 8;
+        xTranslation.set(0);
+    }, [singleSetWidth, xTranslation]);
 
-        if (mustFinish) {
-            controls = animate(
-                xTranslation,
-                [xTranslation.get(), finalPosition],
-                {
-                    ease: "linear",
-                    duration:
-                        duration * (1 - xTranslation.get() / finalPosition),
-                    onComplete: () => {
-                        setMustFinish(false);
-                        setRerender(!rerender);
-                    },
-                }
-            );
-        } else {
-            controls = animate(xTranslation, [0, finalPosition], {
-                ease: "linear",
-                duration: duration,
-                repeat: Infinity,
-                repeatType: "loop",
-                repeatDelay: 0,
-            });
-        }
+    useEffect(() => {
+        if (Pictures.length === 0 || singleSetWidth === 0) return;
+
+        const controls = animate(xTranslation, [0, -singleSetWidth], {
+            ease: "linear",
+            duration,
+            repeat: Infinity,
+            repeatType: "loop",
+            repeatDelay: 0,
+        });
+
         return controls.stop;
-    }, [xTranslation, width, duration, rerender, mustFinish]);
+    }, [Pictures.length, singleSetWidth, xTranslation]);
 
     return (
         <div className="mt-20 lg:mt-50">
@@ -79,31 +68,48 @@ export const GalleryGazette = () => {
                     Gallery
                 </Typo>
             </Container>
-            <div className="relative h-[180px] lg:h-[500px] overflow-hidden py-8 sm:mb-20 sm:mt-20">
-                <motion.div
-                    className="absolute flex gap-4"
-                    ref={ref}
-                    style={{ x: xTranslation }}
-                    onHoverStart={() => {
-                        setMustFinish(true);
-                        setDuration(slowDuration);
-                    }}
-                    onHoverEnd={() => {
-                        setMustFinish(true);
-                        setDuration(fastDuration);
-                    }}
-                >
-                    {[...Pictures, ...Pictures].map((picture, index) => (
-                        <div key={index}>
-                            <Image
-                                src={picture.src}
-                                key={index}
-                                alt={picture.alt}
-                                className="rounded-2xl min-w-[100px] h-full"
-                            />
-                        </div>
-                    ))}
-                </motion.div>
+            <div
+                ref={viewportRef}
+                className="relative h-[250px] lg:h-[500px] overflow-hidden py-8 sm:mb-20 sm:mt-20"
+            >
+                {Pictures.length === 0 ? (
+                    <div className="w-full h-full flex items-center justify-center px-4">
+                        <Typo
+                            variant="para"
+                            component="p"
+                            className="text-center sm:text-xl"
+                        >
+                            Image des concerts a venir
+                        </Typo>
+                    </div>
+                ) : (
+                    <motion.div
+                        className="absolute flex"
+                        style={{ x: xTranslation }}
+                    >
+                        {Array.from({ length: repeatCount }).map((_, group) => (
+                            <div
+                                key={`gallery-group-${group}`}
+                                ref={group === 0 ? setRef : undefined}
+                                className="flex gap-4 pr-4"
+                            >
+                                {Pictures.map((picture, index) => (
+                                    <div
+                                        key={`gallery-picture-${group}-${index}`}
+                                    >
+                                        <Image
+                                            src={picture.src}
+                                            width={"320"}
+                                            height={"1"}
+                                            alt={picture.alt}
+                                            className="rounded-2xl min-w-[120px] sm:min-w-[220px] lg:min-w-[220px] h-full object-cover"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </motion.div>
+                )}
             </div>
         </div>
     );

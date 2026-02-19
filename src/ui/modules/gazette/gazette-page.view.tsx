@@ -1,3 +1,4 @@
+import { GalleryDocument } from "@/api/gallery";
 import { ConcertDocument } from "@/types/concert";
 import { EvenementDocument } from "@/types/evenement";
 import { EvenementGazette } from "./components/evenement-gazette.view";
@@ -12,6 +13,8 @@ interface Props {
     isLoadingEvenements: boolean;
     concerts: ConcertDocument[];
     isLoadingConcerts: boolean;
+    galleryImages: GalleryDocument[];
+    isLoadingGallery: boolean;
 }
 
 export const GazetteView = ({
@@ -19,6 +22,8 @@ export const GazetteView = ({
     isLoadingEvenements,
     concerts,
     isLoadingConcerts,
+    galleryImages,
+    isLoadingGallery,
 }: Props) => {
     return (
         <>
@@ -29,7 +34,10 @@ export const GazetteView = ({
                 isLoading={isLoadingEvenements}
             />
             <HardRockCoffee concerts={concerts} isLoading={isLoadingConcerts} />
-            <GalleryGazette />
+            <GalleryGazette
+                galleryImages={galleryImages}
+                isLoading={isLoadingGallery}
+            />
             <SoonGazette concerts={concerts} isLoading={isLoadingConcerts} />
         </>
     );
