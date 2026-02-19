@@ -1,3 +1,4 @@
+import { ConcertDocument } from "@/types/concert";
 import { EvenementDocument } from "@/types/evenement";
 import { EvenementGazette } from "./components/evenement-gazette.view";
 import { GalleryGazette } from "./components/galery-gazette.view";
@@ -9,9 +10,16 @@ import { SoonGazette } from "./components/soon-gazette.view";
 interface Props {
     evenements: EvenementDocument[];
     isLoadingEvenements: boolean;
+    concerts: ConcertDocument[];
+    isLoadingConcerts: boolean;
 }
 
-export const GazetteView = ({ evenements, isLoadingEvenements }: Props) => {
+export const GazetteView = ({
+    evenements,
+    isLoadingEvenements,
+    concerts,
+    isLoadingConcerts,
+}: Props) => {
     return (
         <>
             <HeaderGazette />
@@ -20,9 +28,9 @@ export const GazetteView = ({ evenements, isLoadingEvenements }: Props) => {
                 evenements={evenements}
                 isLoading={isLoadingEvenements}
             />
-            <HardRockCoffee />
+            <HardRockCoffee concerts={concerts} isLoading={isLoadingConcerts} />
             <GalleryGazette />
-            <SoonGazette />
+            <SoonGazette concerts={concerts} isLoading={isLoadingConcerts} />
         </>
     );
 };
