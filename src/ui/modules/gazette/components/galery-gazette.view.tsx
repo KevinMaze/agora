@@ -7,7 +7,6 @@ import Monkey from "@/../public/assets/images/monkey.jpg";
 import { useEffect, useState } from "react";
 import useMeasure from "react-use-measure";
 import { animate, useMotionValue, motion } from "framer-motion";
-import { div } from "framer-motion/client";
 
 export const GalleryGazette = () => {
     const Pictures = [
@@ -53,7 +52,7 @@ export const GalleryGazette = () => {
                         setMustFinish(false);
                         setRerender(!rerender);
                     },
-                }
+                },
             );
         } else {
             controls = animate(xTranslation, [0, finalPosition], {

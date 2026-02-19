@@ -152,8 +152,8 @@ export const HardRockCoffee = ({ concerts, isLoading }: Props) => {
                     <div className="w-full relative min-h-[300px] mt-5">
                         <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-10 sm:left-40 -rotate-15 z-1 left-25 top-25">
                             <Image
-                                src={dynamicImages[0]}
-                                alt=""
+                                src={dynamicImages[0] || dynamicImages[1]}
+                                alt="image du concert"
                                 className="rounded-2xl"
                                 objectFit="cover"
                                 fill
@@ -161,7 +161,7 @@ export const HardRockCoffee = ({ concerts, isLoading }: Props) => {
                         </div>
                         <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-20 sm:left-80 rotate-15 left-45">
                             <Image
-                                src={dynamicImages[1]}
+                                src={dynamicImages[1] || dynamicImages[1]}
                                 alt=""
                                 className="rounded-2xl"
                                 objectFit="cover"
@@ -170,7 +170,7 @@ export const HardRockCoffee = ({ concerts, isLoading }: Props) => {
                         </div>
                         <div className="absolute w-30 sm:w-50 h-30 sm:h-50 sm:bottom-30 left-5">
                             <Image
-                                src={dynamicImages[2]}
+                                src={dynamicImages[2] || dynamicImages[1]}
                                 alt=""
                                 className="rounded-2xl"
                                 objectFit="cover"

@@ -138,12 +138,73 @@ export const AddConcertList = () => {
         );
     };
 
-    const handleRemoveSelectedImages = () => {
-        if (selectedImageIndexes.length === 0) return;
-        setEditableImages((prev) =>
-            prev.filter((_, index) => !selectedImageIndexes.includes(index)),
+    const handleRemoveSelectedImages = async () => {
+        if (!selectedConcert || selectedImageIndexes.length === 0) return;
+
+        const sortedSelection = [...selectedImageIndexes].sort((a, b) => a - b);
+        const imagesToDelete = sortedSelection
+            .map((index) => editableImages[index])
+            .filter(Boolean);
+        const remainingImages = editableImages.filter(
+            (_, index) => !selectedImageIndexes.includes(index),
         );
+
+        if (remainingImages.length === 0) {
+            toast.error("Tu dois garder au moins une image.");
+            return;
+        }
+
+        setIsUpdating(true);
+
+        if (imagesToDelete.length > 0) {
+            const deleteResults = await Promise.all(
+                imagesToDelete.map((url) => storageDeleteFileByUrl(url)),
+            );
+
+            const blockingStorageError = deleteResults.find((result) => {
+                if (!result.error) return false;
+                return result.error.code !== "storage/object-not-found";
+            })?.error;
+
+            if (blockingStorageError) {
+                setIsUpdating(false);
+                toast.error(
+                    `Impossible de supprimer les images selectionnees: ${blockingStorageError.message}`,
+                );
+                return;
+            }
+        }
+
+        const payload = {
+            images: remainingImages,
+            image: remainingImages[0] || null,
+        };
+
+        const { error } = await firestoreUptadeDocument(
+            "concerts",
+            selectedConcert.id,
+            payload,
+        );
+        if (error) {
+            setIsUpdating(false);
+            toast.error(error.message);
+            return;
+        }
+
+        setConcerts((prev) =>
+            prev.map((concert) =>
+                concert.id === selectedConcert.id
+                    ? { ...concert, ...payload }
+                    : concert,
+            ),
+        );
+        setSelectedConcert((prev) =>
+            prev ? { ...prev, ...payload } : prev,
+        );
+        setEditableImages(remainingImages);
         setSelectedImageIndexes([]);
+        setIsUpdating(false);
+        toast.success("Selection supprimee.");
     };
 
     const onSubmitEdit: SubmitHandler<AddConcertFormFieldsType> = async (
@@ -442,6 +503,7 @@ export const AddConcertList = () => {
                                             selectedImageIndexes.length === 0
                                         }
                                         action={handleRemoveSelectedImages}
+                                        isLoading={isUpdating}
                                     >
                                         Supprimer la selection
                                     </Button>
