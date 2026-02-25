@@ -4,6 +4,7 @@ export interface BookInterface {
     autor: string;
     description: string;
     image: string | null;
+    coupDeCoeur?: boolean;
     bookDocument?: BookDocument;
 }
 
@@ -18,4 +19,5 @@ export interface BookDocument {
     category: string;
     nb_page: string;
     like: number;
+    coupDeCoeur?: boolean;
 }

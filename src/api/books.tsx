@@ -103,3 +103,25 @@ export const getLastTenBooks = async (): Promise<BookDocument[]> => {
         throw error;
     }
 };
+
+export const getLastFiveFavoriteBooks = async (): Promise<BookDocument[]> => {
+    try {
+        const q = query(
+            collection(db, BOOKS_COLLECTION),
+            where("coupDeCoeur", "==", true),
+            orderBy("creation_date", "desc"),
+            limit(5),
+        );
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        })) as unknown as BookDocument[];
+    } catch (error) {
+        console.error(
+            "Erreur lors de la récupération des coups de coeur: ",
+            error,
+        );
+        throw error;
+    }
+};
