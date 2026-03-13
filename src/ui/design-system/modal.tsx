@@ -3,7 +3,7 @@
 import { Typo } from "@/ui/design-system/typography";
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
 interface ModalSection {
@@ -39,6 +39,19 @@ export const Modal = ({
     maxWidthClassName = "max-w-5xl",
     contentClassName,
 }: ModalProps) => {
+    const [isMounted, setIsMounted] = useState(false);
+    const [overlayActive, setOverlayActive] = useState(false);
+    const [modalActive, setModalActive] = useState(false);
+    const [display, setDisplay] = useState({
+        title,
+        image,
+        sections,
+        footer,
+        children,
+        maxWidthClassName,
+        contentClassName,
+    });
+
     useEffect(() => {
         if (!isOpen) return;
 
@@ -52,12 +65,66 @@ export const Modal = ({
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [isOpen, onClose]);
 
-    if (!isOpen) return null;
+    useEffect(() => {
+        if (!isOpen) return;
+        setDisplay({
+            title,
+            image,
+            sections,
+            footer,
+            children,
+            maxWidthClassName,
+            contentClassName,
+        });
+    }, [
+        isOpen,
+        title,
+        image,
+        sections,
+        footer,
+        children,
+        maxWidthClassName,
+        contentClassName,
+    ]);
+
+    useEffect(() => {
+        let t1: NodeJS.Timeout | undefined;
+        let t2: NodeJS.Timeout | undefined;
+        let t3: NodeJS.Timeout | undefined;
+        let t4: NodeJS.Timeout | undefined;
+
+        if (isOpen) {
+            setIsMounted(true);
+            setOverlayActive(false);
+            setModalActive(false);
+
+            t1 = setTimeout(() => setOverlayActive(true), 10);
+            t2 = setTimeout(() => setModalActive(true), 280);
+        } else if (isMounted) {
+            setModalActive(false);
+            t2 = setTimeout(() => setOverlayActive(false), 180);
+            t3 = setTimeout(() => setIsMounted(false), 520);
+        }
+
+        return () => {
+            if (t1) clearTimeout(t1);
+            if (t2) clearTimeout(t2);
+            if (t3) clearTimeout(t3);
+            if (t4) clearTimeout(t4);
+        };
+    }, [isOpen, isMounted]);
+
+    if (!isMounted) return null;
 
     return (
         <div className="fixed inset-0 z-50">
             <div
-                className="absolute inset-0 bg-black/50"
+                className={clsx(
+                    "absolute inset-0 bg-black/40 origin-center transition-all duration-300 ease-out",
+                    overlayActive
+                        ? "opacity-100 scale-100"
+                        : "opacity-0 scale-0",
+                )}
                 onClick={onClose}
                 aria-hidden="true"
             />
@@ -66,9 +133,12 @@ export const Modal = ({
                     role="dialog"
                     aria-modal="true"
                     className={clsx(
-                        "relative bg-background p-8 sm:p-10 rounded-xl w-full mx-auto my-6 max-h-[calc(100vh-3rem)] overflow-y-auto",
-                        maxWidthClassName,
-                        contentClassName,
+                        "relative bg-background p-8 sm:p-10 rounded-xl w-full mx-auto my-6 max-h-[calc(100vh-3rem)] overflow-y-auto transition-all duration-300 ease-out",
+                        modalActive
+                            ? "opacity-100 scale-100"
+                            : "opacity-0 scale-90",
+                        display.maxWidthClassName,
+                        display.contentClassName,
                     )}
                 >
                     <button
@@ -79,15 +149,15 @@ export const Modal = ({
                         <FaTimes size={24} />
                     </button>
 
-                    {children ? (
-                        children
+                    {display.children ? (
+                        display.children
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full">
-                            {image && (
+                            {display.image && (
                                 <div className="relative h-80 md:h-[500px] w-full">
                                     <Image
-                                        src={image.src}
-                                        alt={image.alt}
+                                        src={display.image.src}
+                                        alt={display.image.alt}
                                         fill
                                         className="object-cover rounded-lg"
                                     />
@@ -95,7 +165,7 @@ export const Modal = ({
                             )}
 
                             <div className="space-y-5 flex flex-col items-center text-center">
-                                {title && (
+                                {display.title && (
                                     <Typo
                                         variant="title"
                                         component="h2"
@@ -103,11 +173,11 @@ export const Modal = ({
                                         color="primary"
                                         className="uppercase text-3xl underline"
                                     >
-                                        {title}
+                                        {display.title}
                                     </Typo>
                                 )}
 
-                                {sections.map((section) => (
+                                {display.sections.map((section) => (
                                     <div key={section.label}>
                                         <Typo
                                             variant="para"
@@ -128,7 +198,7 @@ export const Modal = ({
                                     </div>
                                 ))}
 
-                                {footer}
+                                {display.footer}
                             </div>
                         </div>
                     )}
