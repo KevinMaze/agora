@@ -90,6 +90,7 @@ export const Like = () => {
                                 alt={book.title}
                                 title={book.title}
                                 autor={book.autor}
+                                description={book.description}
                                 onAction={() => setSelectedBook(book)}
                             />
                         ))}
