@@ -35,10 +35,23 @@ export const Card: React.FC<CarProps> = ({
 }: CarProps) => {
     const [imgSrc, setImgSrc] = useState(src);
     const [isLoading, setIsLoading] = useState(true);
+    const [isTouchOpen, setIsTouchOpen] = useState(false);
+
+    const handleCardTap = () => {
+        if (
+            typeof window !== "undefined" &&
+            window.matchMedia("(hover: none)").matches
+        ) {
+            setIsTouchOpen((prev) => !prev);
+        }
+    };
 
     return (
         <>
-            <div className="w-72 h-96 border-2 border-primary rounded-bl-3xl rounded-t-3xl overflow-hidden group bg-white/5">
+            <div
+                className="w-72 h-96 border-2 border-primary rounded-bl-3xl rounded-t-3xl overflow-hidden group bg-white/5"
+                onClick={handleCardTap}
+            >
                 <div className="relative h-full w-full rounded-bl-3xl rounded-t-3xl overflow-hidden">
                     {isLoading && (
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -64,9 +77,21 @@ export const Card: React.FC<CarProps> = ({
                                 : imgSrc.blurDataURL
                         }
                     />
-                    <div className="absolute inset-x-0 bottom-0 h-2/3 translate-y-full opacity-0 transition-all duration-250 ease-in-out group-hover:translate-y-0 group-hover:opacity-100">
+                    <div
+                        className={`absolute inset-x-0 bottom-0 h-2/3 transition-all duration-250 ease-in-out group-hover:translate-y-0 group-hover:opacity-100 ${
+                            isTouchOpen
+                                ? "translate-y-0 opacity-100"
+                                : "translate-y-full opacity-0"
+                        }`}
+                    >
                         <div className="bg-black/70 backdrop-blur-sm px-3 py-3 h-full">
-                            <div className="h-full flex flex-col translate-y-2 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                            <div
+                                className={`h-full flex flex-col transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 ${
+                                    isTouchOpen
+                                        ? "translate-y-0 opacity-100"
+                                        : "translate-y-2 opacity-0"
+                                }`}
+                            >
                                 <div className="text-xs font-semibold uppercase text-primary">
                                     {title}
                                 </div>
