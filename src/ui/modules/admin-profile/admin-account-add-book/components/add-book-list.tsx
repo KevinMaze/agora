@@ -27,6 +27,7 @@ type BookListItem = {
     description: string;
     category: string | string[];
     releaseYear: string;
+    coupDeCoeur: boolean;
     image: string | null;
 };
 
@@ -67,6 +68,7 @@ export const AddBookList = () => {
             description: "",
             category: "",
             releaseYear: "",
+            coupDeCoeur: false,
         },
     });
 
@@ -85,6 +87,7 @@ export const AddBookList = () => {
                     description: book.description || "",
                     category: book.category || "",
                     releaseYear: book.releaseYear || "",
+                    coupDeCoeur: Boolean(book.coupDeCoeur),
                     image: book.image || null,
                 }))
                 .filter((book) => !!book.id) as BookListItem[];
@@ -111,6 +114,7 @@ export const AddBookList = () => {
             description: book.description,
             category: normalizeCategoryForForm(book.category),
             releaseYear: book.releaseYear,
+            coupDeCoeur: !!book.coupDeCoeur,
         });
     };
 
@@ -151,6 +155,7 @@ export const AddBookList = () => {
         const payload = {
             ...bookData,
             category,
+            coupDeCoeur: !!bookData.coupDeCoeur,
             image: imageUrl,
         };
 

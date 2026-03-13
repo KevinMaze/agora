@@ -111,6 +111,18 @@ export const AddBookForm = ({
                 id="releaseYear"
                 required={true}
             />
+            <div className="flex items-center gap-3">
+                <input
+                    type="checkbox"
+                    id="coupDeCoeur"
+                    disabled={isLoading}
+                    className="w-5 h-5 rounded border-2 border-primary focus:outline-none focus:ring-2 focus:ring-primary"
+                    {...register("coupDeCoeur")}
+                />
+                <label htmlFor="coupDeCoeur" className="text-other">
+                    Coup de coeur
+                </label>
+            </div>
             <div className="flex items-center text-center gap-4">
                 <Avatar
                     size="very-large"

@@ -5,9 +5,13 @@ import { StaticImageData } from "next/image";
 import Image from "next/image";
 import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
 import { Spinner } from "./spinner";
-import { Typo } from "./typography";
 import { Button } from "./button";
-import { FaArrowRight } from "react-icons/fa6";
+import {
+    FaArrowRight,
+    FaRegStar,
+    FaStar,
+    FaStarHalfStroke,
+} from "react-icons/fa6";
 
 interface CarProps {
     src?: string | StaticImageData; // Rendu optionnel pour le cas où elle n'est pas fournie
@@ -15,6 +19,7 @@ interface CarProps {
     title?: string;
     description?: string;
     autor?: string;
+    rating?: number;
     date?: string;
     price?: string;
     onAction?: () => void;
@@ -25,17 +30,29 @@ export const Card: React.FC<CarProps> = ({
     title,
     description,
     autor,
-    date,
-    price,
+    rating,
     onAction,
 }: CarProps) => {
     const [imgSrc, setImgSrc] = useState(src);
     const [isLoading, setIsLoading] = useState(true);
+    const [isTouchOpen, setIsTouchOpen] = useState(false);
+
+    const handleCardTap = () => {
+        if (
+            typeof window !== "undefined" &&
+            window.matchMedia("(hover: none)").matches
+        ) {
+            setIsTouchOpen((prev) => !prev);
+        }
+    };
 
     return (
         <>
-            <div className="w-60 border-2 border-primary p-4 rounded-bl-3xl rounded-t-3xl">
-                <div className="relative h-70 w-50 rounded-bl-3xl rounded-t-3xl overflow-hidden group">
+            <div
+                className="w-72 h-96 border-2 border-primary rounded-bl-3xl rounded-t-3xl overflow-hidden group bg-white/5"
+                onClick={handleCardTap}
+            >
+                <div className="relative h-full w-full rounded-bl-3xl rounded-t-3xl overflow-hidden">
                     {isLoading && (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner />
@@ -60,31 +77,92 @@ export const Card: React.FC<CarProps> = ({
                                 : imgSrc.blurDataURL
                         }
                     />
-                </div>
-                <div className="flex flex-col justify-center items-center mt-4">
-                    <Typo
-                        variant="para"
-                        component="h1"
-                        weight="bold"
-                        color="primary"
-                        className="uppercase"
+                    <div
+                        className={`absolute inset-x-0 bottom-0 h-2/3 transition-all duration-250 ease-in-out group-hover:translate-y-0 group-hover:opacity-100 ${
+                            isTouchOpen
+                                ? "translate-y-0 opacity-100"
+                                : "translate-y-full opacity-0"
+                        }`}
                     >
-                        {title}
-                    </Typo>
-                    <Typo
-                        variant="para"
-                        component="p"
-                        weight="normal"
-                        color="secondary"
-                        className="uppercase mt-4"
-                    >
-                        {autor}
-                    </Typo>
-                </div>
-                <div className="mt-4 flex justify-center">
-                    <Button icon={{ icon: FaArrowRight }} action={onAction}>
-                        Voir
-                    </Button>
+                        <div className="bg-black/70 backdrop-blur-sm px-3 py-3 h-full">
+                            <div
+                                className={`h-full flex flex-col transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 ${
+                                    isTouchOpen
+                                        ? "translate-y-0 opacity-100"
+                                        : "translate-y-2 opacity-0"
+                                }`}
+                            >
+                                <div className="text-xs font-semibold uppercase text-primary">
+                                    {title}
+                                </div>
+                                <div className="mt-1 text-[10px] uppercase text-secondary">
+                                    {autor}
+                                </div>
+                                <div className="mt-2 flex items-center gap-1">
+                                    {[0, 1, 2, 3, 4].map((index) => {
+                                        const value =
+                                            typeof rating === "number"
+                                                ? rating
+                                                : 0;
+                                        const full =
+                                            value >= index + 1 ||
+                                            Math.floor(value) >= index + 1;
+                                        const half =
+                                            !full &&
+                                            typeof rating === "number" &&
+                                            value >= index + 0.5;
+                                        if (full) {
+                                            return (
+                                                <FaStar
+                                                    key={index}
+                                                    className="text-primary text-[11px]"
+                                                />
+                                            );
+                                        }
+                                        if (half) {
+                                            return (
+                                                <FaStarHalfStroke
+                                                    key={index}
+                                                    className="text-primary text-[11px]"
+                                                />
+                                            );
+                                        }
+                                        return (
+                                            <FaRegStar
+                                                key={index}
+                                                className="text-secondary/40 text-[11px]"
+                                            />
+                                        );
+                                    })}
+                                    {typeof rating === "number" && (
+                                        <span className="ml-1 text-[10px] text-primary">
+                                            {rating.toFixed(1)}
+                                        </span>
+                                    )}
+                                </div>
+                                {description && (
+                                    <p
+                                        className="text-[11px] leading-snug mt-2 overflow-hidden text-white/90"
+                                        style={{
+                                            display: "-webkit-box",
+                                            WebkitLineClamp: 5,
+                                            WebkitBoxOrient: "vertical",
+                                        }}
+                                    >
+                                        {description}
+                                    </p>
+                                )}
+                                <div className="mt-auto pt-2 flex justify-center">
+                                    <Button
+                                        icon={{ icon: FaArrowRight }}
+                                        action={onAction}
+                                    >
+                                        Voir
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

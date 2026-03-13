@@ -37,6 +37,7 @@ export interface AddBookFormFieldsType {
     category: string | string[];
     releaseYear: string;
     autor: string;
+    coupDeCoeur: boolean;
     image: FileList;
 }
 

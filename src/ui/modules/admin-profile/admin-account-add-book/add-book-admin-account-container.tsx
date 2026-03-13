@@ -19,7 +19,11 @@ export const AddBookAdminAccountContainer = () => {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<AddBookFormFieldsType>();
+    } = useForm<AddBookFormFieldsType>({
+        defaultValues: {
+            coupDeCoeur: false,
+        },
+    });
 
     const onSubmit: SubmitHandler<AddBookFormFieldsType> = async (formData) => {
         setLoading(true);
@@ -46,6 +50,7 @@ export const AddBookAdminAccountContainer = () => {
 
         const data = {
             ...bookData,
+            coupDeCoeur: !!bookData.coupDeCoeur,
             image: url,
             userId: authUser.uid,
             creation_date: new Date(),
