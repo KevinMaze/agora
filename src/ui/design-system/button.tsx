@@ -109,6 +109,9 @@ export const Button = ({
 
     const renderAnimatedText = (text: string) => {
         const letters = text.split("");
+        type LetterDelayStyle = React.CSSProperties & {
+            "--letter-delay": string;
+        };
         return (
             <span className="relative z-10 inline-flex text-inherit">
                 {letters.map((letter, index) => {
@@ -126,8 +129,8 @@ export const Button = ({
                             )}
                             style={
                                 {
-                                    ["--letter-delay" as any]: `${index * 60}ms`,
-                                } as React.CSSProperties
+                                    "--letter-delay": `${index * 60}ms`,
+                                } as LetterDelayStyle
                             }
                         >
                             {letter === " " ? "\u00A0" : letter}
@@ -140,7 +143,7 @@ export const Button = ({
 
     const renderAnimatedIcon = (
         position: "left" | "right",
-        IconComponent: React.ComponentType<React.SVGProps<SVGSVGElement>>,
+        IconComponent: React.ElementType<{ className?: string }>,
     ) => {
         const fromClass =
             position === "left" ? "translate-y-[-12px]" : "translate-y-[12px]";
