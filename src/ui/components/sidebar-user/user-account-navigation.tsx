@@ -51,6 +51,11 @@ export const UserAccountNavigation = () => {
             allowedRoles: [ADMIN],
         },
         {
+            href: "/mon_espace/add-avis",
+            label: "Espace des avis",
+            allowedRoles: [ADMIN],
+        },
+        {
             href: "/mon_espace/add-concert",
             label: "Espace des concerts",
             allowedRoles: [ADMIN],

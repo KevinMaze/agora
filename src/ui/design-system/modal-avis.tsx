@@ -2,6 +2,7 @@
 
 import DefaultAvatar from "@/../public/assets/images/user-icon-2098873_1920.png";
 import MissingBookImage from "@/../public/assets/images/404.png";
+import { getBook } from "@/api/books";
 import { firestoreAddDocument } from "@/api/firestore";
 import { useAuth } from "@/context/AuthUserContext";
 import { StaticImageData } from "next/image";
@@ -41,6 +42,12 @@ const getImageUrl = (image?: string | StaticImageData | null) => {
     return image.src;
 };
 
+const getDisplayBookImage = (
+    image?: string | StaticImageData | null,
+): string | StaticImageData => {
+    return image || MissingBookImage;
+};
+
 const splitName = (name?: string) => {
     if (!name) {
         return {
@@ -66,10 +73,15 @@ export const ModalAvis = ({
 }: ModalAvisProps) => {
     const { authUser } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [resolvedBookTitle, setResolvedBookTitle] = useState(bookTitle || "");
+    const [resolvedBookImage, setResolvedBookImage] = useState<
+        string | StaticImageData | null
+    >(bookImage || null);
     const isConnected = Boolean(authUser?.uid);
 
     const identityDefaults = useMemo(() => {
-        const userFullName = authUser?.userDocument?.name || "";
+        const userFullName =
+            authUser?.userDocument?.name || authUser?.displayName || "";
         const separatedName = splitName(userFullName);
 
         return {
@@ -116,6 +128,36 @@ export const ModalAvis = ({
         });
     }, [isOpen, identityDefaults, reset]);
 
+    useEffect(() => {
+        let isActive = true;
+
+        const syncBookData = async () => {
+            if (!isOpen) return;
+
+            setResolvedBookTitle(bookTitle || "");
+            setResolvedBookImage(bookImage || null);
+
+            if (!bookId) return;
+
+            try {
+                const book = await getBook(bookId);
+                if (!isActive || !book) return;
+
+                setResolvedBookTitle(book.title || bookTitle || "");
+                setResolvedBookImage(book.image || bookImage || null);
+            } catch (error) {
+                if (!isActive) return;
+                console.error("Erreur lors de la récupération du livre:", error);
+            }
+        };
+
+        syncBookData();
+
+        return () => {
+            isActive = false;
+        };
+    }, [isOpen, bookId, bookTitle, bookImage]);
+
     const avatarPreview = watch("avatar");
 
     const onSubmit: SubmitHandler<ModalAvisFormFields> = async (formData) => {
@@ -128,13 +170,15 @@ export const ModalAvis = ({
 
         const payload = {
             bookId,
-            bookTitle: bookTitle || "",
-            bookImage: getImageUrl(bookImage),
+            bookTitle: resolvedBookTitle || bookTitle || "",
+            bookImage: getImageUrl(resolvedBookImage || bookImage || null),
             userId: authUser?.uid || null,
             firstName: formData.firstName.trim() || null,
             lastName: formData.lastName.trim() || null,
             pseudo: formData.pseudo.trim() || null,
-            avatar: formData.avatar.trim() || "/assets/images/user-icon-2098873_1920.png",
+            avatar:
+                formData.avatar.trim() ||
+                "/assets/images/user-icon-2098873_1920.png",
             review: formData.review.trim(),
             moderationStatus: "pending",
             creation_date: new Date(),
@@ -163,7 +207,11 @@ export const ModalAvis = ({
         <Modal
             isOpen={isOpen}
             onClose={onClose}
-            title={bookTitle ? `Avis - ${bookTitle}` : "Donner un avis"}
+            title={
+                resolvedBookTitle
+                    ? `Avis - ${resolvedBookTitle}`
+                    : "Donner un avis"
+            }
             maxWidthClassName="max-w-3xl"
             contentClassName="!h-auto"
         >
@@ -182,8 +230,10 @@ export const ModalAvis = ({
                         <div className="flex items-center gap-4">
                             <div className="relative w-14 h-20 rounded-md overflow-hidden border border-primary/30">
                                 <Image
-                                    src={bookImage || MissingBookImage}
-                                    alt={bookTitle || "Livre"}
+                                    src={getDisplayBookImage(
+                                        resolvedBookImage || bookImage,
+                                    )}
+                                    alt={resolvedBookTitle || bookTitle || "Livre"}
                                     fill
                                     className="object-cover"
                                 />
@@ -195,7 +245,7 @@ export const ModalAvis = ({
                                     color="other"
                                     className="font-medium"
                                 >
-                                    {bookTitle || "Livre"}
+                                    {resolvedBookTitle || bookTitle || "Livre"}
                                 </Typo>
                                 {onOpenBookModal && (
                                     <Button
