@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface ReviewDocument {
     id?: string;
     bookId: string;
@@ -10,6 +12,6 @@ export interface ReviewDocument {
     avatar: string;
     review: string;
     moderationStatus: "pending" | "approved" | "rejected";
-    creation_date?: { toDate?: () => Date } | string | Date | null;
-    updated_date?: { toDate?: () => Date } | string | Date | null;
+    creation_date?: Timestamp | string | Date | null;
+    updated_date?: Timestamp | string | Date | null;
 }

@@ -34,7 +34,7 @@ interface ModalAvisProps {
     onOpenBookModal?: () => void;
 }
 
-const REVIEWS_COLLECTION = "book-reviews";
+const REVIEWS_COLLECTION = "bookReviews";
 
 const getImageUrl = (image?: string | StaticImageData | null) => {
     if (!image) return null;
@@ -92,9 +92,7 @@ export const ModalAvis = ({
                 authUser?.displayName ||
                 "",
             avatar:
-                authUser?.userDocument?.photoURL ||
-                authUser?.photoURL ||
-                "",
+                authUser?.userDocument?.photoURL || authUser?.photoURL || "",
         };
     }, [
         authUser?.displayName,
@@ -147,7 +145,10 @@ export const ModalAvis = ({
                 setResolvedBookImage(book.image || bookImage || null);
             } catch (error) {
                 if (!isActive) return;
-                console.error("Erreur lors de la récupération du livre:", error);
+                console.error(
+                    "Erreur lors de la récupération du livre:",
+                    error,
+                );
             }
         };
 
@@ -185,7 +186,10 @@ export const ModalAvis = ({
             updated_date: new Date(),
         };
 
-        const { error } = await firestoreAddDocument(REVIEWS_COLLECTION, payload);
+        const { error } = await firestoreAddDocument(
+            REVIEWS_COLLECTION,
+            payload,
+        );
 
         if (error) {
             setIsSubmitting(false);
@@ -233,7 +237,11 @@ export const ModalAvis = ({
                                     src={getDisplayBookImage(
                                         resolvedBookImage || bookImage,
                                     )}
-                                    alt={resolvedBookTitle || bookTitle || "Livre"}
+                                    alt={
+                                        resolvedBookTitle ||
+                                        bookTitle ||
+                                        "Livre"
+                                    }
                                     fill
                                     className="object-cover"
                                 />
@@ -270,8 +278,13 @@ export const ModalAvis = ({
                                 src={avatarPreview || DefaultAvatar}
                                 alt="Avatar de l'auteur de l'avis"
                             />
-                            <Typo variant="para" component="p" color="secondary">
-                                Avatar par défaut appliqué si le champ reste vide.
+                            <Typo
+                                variant="para"
+                                component="p"
+                                color="secondary"
+                            >
+                                Avatar par défaut appliqué si le champ reste
+                                vide.
                             </Typo>
                         </div>
                     </div>

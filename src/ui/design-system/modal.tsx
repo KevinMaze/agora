@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { Button } from "./button";
 
 interface ModalSection {
     label: string;
@@ -23,6 +24,9 @@ interface ModalProps {
     image?: ModalImage;
     sections?: ModalSection[];
     footer?: ReactNode;
+    avisButtonLabel?: string;
+    onAvisButtonClick?: () => void;
+    avisButtonDisabled?: boolean;
     children?: ReactNode;
     maxWidthClassName?: string;
     contentClassName?: string;
@@ -35,6 +39,9 @@ export const Modal = ({
     image,
     sections = [],
     footer,
+    avisButtonLabel = "Donner un avis",
+    onAvisButtonClick,
+    avisButtonDisabled = false,
     children,
     maxWidthClassName = "max-w-5xl",
     contentClassName,
@@ -42,15 +49,6 @@ export const Modal = ({
     const [isMounted, setIsMounted] = useState(false);
     const [overlayActive, setOverlayActive] = useState(false);
     const [modalActive, setModalActive] = useState(false);
-    const [display, setDisplay] = useState({
-        title,
-        image,
-        sections,
-        footer,
-        children,
-        maxWidthClassName,
-        contentClassName,
-    });
 
     useEffect(() => {
         if (!isOpen) return;
@@ -64,28 +62,6 @@ export const Modal = ({
         document.addEventListener("keydown", onKeyDown);
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [isOpen, onClose]);
-
-    useEffect(() => {
-        if (!isOpen) return;
-        setDisplay({
-            title,
-            image,
-            sections,
-            footer,
-            children,
-            maxWidthClassName,
-            contentClassName,
-        });
-    }, [
-        isOpen,
-        title,
-        image,
-        sections,
-        footer,
-        children,
-        maxWidthClassName,
-        contentClassName,
-    ]);
 
     useEffect(() => {
         let t1: NodeJS.Timeout | undefined;
@@ -137,8 +113,8 @@ export const Modal = ({
                         modalActive
                             ? "opacity-100 scale-100"
                             : "opacity-0 scale-90",
-                        display.maxWidthClassName,
-                        display.contentClassName,
+                        maxWidthClassName,
+                        contentClassName,
                     )}
                 >
                     <button
@@ -149,15 +125,15 @@ export const Modal = ({
                         <FaTimes size={24} />
                     </button>
 
-                    {display.children ? (
-                        display.children
+                    {children ? (
+                        children
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full">
-                            {display.image && (
+                            {image && (
                                 <div className="relative h-80 md:h-[500px] w-full">
                                     <Image
-                                        src={display.image.src}
-                                        alt={display.image.alt}
+                                        src={image.src}
+                                        alt={image.alt}
                                         fill
                                         className="object-cover rounded-lg"
                                     />
@@ -165,7 +141,7 @@ export const Modal = ({
                             )}
 
                             <div className="space-y-5 flex flex-col items-center text-center">
-                                {display.title && (
+                                {title && (
                                     <Typo
                                         variant="title"
                                         component="h2"
@@ -173,11 +149,11 @@ export const Modal = ({
                                         color="primary"
                                         className="uppercase text-3xl underline"
                                     >
-                                        {display.title}
+                                        {title}
                                     </Typo>
                                 )}
 
-                                {display.sections.map((section) => (
+                                {sections.map((section) => (
                                     <div key={section.label}>
                                         <Typo
                                             variant="para"
@@ -198,8 +174,20 @@ export const Modal = ({
                                     </div>
                                 ))}
 
-                                {display.footer}
+                                {footer}
                             </div>
+                        </div>
+                    )}
+
+                    {onAvisButtonClick && (
+                        <div className="mt-6 flex justify-center">
+                            <Button
+                                type="button"
+                                action={onAvisButtonClick}
+                                disabled={avisButtonDisabled}
+                            >
+                                {avisButtonLabel}
+                            </Button>
                         </div>
                     )}
                 </div>

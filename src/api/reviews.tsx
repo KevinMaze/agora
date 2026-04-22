@@ -2,7 +2,7 @@ import { db } from "@/config/firebase-config";
 import { ReviewDocument } from "@/types/review";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
-const REVIEWS_COLLECTION = "book-reviews";
+const REVIEWS_COLLECTION = "bookReviews";
 
 export const getBookReviews = async (): Promise<ReviewDocument[]> => {
     try {

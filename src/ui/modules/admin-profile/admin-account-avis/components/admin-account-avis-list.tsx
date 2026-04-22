@@ -12,6 +12,7 @@ import { Card } from "@/ui/design-system/card";
 import { Modal } from "@/ui/design-system/modal";
 import { Spinner } from "@/ui/design-system/spinner";
 import { Typo } from "@/ui/design-system/typography";
+import { Timestamp } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -39,9 +40,10 @@ const formatDate = (dateValue?: ReviewDocument["creation_date"]) => {
     if (
         typeof dateValue === "object" &&
         dateValue !== null &&
-        typeof dateValue.toDate === "function"
+        "toDate" in dateValue &&
+        typeof (dateValue as Timestamp).toDate === "function"
     ) {
-        return dateValue.toDate().toLocaleString("fr-FR");
+        return (dateValue as Timestamp).toDate().toLocaleString("fr-FR");
     }
 
     const date = new Date(dateValue as string | Date);

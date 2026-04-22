@@ -14,6 +14,7 @@ import { getBooks } from "@/api/books";
 import { toast } from "react-toastify";
 import error from "@/../public/assets/images/404.png";
 import { Modal } from "@/ui/design-system/modal";
+import { ModalAvis } from "@/ui/design-system/modal-avis";
 import { BookDocument } from "@/types/book";
 import { StaticImageData } from "next/image";
 
@@ -35,6 +36,7 @@ export const CatalogueView = () => {
     const [selectedBook, setSelectedBook] = useState<CatalogueBook | null>(
         null,
     );
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -436,9 +438,12 @@ export const CatalogueView = () => {
                 )}
             </Container>
 
-            <Modal
+                <Modal
                 isOpen={!!selectedBook}
-                onClose={() => setSelectedBook(null)}
+                onClose={() => {
+                    setSelectedBook(null);
+                    setIsReviewModalOpen(false);
+                }}
                 title={selectedBook?.title}
                 image={{
                     src: selectedBook?.image || error,
@@ -476,6 +481,16 @@ export const CatalogueView = () => {
                             "Aucune description disponible.",
                     },
                 ]}
+                onAvisButtonClick={() => setIsReviewModalOpen(true)}
+            />
+
+            <ModalAvis
+                isOpen={isReviewModalOpen}
+                onClose={() => setIsReviewModalOpen(false)}
+                bookId={selectedBook?.id || selectedBook?.uid}
+                bookTitle={selectedBook?.title}
+                bookImage={selectedBook?.image || error}
+                onOpenBookModal={() => setIsReviewModalOpen(false)}
             />
         </div>
     );
