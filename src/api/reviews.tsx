@@ -43,3 +43,31 @@ export const getBookReviewsByBookId = async (
         throw error;
     }
 };
+
+export const getUserBookReview = async (
+    userId: string,
+    bookId: string,
+): Promise<ReviewDocument | null> => {
+    try {
+        const q = query(
+            collection(db, REVIEWS_COLLECTION),
+            where("userId", "==", userId),
+            where("bookId", "==", bookId),
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            return null;
+        }
+        const doc = querySnapshot.docs[0];
+        return {
+            id: doc.id,
+            ...doc.data(),
+        } as unknown as ReviewDocument;
+    } catch (error) {
+        console.error(
+            "Erreur lors de la récupération de l'avis utilisateur:",
+            error,
+        );
+        throw error;
+    }
+};
