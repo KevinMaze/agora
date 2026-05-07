@@ -11,6 +11,7 @@ import { Button } from "@/ui/design-system/button";
 import { Card } from "@/ui/design-system/card";
 import { Modal } from "@/ui/design-system/modal";
 import { Spinner } from "@/ui/design-system/spinner";
+import { StarRating } from "@/ui/design-system/star-rating";
 import { Typo } from "@/ui/design-system/typography";
 import { Timestamp } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
@@ -286,19 +287,58 @@ export const AdminAccountAvisList = () => {
                 </Typo>
             ) : (
                 <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+                    <div className="w-full space-y-4">
                         {paginatedReviews.map((review) => (
-                            <Card
+                            <div
                                 key={review.id}
-                                src={
-                                    review.bookImage ||
-                                    "/assets/images/404.png"
-                                }
-                                title={review.bookTitle || "Livre inconnu"}
-                                autor={review.pseudo || "Auteur anonyme"}
-                                description={review.review}
-                                onAction={() => handleOpenEdit(review)}
-                            />
+                                className="rounded-lg border-2 border-primary/40 bg-foreground/40 p-6 space-y-3 hover:bg-foreground/60 transition-colors"
+                            >
+                                <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                        <Typo
+                                            variant="title"
+                                            component="h3"
+                                            weight="bold"
+                                            color="primary"
+                                            className="text-lg sm:text-xl"
+                                        >
+                                            {review.bookTitle || "Livre inconnu"}
+                                        </Typo>
+                                        <Typo
+                                            variant="para"
+                                            component="p"
+                                            color="other"
+                                            className="text-sm mt-1"
+                                        >
+                                            Par {review.pseudo || review.firstName || "Auteur anonyme"}
+                                        </Typo>
+                                    </div>
+                                    <Button
+                                        type="button"
+                                        size="small"
+                                        action={() => handleOpenEdit(review)}
+                                    >
+                                        Voir
+                                    </Button>
+                                </div>
+
+                                <div className="py-2">
+                                    <StarRating
+                                        rating={review.rating || 0}
+                                        interactive={false}
+                                        size="medium"
+                                    />
+                                </div>
+
+                                <Typo
+                                    variant="para"
+                                    component="p"
+                                    color="other"
+                                    className="line-clamp-3 text-sm sm:text-base"
+                                >
+                                    {review.review || "Aucun avis"}
+                                </Typo>
+                            </div>
                         ))}
                     </div>
 
