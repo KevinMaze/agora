@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { Avatar } from "./avatar";
 import { Button } from "./button";
 import { Input } from "./form/input";
+import { StarRating } from "./star-rating";
 import { Textarea } from "./form/textarea";
 import { Modal } from "./modal";
 import { Typo } from "./typography";
@@ -22,6 +23,7 @@ type ModalAvisFormFields = {
     lastName: string;
     pseudo: string;
     avatar: string;
+    rating: number;
     review: string;
 };
 
@@ -77,6 +79,7 @@ export const ModalAvis = ({
     const [resolvedBookImage, setResolvedBookImage] = useState<
         string | StaticImageData | null
     >(bookImage || null);
+    const [currentRating, setCurrentRating] = useState(0);
     const isConnected = Boolean(authUser?.uid);
 
     const identityDefaults = useMemo(() => {
@@ -108,20 +111,24 @@ export const ModalAvis = ({
         formState: { errors },
         reset,
         watch,
+        setValue,
     } = useForm<ModalAvisFormFields>({
         defaultValues: {
             firstName: "",
             lastName: "",
             pseudo: "",
             avatar: "",
+            rating: 0,
             review: "",
         },
     });
 
     useEffect(() => {
         if (!isOpen) return;
+        setCurrentRating(0);
         reset({
             ...identityDefaults,
+            rating: 0,
             review: "",
         });
     }, [isOpen, identityDefaults, reset]);
@@ -180,6 +187,7 @@ export const ModalAvis = ({
             avatar:
                 formData.avatar.trim() ||
                 "/assets/images/user-icon-2098873_1920.png",
+            rating: formData.rating,
             review: formData.review.trim(),
             moderationStatus: "pending",
             creation_date: new Date(),
@@ -221,12 +229,6 @@ export const ModalAvis = ({
         >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                 <div className="space-y-4">
-                    <Typo variant="para" component="p" color="secondary">
-                        {isConnected
-                            ? "Tes informations sont pré-remplies. Tu peux les modifier avant d'envoyer ton avis."
-                            : "Tu peux donner ton avis même sans compte. Nom, prénom et pseudo sont facultatifs."}
-                    </Typo>
-
                     <div className="rounded-xl border-2 border-primary/40 bg-foreground/40 p-4 space-y-3">
                         <Typo variant="para" component="p" weight="bold">
                             Livre concerné
@@ -278,14 +280,6 @@ export const ModalAvis = ({
                                 src={avatarPreview || DefaultAvatar}
                                 alt="Avatar de l'auteur de l'avis"
                             />
-                            <Typo
-                                variant="para"
-                                component="p"
-                                color="secondary"
-                            >
-                                Avatar par défaut appliqué si le champ reste
-                                vide.
-                            </Typo>
                         </div>
                     </div>
                 </div>
@@ -300,6 +294,7 @@ export const ModalAvis = ({
                         errors={errors}
                         isLoading={isSubmitting}
                         required={false}
+                        readOnly={isConnected}
                     />
                     <Input
                         id="lastName"
@@ -310,6 +305,7 @@ export const ModalAvis = ({
                         errors={errors}
                         isLoading={isSubmitting}
                         required={false}
+                        readOnly={isConnected}
                     />
                     <Input
                         id="pseudo"
@@ -320,17 +316,25 @@ export const ModalAvis = ({
                         errors={errors}
                         isLoading={isSubmitting}
                         required={false}
+                        readOnly={isConnected}
                     />
-                    <Input
-                        id="avatar"
-                        label="Avatar (URL)"
-                        type="text"
-                        placeholder="https://... (facultatif)"
-                        register={register}
-                        errors={errors}
-                        isLoading={isSubmitting}
-                        required={false}
-                    />
+
+                    <div className="space-y-2">
+                        <Typo variant="para" component="p" weight="bold" color="primary">
+                            Note du livre
+                        </Typo>
+                        <StarRating
+                            rating={currentRating}
+                            interactive={true}
+                            onRatingChange={(rating) => {
+                                setCurrentRating(rating);
+                                setValue("rating", rating);
+                            }}
+                            size="large"
+                            showRatingValue={true}
+                        />
+                    </div>
+
                     <Textarea
                         id="review"
                         label="Ton avis"
