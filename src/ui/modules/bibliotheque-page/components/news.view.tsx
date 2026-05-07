@@ -7,11 +7,13 @@ import { BookDocument } from "@/types/book";
 import { getLastTenBooks } from "@/api/books";
 import { Spinner } from "@/ui/design-system/spinner";
 import { Modal } from "@/ui/design-system/modal";
+import { ModalAvis } from "@/ui/design-system/modal-avis";
 
 export const News = () => {
     const [books, setBooks] = useState<BookDocument[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<BookDocument | null>(null);
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -62,7 +64,10 @@ export const News = () => {
 
             <Modal
                 isOpen={!!selectedBook}
-                onClose={() => setSelectedBook(null)}
+                onClose={() => {
+                    setSelectedBook(null);
+                    setIsReviewModalOpen(false);
+                }}
                 title={selectedBook?.title}
                 image={{
                     src: selectedBook?.image || Error,
@@ -100,6 +105,15 @@ export const News = () => {
                             "Aucune description disponible.",
                     },
                 ]}
+                onAvisButtonClick={() => setIsReviewModalOpen(true)}
+            />
+
+            <ModalAvis
+                isOpen={isReviewModalOpen}
+                onClose={() => setIsReviewModalOpen(false)}
+                bookId={selectedBook?.id || selectedBook?.uid}
+                bookTitle={selectedBook?.title}
+                bookImage={selectedBook?.image || Error}
             />
         </Container>
     );

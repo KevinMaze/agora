@@ -12,11 +12,13 @@ import { useEffect, useState } from "react";
 import { Spinner } from "@/ui/design-system/spinner";
 import { Container } from "@/ui/components/container";
 import { Modal } from "@/ui/design-system/modal";
+import { ModalAvis } from "@/ui/design-system/modal-avis";
 
 export const Like = () => {
     const [books, setBooks] = useState<BookDocument[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<BookDocument | null>(null);
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchFavoriteBooks = async () => {
@@ -100,7 +102,10 @@ export const Like = () => {
 
             <Modal
                 isOpen={!!selectedBook}
-                onClose={() => setSelectedBook(null)}
+                onClose={() => {
+                    setSelectedBook(null);
+                    setIsReviewModalOpen(false);
+                }}
                 title={selectedBook?.title}
                 image={{
                     src: selectedBook?.image || Error,
@@ -138,6 +143,15 @@ export const Like = () => {
                             "Aucune description disponible.",
                     },
                 ]}
+                onAvisButtonClick={() => setIsReviewModalOpen(true)}
+            />
+
+            <ModalAvis
+                isOpen={isReviewModalOpen}
+                onClose={() => setIsReviewModalOpen(false)}
+                bookId={selectedBook?.id || selectedBook?.uid}
+                bookTitle={selectedBook?.title}
+                bookImage={selectedBook?.image || Error}
             />
         </div>
     );

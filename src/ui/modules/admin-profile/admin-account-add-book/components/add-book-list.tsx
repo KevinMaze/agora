@@ -5,6 +5,7 @@ import {
     firestoreDeleteDocument,
     firestoreUptadeDocument,
 } from "@/api/firestore";
+import { deleteBookWithRelations } from "@/api/deleteBook";
 import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
@@ -190,39 +191,32 @@ export const AddBookList = () => {
         if (!selectedBook) return;
 
         const confirmed = window.confirm(
-            "Veux-tu vraiment supprimer ce livre ? Cette action est irréversible.",
+            "Veux-tu vraiment supprimer ce livre et TOUS les avis associés ? Cette action est irréversible.",
         );
         if (!confirmed) return;
 
         setIsDeleting(true);
-        if (selectedBook.image) {
-            const { error: storageDeleteError } = await storageDeleteFileByUrl(
-                selectedBook.image,
-            );
-            if (
-                storageDeleteError &&
-                storageDeleteError.code !== "storage/object-not-found"
-            ) {
-                setIsDeleting(false);
-                toast.error(
-                    `Impossible de supprimer l'image du livre: ${storageDeleteError.message}`,
-                );
-                return;
-            }
-        }
 
-        const { error } = await firestoreDeleteDocument(
-            "books",
+        const { data, error } = await deleteBookWithRelations(
             selectedBook.id,
+            selectedBook.image,
         );
+
         if (error) {
             setIsDeleting(false);
-            toast.error(error.message);
+            toast.error(
+                `Erreur lors de la suppression (étape: ${error.step}): ${error.message}`,
+            );
             return;
         }
 
-        setBooks((prev) => prev.filter((book) => book.id !== selectedBook.id));
-        toast.success("Livre supprimé.");
+        if (data) {
+            setBooks((prev) => prev.filter((book) => book.id !== selectedBook.id));
+            
+            const message = `Livre supprimé${data.reviewsDeleted > 0 ? ` (${data.reviewsDeleted} avis supprimés)` : ""}.`;
+            toast.success(message);
+        }
+
         setIsDeleting(false);
         closeModal();
     };
