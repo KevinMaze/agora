@@ -3,7 +3,8 @@
 import DefaultAvatar from "@/../public/assets/images/user-icon-2098873_1920.png";
 import MissingBookImage from "@/../public/assets/images/404.png";
 import { getBook } from "@/api/books";
-import { firestoreAddDocument } from "@/api/firestore";
+import { firestoreAddDocument, firestoreUptadeDocument } from "@/api/firestore";
+import { getUserBookReview } from "@/api/reviews";
 import { useAuth } from "@/context/AuthUserContext";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
@@ -75,11 +76,13 @@ export const ModalAvis = ({
 }: ModalAvisProps) => {
     const { authUser } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isLoadingExistingReview, setIsLoadingExistingReview] = useState(false);
     const [resolvedBookTitle, setResolvedBookTitle] = useState(bookTitle || "");
     const [resolvedBookImage, setResolvedBookImage] = useState<
         string | StaticImageData | null
     >(bookImage || null);
     const [currentRating, setCurrentRating] = useState(0);
+    const [existingReviewId, setExistingReviewId] = useState<string | null>(null);
     const isConnected = Boolean(authUser?.uid);
 
     const identityDefaults = useMemo(() => {
@@ -126,12 +129,43 @@ export const ModalAvis = ({
     useEffect(() => {
         if (!isOpen) return;
         setCurrentRating(0);
+        setExistingReviewId(null);
         reset({
             ...identityDefaults,
             rating: 0,
             review: "",
         });
     }, [isOpen, identityDefaults, reset]);
+
+    // Récupérer l'avis existant si l'utilisateur est connecté
+    useEffect(() => {
+        const fetchExistingReview = async () => {
+            if (!isOpen || !authUser?.uid || !bookId) return;
+
+            setIsLoadingExistingReview(true);
+            try {
+                const existingReview = await getUserBookReview(authUser.uid, bookId);
+                if (existingReview) {
+                    setExistingReviewId(existingReview.id || null);
+                    setCurrentRating(existingReview.rating || 0);
+                    reset({
+                        firstName: existingReview.firstName || "",
+                        lastName: existingReview.lastName || "",
+                        pseudo: existingReview.pseudo || "",
+                        avatar: existingReview.avatar || "",
+                        rating: existingReview.rating || 0,
+                        review: existingReview.review || "",
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération de l'avis existant:", error);
+            } finally {
+                setIsLoadingExistingReview(false);
+            }
+        };
+
+        fetchExistingReview();
+    }, [isOpen, authUser?.uid, bookId, reset]);
 
     useEffect(() => {
         let isActive = true;
@@ -176,7 +210,40 @@ export const ModalAvis = ({
 
         setIsSubmitting(true);
 
-        const payload = {
+        // Si un avis existe déjà, on le met à jour
+        if (existingReviewId) {
+            const updatePayload = {
+                firstName: formData.firstName.trim() || null,
+                lastName: formData.lastName.trim() || null,
+                pseudo: formData.pseudo.trim() || null,
+                avatar:
+                    formData.avatar.trim() ||
+                    "/assets/images/user-icon-2098873_1920.png",
+                rating: formData.rating,
+                review: formData.review.trim(),
+                updated_date: new Date(),
+            };
+
+            const { error } = await firestoreUptadeDocument(
+                REVIEWS_COLLECTION,
+                existingReviewId,
+                updatePayload,
+            );
+
+            if (error) {
+                setIsSubmitting(false);
+                toast.error(error.message);
+                return;
+            }
+
+            toast.success("Ton avis a bien été modifié.");
+            setIsSubmitting(false);
+            onClose();
+            return;
+        }
+
+        // Sinon, on crée un nouvel avis
+        const createPayload = {
             bookId,
             bookTitle: resolvedBookTitle || bookTitle || "",
             bookImage: getImageUrl(resolvedBookImage || bookImage || null),
@@ -196,7 +263,7 @@ export const ModalAvis = ({
 
         const { error } = await firestoreAddDocument(
             REVIEWS_COLLECTION,
-            payload,
+            createPayload,
         );
 
         if (error) {
@@ -221,8 +288,10 @@ export const ModalAvis = ({
             onClose={onClose}
             title={
                 resolvedBookTitle
-                    ? `Avis - ${resolvedBookTitle}`
-                    : "Donner un avis"
+                    ? `${existingReviewId ? "Modifier" : "Donner"} un avis - ${resolvedBookTitle}`
+                    : existingReviewId
+                      ? "Modifier votre avis"
+                      : "Donner un avis"
             }
             maxWidthClassName="max-w-3xl"
             contentClassName="!h-auto"
@@ -347,8 +416,8 @@ export const ModalAvis = ({
                     />
 
                     <div className="pt-2">
-                        <Button type="submit" isLoading={isSubmitting}>
-                            Envoyer mon avis
+                        <Button type="submit" isLoading={isSubmitting || isLoadingExistingReview}>
+                            {existingReviewId ? "Modifier mon avis" : "Envoyer mon avis"}
                         </Button>
                     </div>
                 </form>
