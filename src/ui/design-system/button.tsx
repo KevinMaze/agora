@@ -59,8 +59,7 @@ export const Button = ({
                 hoverColorStyle = "hover:bg-secondary";
             }
             if (iconTheme === "disabled") {
-                variantStyle =
-                    "cursor-not-allowed rounded-xl";
+                variantStyle = "cursor-not-allowed rounded-xl";
                 baseColorStyle = "bg-foreground text-background";
             }
             break;
@@ -212,21 +211,21 @@ export const Button = ({
                     <div className={clsx(icon && "flex items-center gap-2")}>
                         {icon &&
                             iconPosition === "left" &&
-                            (shouldAnimateText
-                                ? renderAnimatedIcon("left", icon.icon)
-                                : (
-                                      <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
-                                  ))}
+                            (shouldAnimateText ? (
+                                renderAnimatedIcon("left", icon.icon)
+                            ) : (
+                                <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                            ))}
                         {shouldAnimateText
                             ? renderAnimatedText(labelText)
                             : children}
                         {icon &&
                             iconPosition === "right" &&
-                            (shouldAnimateText
-                                ? renderAnimatedIcon("right", icon.icon)
-                                : (
-                                      <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
-                                  ))}
+                            (shouldAnimateText ? (
+                                renderAnimatedIcon("right", icon.icon)
+                            ) : (
+                                <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                            ))}
                     </div>
                 )}
             </div>
@@ -245,7 +244,7 @@ export const Button = ({
                 "relative",
                 "cursor-pointer",
                 "group/btn",
-                "overflow-hidden"
+                "overflow-hidden",
             )}
             onClick={handleClick}
             disabled={disabled || isLoading}

@@ -1,6 +1,5 @@
 import { Button } from "@/ui/design-system/button";
 import { Input } from "@/ui/design-system/form/input";
-import { StarRating } from "@/ui/design-system/star-rating";
 import { Textarea } from "@/ui/design-system/form/textarea";
 import { Typo } from "@/ui/design-system/typography";
 import {
@@ -42,8 +41,6 @@ export const AdminAccountAvisForm = ({
     isSubmitDisabled = false,
     footer,
     bookTitle,
-    onRatingChange,
-    currentRating = 0,
 }: Props) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -106,19 +103,6 @@ export const AdminAccountAvisForm = ({
                     { value: "rejected", label: "Refusé" },
                 ]}
             />
-
-            <div className="space-y-2">
-                <Typo variant="para" component="p" weight="bold" color="primary">
-                    Note de l'avis
-                </Typo>
-                <StarRating
-                    rating={currentRating}
-                    interactive={true}
-                    onRatingChange={onRatingChange}
-                    size="large"
-                    showRatingValue={true}
-                />
-            </div>
 
             <Textarea
                 id="review"
