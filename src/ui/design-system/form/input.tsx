@@ -82,7 +82,7 @@ export const Input = <TFieldValues extends FieldValues>({
                     <select
                         multiple={multiple}
                         className={clsx(
-                            isLoading && "cursor-not-allowed",
+                            (isLoading || readOnly) && "cursor-not-allowed",
                             "w-full px-4 py-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500 bg-background",
                             {
                                 "border-red-600 border-3 placeholder-red-600 ":
@@ -90,7 +90,7 @@ export const Input = <TFieldValues extends FieldValues>({
                                 "border-primary": !errors[id],
                             },
                         )}
-                        disabled={isLoading}
+                        disabled={isLoading || readOnly}
                         {...register(id, {
                             required: { value: required, message: errorMsg },
                             validate: validate,

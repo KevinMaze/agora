@@ -19,6 +19,7 @@ interface Props<TFieldValues extends FieldValues> {
     required?: boolean;
     isAutoCompleted?: boolean;
     label?: string;
+    readOnly?: boolean;
 }
 
 export const Textarea = <TFieldValues extends FieldValues>({
@@ -32,6 +33,7 @@ export const Textarea = <TFieldValues extends FieldValues>({
     required = true,
     isAutoCompleted = false,
     label,
+    readOnly = false,
 }: Props<TFieldValues>) => {
     return (
         <div className="space-y-2">
@@ -47,7 +49,7 @@ export const Textarea = <TFieldValues extends FieldValues>({
                 rows={rows}
                 placeholder={placeholder}
                 className={clsx(
-                    isLoading && "cursor-not-allowed",
+                    (isLoading || readOnly) && "cursor-not-allowed",
                     "w-full px-4 py-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500",
                     {
                         "border-red-600 border-3 placeholder-red-600 ":
@@ -56,6 +58,7 @@ export const Textarea = <TFieldValues extends FieldValues>({
                     },
                 )}
                 disabled={isLoading}
+                readOnly={readOnly}
                 {...register(id, {
                     required: { value: required, message: errorMsg },
                 })}

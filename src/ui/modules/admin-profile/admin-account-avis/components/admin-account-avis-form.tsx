@@ -2,7 +2,11 @@ import { Button } from "@/ui/design-system/button";
 import { Input } from "@/ui/design-system/form/input";
 import { Textarea } from "@/ui/design-system/form/textarea";
 import { Typo } from "@/ui/design-system/typography";
-import { SubmitHandler, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import {
+    SubmitHandler,
+    UseFormHandleSubmit,
+    UseFormRegister,
+} from "react-hook-form";
 
 export type ReviewEditFormFields = {
     firstName: string;
@@ -34,19 +38,15 @@ export const AdminAccountAvisForm = ({
     isSubmitDisabled = false,
     footer,
     bookTitle,
-    bookId,
 }: Props) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="rounded-xl border-2 border-primary/40 bg-foreground/40 p-4 space-y-2">
+            <div className="rounded-xl border-2 border-primary/40 bg-foreground/40 p-4 space-y-2 uppercase">
                 <Typo variant="para" component="p" weight="bold">
                     Livre concerné
                 </Typo>
                 <Typo variant="para" component="p" color="other">
                     {bookTitle || "Non renseigné"}
-                </Typo>
-                <Typo variant="para" component="p" color="secondary">
-                    UID: {bookId || "Non renseigné"}
                 </Typo>
             </div>
 
@@ -59,6 +59,7 @@ export const AdminAccountAvisForm = ({
                 errors={errors}
                 isLoading={isLoading}
                 required={false}
+                readOnly={true}
             />
 
             <Input
@@ -70,6 +71,7 @@ export const AdminAccountAvisForm = ({
                 errors={errors}
                 isLoading={isLoading}
                 required={false}
+                readOnly={true}
             />
 
             <Input
@@ -81,17 +83,7 @@ export const AdminAccountAvisForm = ({
                 errors={errors}
                 isLoading={isLoading}
                 required={false}
-            />
-
-            <Input
-                id="avatar"
-                label="Avatar (URL)"
-                type="text"
-                placeholder="https://..."
-                register={register}
-                errors={errors}
-                isLoading={isLoading}
-                required={false}
+                readOnly={true}
             />
 
             <Input
@@ -107,6 +99,7 @@ export const AdminAccountAvisForm = ({
                     { value: "approved", label: "Validé" },
                     { value: "rejected", label: "Refusé" },
                 ]}
+                readOnly={true}
             />
 
             <Textarea
