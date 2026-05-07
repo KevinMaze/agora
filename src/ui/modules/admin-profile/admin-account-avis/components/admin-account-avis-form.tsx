@@ -99,7 +99,6 @@ export const AdminAccountAvisForm = ({
                     { value: "approved", label: "Validé" },
                     { value: "rejected", label: "Refusé" },
                 ]}
-                readOnly={true}
             />
 
             <Textarea
