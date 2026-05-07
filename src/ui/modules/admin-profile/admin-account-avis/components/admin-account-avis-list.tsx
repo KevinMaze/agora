@@ -67,6 +67,7 @@ export const AdminAccountAvisList = () => {
     );
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentRating, setCurrentRating] = useState(0);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
     const { value: isDeleting, setValue: setIsDeleting } = useToggle();
 
@@ -82,6 +83,7 @@ export const AdminAccountAvisList = () => {
             pseudo: "",
             avatar: "",
             moderationStatus: "pending",
+            rating: 0,
             review: "",
         },
     });
@@ -104,6 +106,7 @@ export const AdminAccountAvisList = () => {
                     avatar:
                         review.avatar ||
                         "/assets/images/user-icon-2098873_1920.png",
+                    rating: review.rating || 0,
                     review: review.review || "",
                     moderationStatus: review.moderationStatus || "pending",
                     creation_date: review.creation_date || null,
@@ -126,12 +129,15 @@ export const AdminAccountAvisList = () => {
 
     const handleOpenEdit = (review: ReviewListItem) => {
         setSelectedReview(review);
+        const rating = (review as any).rating || 0;
+        setCurrentRating(rating);
         reset({
             firstName: review.firstName || "",
             lastName: review.lastName || "",
             pseudo: review.pseudo || "",
             avatar: review.avatar || "",
             moderationStatus: review.moderationStatus || "pending",
+            rating: rating,
             review: review.review || "",
         });
     };
@@ -154,6 +160,7 @@ export const AdminAccountAvisList = () => {
                 formData.avatar.trim() ||
                 "/assets/images/user-icon-2098873_1920.png",
             moderationStatus: formData.moderationStatus,
+            rating: formData.rating,
             review: formData.review.trim(),
             updated_date: new Date(),
         };
@@ -363,6 +370,8 @@ export const AdminAccountAvisList = () => {
                             isSubmitDisabled={!isDirty}
                             bookId={selectedReview.bookId}
                             bookTitle={selectedReview.bookTitle}
+                            currentRating={currentRating}
+                            onRatingChange={setCurrentRating}
                             footer={
                                 <Button
                                     type="button"

@@ -10,6 +10,7 @@ export interface ReviewDocument {
     lastName: string | null;
     pseudo: string | null;
     avatar: string;
+    rating: number;
     review: string;
     moderationStatus: "pending" | "approved" | "rejected";
     creation_date?: Timestamp | string | Date | null;
