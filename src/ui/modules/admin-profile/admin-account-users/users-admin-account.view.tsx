@@ -5,8 +5,8 @@ export const UsersAdminAccountView = () => {
     return (
         <div className="flex flex-col items-center justify-center pt-20 pb-40 gap-5">
             <Typo variant="para" component="p">
-                Bienvenue dans votre espace personnel. Ici vous pouvez ajouter
-                voir les utilisateurs.
+                Bienvenue dans votre espace personnel. Ici vous pouvez voir et
+                intéragir avec les autres membres.
             </Typo>
             <UsersList />
         </div>

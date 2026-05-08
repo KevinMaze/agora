@@ -472,24 +472,6 @@ export const UsersList = () => {
                                     )}
                                 </Typo>
                             </div>
-                            <div className="border-2 border-primary rounded-lg p-3">
-                                <Typo
-                                    variant="para"
-                                    component="p"
-                                    weight="bold"
-                                >
-                                    Onboarding terminé
-                                </Typo>
-                                <Typo
-                                    variant="para"
-                                    component="p"
-                                    color="other"
-                                >
-                                    {selectedUser.onboardingIsCompleted
-                                        ? "Oui"
-                                        : "Non"}
-                                </Typo>
-                            </div>
                         </div>
                     </div>
                 )}
