@@ -8,7 +8,6 @@ import {
 import { useToggle } from "@/hooks/use-toggle";
 import { ReviewDocument } from "@/types/review";
 import { Button } from "@/ui/design-system/button";
-import { Card } from "@/ui/design-system/card";
 import { Modal } from "@/ui/design-system/modal";
 import { Spinner } from "@/ui/design-system/spinner";
 import { StarRating } from "@/ui/design-system/star-rating";

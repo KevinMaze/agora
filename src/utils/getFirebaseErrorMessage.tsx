@@ -1,5 +1,4 @@
 import errors from "@/config/locales/errors.json";
-import { error } from "console";
 
 type FirebaseErrorType = {
     [key: string]: string;
@@ -16,7 +15,7 @@ const firebaseErrors: FirebaseErrors = {
 
 export function getFirebaseErrorMessage(
     errorCode: string,
-    method: string
+    method: string,
 ): string {
     const defaultErrorMessage = errors.an_unknow_error_has_occurred;
 
