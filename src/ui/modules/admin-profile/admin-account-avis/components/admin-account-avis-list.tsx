@@ -130,7 +130,7 @@ export const AdminAccountAvisList = () => {
 
     const handleOpenEdit = (review: ReviewListItem) => {
         setSelectedReview(review);
-        const rating = (review as any).rating || 0;
+        const rating = review.rating || 0;
         setCurrentRating(rating);
         reset({
             firstName: review.firstName || "",
@@ -180,7 +180,9 @@ export const AdminAccountAvisList = () => {
 
         setReviews((prev) =>
             prev.map((review) =>
-                review.id === selectedReview.id ? { ...review, ...payload } : review,
+                review.id === selectedReview.id
+                    ? { ...review, ...payload }
+                    : review,
             ),
         );
         setSelectedReview((prev) => (prev ? { ...prev, ...payload } : prev));
@@ -208,7 +210,9 @@ export const AdminAccountAvisList = () => {
             return;
         }
 
-        setReviews((prev) => prev.filter((review) => review.id !== selectedReview.id));
+        setReviews((prev) =>
+            prev.filter((review) => review.id !== selectedReview.id),
+        );
         setIsDeleting(false);
         toast.success("Avis supprimé.");
         closeModal();
@@ -302,7 +306,8 @@ export const AdminAccountAvisList = () => {
                                             color="primary"
                                             className="text-lg sm:text-xl"
                                         >
-                                            {review.bookTitle || "Livre inconnu"}
+                                            {review.bookTitle ||
+                                                "Livre inconnu"}
                                         </Typo>
                                         <Typo
                                             variant="para"
@@ -310,7 +315,10 @@ export const AdminAccountAvisList = () => {
                                             color="other"
                                             className="text-sm mt-1"
                                         >
-                                            Par {review.pseudo || review.firstName || "Auteur anonyme"}
+                                            Par{" "}
+                                            {review.pseudo ||
+                                                review.firstName ||
+                                                "Auteur anonyme"}
                                         </Typo>
                                     </div>
                                     <Button
