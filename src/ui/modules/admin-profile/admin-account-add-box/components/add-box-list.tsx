@@ -3,7 +3,7 @@
 import { getBoxes } from "@/api/boxes";
 import {
     firestoreDeleteDocument,
-    firestoreUptadeDocument,
+    firestoreUpdateDocument,
 } from "@/api/firestore";
 import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
@@ -134,7 +134,7 @@ export const AddBoxList = () => {
             image: imageUrl,
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "boxes",
             selectedBox.id,
             payload,

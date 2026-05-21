@@ -3,7 +3,7 @@
 import { getUsers } from "@/api/users";
 import {
     firestoreDeleteDocument,
-    firestoreUptadeDocument,
+    firestoreUpdateDocument,
 } from "@/api/firestore";
 import { storageDeleteFileByUrl } from "@/api/storage";
 import { useToggle } from "@/hooks/use-toggle";
@@ -203,7 +203,7 @@ export const AddUsersList = () => {
             styleLove: normalizeStyleLoveForStorage(formData.styleLove),
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "users",
             selectedUser.id,
             payload,

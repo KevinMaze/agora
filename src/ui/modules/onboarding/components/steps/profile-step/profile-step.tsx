@@ -7,7 +7,7 @@ import { ProfileStepForm } from "./profile-step-form";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { OnboardingProfileFormFieldsType } from "@/types/form";
 import { useToggle } from "@/hooks/use-toggle";
-import { firestoreUptadeDocument } from "@/api/firestore";
+import { firestoreUpdateDocument } from "@/api/firestore";
 import { useAuth } from "@/context/AuthUserContext";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -54,7 +54,7 @@ export const ProfileStep = ({
     const handleUptadeUserDocument = async (
         formData: OnboardingProfileFormFieldsType,
     ) => {
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "users",
             authUser.uid,
             formData,

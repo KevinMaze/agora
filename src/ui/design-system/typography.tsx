@@ -1,8 +1,30 @@
+/**
+ * Typo — composant typographique du design system.
+ *
+ * Centralise les styles de texte pour garantir la cohérence visuelle.
+ * Supporte n'importe quel élément HTML via la prop `component`.
+ *
+ * Variants :
+ *  - "title" : police serif (Cinzel Decorative) — titres de section
+ *  - "para"  : police sans-serif (Montserrat) — texte courant (défaut)
+ *  - "span"  : police sans-serif + texte petit — labels, métadonnées
+ *
+ * Couleurs (variables CSS du thème) :
+ *  - "primary"   : orange (#E35336)
+ *  - "secondary" : doré (#CC7722)
+ *  - "tier"      : vert (#008000)
+ *  - "other"     : blanc
+ *  - "danger"    : rouge (#FF0000)
+ *
+ * Exemple :
+ *   <Typo variant="title" component="h1" color="primary" weight="bold">Titre</Typo>
+ */
 import clsx from "clsx";
 
 interface TypoProps {
     variant?: "title" | "para" | "span";
     component?: "h1" | "h2" | "h3" | "h4" | "p" | "span" | "li" | "div";
+    /** Alias de `component` pour rétrocompatibilité interne */
     components?: "h1" | "h2" | "h3" | "h4" | "p" | "span" | "li" | "div";
     color?: "primary" | "secondary" | "tier" | "other" | "danger";
     weight?: "normal" | "bold" | "extrabold";
@@ -20,7 +42,7 @@ export const Typo = ({
     weight = "normal",
     className,
     children,
-    ...rest // Récupère toutes les autres props (ex: onClick)
+    ...rest
 }: TypoPropsWithHtml) => {
     const Component = component || components || "p";
     let variantStyle: string = "";
@@ -66,7 +88,7 @@ export const Typo = ({
                 weight === "extrabold" && "font-extrabold",
                 className,
             )}
-            {...rest} // Applique les props supplémentaires ici
+            {...rest}
         >
             {children}
         </Component>

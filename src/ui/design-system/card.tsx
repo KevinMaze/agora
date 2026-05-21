@@ -1,9 +1,22 @@
 "use client";
 
+/**
+ * Card — carte de présentation d'un livre ou d'un contenu.
+ *
+ * La carte est composée d'une image plein format avec un panneau de détails
+ * qui se révèle au survol (desktop) ou au toucher (mobile).
+ *
+ * Comportement responsive :
+ *  - Desktop : le panneau glisse depuis le bas au survol CSS (group-hover)
+ *  - Mobile  : un tap toggle l'état isTouchOpen pour afficher/masquer le panneau
+ *
+ * En cas d'erreur de chargement de l'image, une image 404 est affichée en fallback.
+ * Un Spinner est affiché pendant le chargement initial de l'image.
+ */
 import React, { useState } from "react";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
-import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
+import DefaultImage from "@/../public/assets/images/404.png";
 import { Spinner } from "./spinner";
 import { Button } from "./button";
 import {
@@ -14,7 +27,7 @@ import {
 } from "react-icons/fa6";
 
 interface CarProps {
-    src?: string | StaticImageData; // Rendu optionnel pour le cas où elle n'est pas fournie
+    src?: string | StaticImageData;
     alt?: string;
     title?: string;
     description?: string;
@@ -22,6 +35,7 @@ interface CarProps {
     rating?: number;
     date?: string;
     price?: string;
+    /** Callback déclenché quand l'utilisateur clique sur "Voir" */
     onAction?: () => void;
 }
 
@@ -37,6 +51,7 @@ export const Card: React.FC<CarProps> = ({
     const [isLoading, setIsLoading] = useState(true);
     const [isTouchOpen, setIsTouchOpen] = useState(false);
 
+    /** Bascule le panneau sur les écrans tactiles uniquement (hover: none). */
     const handleCardTap = () => {
         if (
             typeof window !== "undefined" &&
@@ -77,6 +92,8 @@ export const Card: React.FC<CarProps> = ({
                                 : imgSrc.blurDataURL
                         }
                     />
+
+                    {/* Panneau de détails — révélé au survol ou au touch */}
                     <div
                         className={`absolute inset-x-0 bottom-0 h-2/3 transition-all duration-250 ease-in-out group-hover:translate-y-0 group-hover:opacity-100 ${
                             isTouchOpen
@@ -98,6 +115,8 @@ export const Card: React.FC<CarProps> = ({
                                 <div className="mt-1 text-[10px] uppercase text-secondary">
                                     {autor}
                                 </div>
+
+                                {/* Note en étoiles : calcul full/demi/vide selon la valeur décimale */}
                                 <div className="mt-2 flex items-center gap-1">
                                     {[0, 1, 2, 3, 4].map((index) => {
                                         const value =
@@ -140,6 +159,7 @@ export const Card: React.FC<CarProps> = ({
                                         </span>
                                     )}
                                 </div>
+
                                 {description && (
                                     <p
                                         className="text-[11px] leading-snug mt-2 overflow-hidden text-white/90"

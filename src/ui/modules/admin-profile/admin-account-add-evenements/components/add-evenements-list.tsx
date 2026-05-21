@@ -3,7 +3,7 @@
 import { getEvenements } from "@/api/evenements";
 import {
     firestoreDeleteDocument,
-    firestoreUptadeDocument,
+    firestoreUpdateDocument,
 } from "@/api/firestore";
 import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
@@ -152,7 +152,7 @@ export const AddEvenementsList = () => {
             image: imageUrl,
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "evenements",
             selectedEvent.id,
             payload,

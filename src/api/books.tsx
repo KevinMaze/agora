@@ -1,4 +1,11 @@
-import { db } from "@/config/firebase-config"; // Je suppose que votre configuration Firebase est ici
+/**
+ * API livres — lecture Firestore pour la collection "books".
+ *
+ * Toutes les fonctions retournent des BookDocument[] ou BookDocument | null.
+ * Les erreurs sont remontées via throw (différent des autres API qui retournent { error })
+ * afin que le composant appelant puisse les gérer dans son propre try/catch.
+ */
+import { db } from "@/config/firebase-config";
 import { BookDocument } from "@/types/book";
 import {
     collection,
@@ -11,12 +18,12 @@ import {
     where,
 } from "firebase/firestore";
 
-const BOOKS_COLLECTION = "books"; // Le nom de votre collection de livres dans Firestore
+const BOOKS_COLLECTION = "books";
 
 /**
- * Récupère un document de livre unique depuis Firestore.
- * @param bookId L'UID du livre à récupérer.
- * @returns Une promesse qui se résout avec le BookDocument si trouvé, sinon null.
+ * Récupère un livre précis depuis Firestore par son ID.
+ * Retourne null si le document n'existe pas.
+ * @param bookId - L'ID Firestore du livre
  */
 export const getBook = async (bookId: string): Promise<BookDocument | null> => {
     try {
@@ -29,37 +36,33 @@ export const getBook = async (bookId: string): Promise<BookDocument | null> => {
                 ...docSnap.data(),
             } as unknown as BookDocument;
         } else {
-            console.log("Aucun document de ce type !");
             return null;
         }
     } catch (error) {
-        console.error("Erreur lors de la récupération du document:", error);
+        console.error("Erreur lors de la récupération du livre:", error);
         throw error;
     }
 };
 
 /**
- * Récupère tous les documents de livres de la collection Firestore.
- * @returns Une promesse qui se résout avec un tableau de BookDocuments.
+ * Récupère tous les livres de la bibliothèque sans filtre ni tri.
  */
 export const getBooks = async (): Promise<BookDocument[]> => {
     try {
         const querySnapshot = await getDocs(collection(db, BOOKS_COLLECTION));
-        const books = querySnapshot.docs.map((doc) => ({
+        return querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
         })) as unknown as BookDocument[];
-        return books;
     } catch (error) {
-        console.error("Erreur lors de la récupération des documents: ", error);
+        console.error("Erreur lors de la récupération des livres:", error);
         throw error;
     }
 };
 
 /**
- * Récupère les livres par catégorie.
- * @param category La catégorie par laquelle filtrer.
- * @returns Une promesse qui se résout avec un tableau de BookDocuments.
+ * Récupère les livres filtrés par catégorie.
+ * @param category - La catégorie à filtrer (doit correspondre au champ "Category" en Firestore)
  */
 export const getBooksByCategory = async (
     category: string,
@@ -75,14 +78,15 @@ export const getBooksByCategory = async (
             ...doc.data(),
         })) as unknown as BookDocument[];
     } catch (error) {
-        console.error(
-            "Erreur lors de la récupération des documents par catégorie: ",
-            error,
-        );
+        console.error("Erreur lors de la récupération des livres par catégorie:", error);
         throw error;
     }
 };
 
+/**
+ * Récupère les 10 livres les plus récents, triés par date de création décroissante.
+ * Utilisé sur la page d'accueil pour afficher les dernières nouveautés.
+ */
 export const getLastTenBooks = async (): Promise<BookDocument[]> => {
     try {
         const q = query(
@@ -96,14 +100,16 @@ export const getLastTenBooks = async (): Promise<BookDocument[]> => {
             ...doc.data(),
         })) as unknown as BookDocument[];
     } catch (error) {
-        console.error(
-            "Erreur lors de la récupération des 10 derniers livres : ",
-            error,
-        );
+        console.error("Erreur lors de la récupération des 10 derniers livres:", error);
         throw error;
     }
 };
 
+/**
+ * Récupère les 5 derniers coups de cœur (livres marqués coupDeCoeur=true),
+ * triés par date de création décroissante.
+ * Utilisé sur la page d'accueil pour mettre en avant les sélections de l'équipe.
+ */
 export const getLastFiveFavoriteBooks = async (): Promise<BookDocument[]> => {
     try {
         const q = query(
@@ -118,10 +124,7 @@ export const getLastFiveFavoriteBooks = async (): Promise<BookDocument[]> => {
             ...doc.data(),
         })) as unknown as BookDocument[];
     } catch (error) {
-        console.error(
-            "Erreur lors de la récupération des coups de coeur: ",
-            error,
-        );
+        console.error("Erreur lors de la récupération des coups de cœur:", error);
         throw error;
     }
 };

@@ -4,7 +4,7 @@ import { useToggle } from "@/hooks/use-toggle";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UserProfileFormFieldsType } from "@/types/form";
 import { useEffect, useState } from "react";
-import { firestoreUptadeDocument } from "@/api/firestore";
+import { firestoreUpdateDocument } from "@/api/firestore";
 import { toast } from "react-toastify";
 import {
     getDownloadURL,
@@ -136,7 +136,7 @@ export const AdminAccountContainer = () => {
         const body = { photoURL: photoURL };
 
         await updateUserIdentificationData(authUser.uid, body);
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "users",
             authUser.uid,
             body,
@@ -154,7 +154,7 @@ export const AdminAccountContainer = () => {
         formData: UserProfileFormFieldsType,
     ) => {
         setLoading(true);
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "users",
             authUser.uid,
             formData,

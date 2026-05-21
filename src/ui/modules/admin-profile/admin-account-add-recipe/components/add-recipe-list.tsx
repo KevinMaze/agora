@@ -1,6 +1,6 @@
 "use client";
 
-import { firestoreDeleteDocument, firestoreUptadeDocument } from "@/api/firestore";
+import { firestoreDeleteDocument, firestoreUpdateDocument } from "@/api/firestore";
 import { getRecipes } from "@/api/recipes";
 import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
@@ -161,7 +161,7 @@ export const AddRecipeList = () => {
             image: imageUrl,
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "recipes",
             selectedRecipe.id,
             payload,

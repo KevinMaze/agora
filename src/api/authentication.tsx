@@ -1,3 +1,10 @@
+/**
+ * Couche d'authentification Firebase.
+ *
+ * Toutes les fonctions enveloppent les méthodes Firebase Auth et retournent
+ * un objet { data, error } normalisé pour une gestion d'erreur cohérente.
+ * Les messages d'erreur sont traduits en français via getFirebaseErrorMessage.
+ */
 import {
     createUserWithEmailAndPassword,
     sendEmailVerification,
@@ -10,6 +17,11 @@ import { auth } from "@/config/firebase-config";
 import { FirebaseError } from "firebase/app";
 import { getFirebaseErrorMessage } from "@/utils/getFirebaseErrorMessage";
 
+/**
+ * Crée un nouveau compte utilisateur avec email et mot de passe.
+ * Retourne l'objet User Firebase en cas de succès.
+ * Le profil Firestore est créé séparément dans le flux d'inscription.
+ */
 export const firebaseCreateUser = async (email: string, password: string) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(
@@ -34,6 +46,10 @@ export const firebaseCreateUser = async (email: string, password: string) => {
     }
 };
 
+/**
+ * Connecte un utilisateur existant avec son email et mot de passe.
+ * Retourne l'objet User Firebase en cas de succès.
+ */
 export const firebaseSignInUser = async (email: string, password: string) => {
     try {
         const userCredential = await signInWithEmailAndPassword(
@@ -58,6 +74,10 @@ export const firebaseSignInUser = async (email: string, password: string) => {
     }
 };
 
+/**
+ * Déconnecte l'utilisateur actuellement connecté.
+ * La déconnexion est gérée globalement via onAuthStateChanged dans useFirebaseAuth.
+ */
 export const firebaseLogoutUser = async () => {
     try {
         await signOut(auth);
@@ -77,6 +97,10 @@ export const firebaseLogoutUser = async () => {
     }
 };
 
+/**
+ * Envoie un email de réinitialisation de mot de passe à l'adresse fournie.
+ * Firebase gère la génération du lien sécurisé et l'envoi de l'email.
+ */
 export const sendEmailToResetPassword = async (email: string) => {
     try {
         await sendPasswordResetEmail(auth, email);
@@ -96,6 +120,10 @@ export const sendEmailToResetPassword = async (email: string) => {
     }
 };
 
+/**
+ * Envoie un email de vérification à l'utilisateur connecté.
+ * Nécessite qu'un utilisateur soit actuellement authentifié (auth.currentUser).
+ */
 export const sendEmailVerificationProcedure = async () => {
     if (auth.currentUser) {
         try {
@@ -124,8 +152,14 @@ export const sendEmailVerificationProcedure = async () => {
     }
 };
 
+/**
+ * Met à jour les données d'identification Firebase Auth de l'utilisateur connecté
+ * (displayName, photoURL). Ces données sont distinctes du profil Firestore.
+ * @param _uid - UID de l'utilisateur (non utilisé, Firebase Auth utilise auth.currentUser)
+ * @param data - Données Auth à mettre à jour (ex: { displayName, photoURL })
+ */
 export const updateUserIdentificationData = async (
-    uid: string,
+    _uid: string,
     data: object,
 ) => {
     if (auth.currentUser) {

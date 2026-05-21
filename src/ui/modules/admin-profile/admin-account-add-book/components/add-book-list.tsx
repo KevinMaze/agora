@@ -3,7 +3,7 @@
 import { getBooks } from "@/api/books";
 import {
     firestoreDeleteDocument,
-    firestoreUptadeDocument,
+    firestoreUpdateDocument,
 } from "@/api/firestore";
 import { deleteBookWithRelations } from "@/api/deleteBook";
 import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
@@ -160,7 +160,7 @@ export const AddBookList = () => {
             image: imageUrl,
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "books",
             selectedBook.id,
             payload,

@@ -1,5 +1,5 @@
 import { AuthUserProvider } from "@/context/AuthUserContext";
-import "../styles/globals.css";
+import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Flip, ToastContainer } from "react-toastify";
 

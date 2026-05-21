@@ -1,3 +1,14 @@
+/**
+ * Spinner — indicateur de chargement SVG animé.
+ *
+ * Utilisé dans Button (état isLoading), Avatar (upload en cours),
+ * Card (image en cours de chargement) et ScreenSpinner (plein écran).
+ *
+ * Props :
+ *  - size    : "small" (20px) | "medium" (32px) | "large" (44px)
+ *  - variant : "primary" (orange) | "white" (blanc, sur fond sombre)
+ *  - className : classes Tailwind supplémentaires
+ */
 import clsx from "clsx";
 
 interface Props {
@@ -18,7 +29,7 @@ export const Spinner = ({
         case "small":
             sizeStyle = "w-5 h-5";
             break;
-        case "medium": //default
+        case "medium":
             sizeStyle = "w-8 h-8";
             break;
         case "large":
@@ -27,16 +38,18 @@ export const Spinner = ({
     }
 
     switch (variant) {
-        case "primary": // default
+        case "primary":
             variantStyle = "text-primary";
             break;
         case "white":
             variantStyle = "text-white";
             break;
     }
+
     return (
         <svg
-            role="spinenr"
+            role="status"
+            aria-label="Chargement en cours"
             className={clsx(sizeStyle, variantStyle, "animate-spin", className)}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
