@@ -1,13 +1,17 @@
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
 import Image, { StaticImageData } from "next/image";
-import React, { useMemo } from "react";
-import DefaultImage from "@/../public/assets/images/404.png"; // Image par défaut
+import React, { useEffect, useMemo, useState } from "react";
+import DefaultImage from "@/../public/assets/images/404.png";
 import Dune from "@/../public/assets/images/dune.jpg";
 import { Button } from "@/ui/design-system/button";
-import { BiArrowFromLeft } from "react-icons/bi";
-import { BsArrowBarLeft, BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { Avatar } from "@/ui/design-system/avatar";
+import { StarRating } from "@/ui/design-system/star-rating";
+import { Spinner } from "@/ui/design-system/spinner";
+import { getLastApprovedReviews } from "@/api/reviews";
+import { ReviewDocument } from "@/types/review";
+import { Timestamp } from "firebase/firestore";
 
 interface LikeBookBoxViewProps {
     title?: string;
@@ -18,11 +22,6 @@ interface LikeBookBoxViewProps {
     synopsis?: string;
 }
 
-interface StarRatingProps {
-    rating: number;
-    className?: string;
-}
-
 export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
     title,
     src = DefaultImage,
@@ -31,54 +30,35 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
     author,
     synopsis,
 }) => {
-    // --- Simulation de la récupération et du calcul de la note ---
-    const ratings: number[] = [0, 4, 0, 3, 4, 0, 2]; // Notes récupérées de la BDD
-
+    const staticRatings = useMemo(() => [0, 4, 0, 3, 4, 0, 2], []);
     const averageRating = useMemo(() => {
-        if (ratings.length === 0) return 0;
-        const sum = ratings.reduce((acc, rating) => acc + rating, 0);
-        return sum / ratings.length;
-    }, [ratings]);
-    // -------------------------------------------------------------
-
-    const StarRating: React.FC<StarRatingProps> = ({ rating }) => {
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 >= 0.5;
-        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
+        if (staticRatings.length === 0) return 0;
         return (
-            <div className="flex items-center">
-                {[...Array(fullStars)].map((_, index) => (
-                    <span
-                        key={`full-${index}`}
-                        className="text-yellow-400 text-xl sm:text-3xl"
-                    >
-                        &#9733;
-                    </span> // Étoile pleine
-                ))}
-                {halfStar && (
-                    <span className="text-yellow-400 text-xl sm:text-3xl">
-                        &#9733;
-                    </span> // Pour la simplicité, une étoile pleine pour 0.5 ou plus
-                )}
-                {[...Array(emptyStars)].map((_, index) => (
-                    <span
-                        key={`empty-${index}`}
-                        className="text-other text-xl sm:text-3xl"
-                    >
-                        &#9734;
-                    </span> // Étoile vide
-                ))}
-                <Typo
-                    variant="para"
-                    color="other"
-                    className="ml-2 text-[12px] sm:text-lg"
-                >
-                    ({ratings.length} votes)
-                </Typo>
-            </div>
+            staticRatings.reduce((acc, r) => acc + r, 0) / staticRatings.length
         );
+    }, [staticRatings]);
+
+    const [reviews, setReviews] = useState<ReviewDocument[]>([]);
+    const [isLoadingReviews, setIsLoadingReviews] = useState(true);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        getLastApprovedReviews(3)
+            .then(setReviews)
+            .catch(() => setReviews([]))
+            .finally(() => setIsLoadingReviews(false));
+    }, []);
+
+    const formatDate = (date: ReviewDocument["creation_date"]): string => {
+        if (!date) return "—";
+        if (date instanceof Timestamp)
+            return date.toDate().toLocaleDateString("fr-FR");
+        return new Date(date as string | Date).toLocaleDateString("fr-FR");
     };
+
+    const prev = () =>
+        setCurrentIndex((i) => (i - 1 + reviews.length) % reviews.length);
+    const next = () => setCurrentIndex((i) => (i + 1) % reviews.length);
 
     return (
         <>
@@ -219,7 +199,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                 </div>
             </Container>
 
-            <Container className="py-20 border-b-2 border-primary ">
+            <Container className="py-20 border-b-2 border-primary">
                 <Typo
                     variant="title"
                     components="h2"
@@ -229,39 +209,110 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                 >
                     Derniers avis des lecteurs
                 </Typo>
-                <div className="p-10 bg-foreground mx-auto h-full rounded-lg shadow-lg max-w-6xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
-                        {/* Colonne de l'image */}
 
-                        {/* Colonne des détails */}
-                        <div className="space-y-5 flex flex-col">
-                            <div>
-                                <Typo
-                                    variant="title"
-                                    components="h2"
-                                    weight="bold"
-                                    color="primary"
-                                    className="uppercase text-xl sm:text-2xl lg:text-3xl underline "
-                                >
-                                    Nom / pseudo
-                                </Typo>
-                                <div className="flex items-center gap-4 mt-2">
+                {isLoadingReviews ? (
+                    <div className="flex justify-center items-center h-40">
+                        <Spinner size="large" />
+                    </div>
+                ) : reviews.length === 0 ? (
+                    <Typo variant="para" color="other" className="text-center">
+                        Aucun avis disponible pour le moment.
+                    </Typo>
+                ) : (
+                    <div className="p-10 bg-foreground mx-auto rounded-lg shadow-lg max-w-6xl">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                            {/* Colonne gauche : auteur + méta */}
+                            <div className="space-y-5 flex flex-col">
+                                <div>
+                                    <Typo
+                                        variant="title"
+                                        components="h2"
+                                        weight="bold"
+                                        color="primary"
+                                        className="uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                                    >
+                                        Nom / pseudo
+                                    </Typo>
+                                    <div className="flex items-center gap-4 mt-2">
+                                        <Typo
+                                            variant="para"
+                                            color="other"
+                                            className="lg:text-xl"
+                                        >
+                                            {reviews[currentIndex].pseudo ||
+                                                `${reviews[currentIndex].firstName ?? ""} ${reviews[currentIndex].lastName ?? ""}`.trim() ||
+                                                "Lecteur anonyme"}
+                                        </Typo>
+                                        <Avatar
+                                            size="very-large"
+                                            src={
+                                                reviews[currentIndex].avatar ||
+                                                DefaultImage
+                                            }
+                                            alt="Avatar du lecteur"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <Typo
+                                        variant="title"
+                                        components="h2"
+                                        weight="bold"
+                                        color="primary"
+                                        className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                                    >
+                                        Note
+                                    </Typo>
+                                    <StarRating
+                                        rating={reviews[currentIndex].rating}
+                                        size="medium"
+                                    />
+                                </div>
+
+                                <div>
+                                    <Typo
+                                        variant="title"
+                                        components="h2"
+                                        weight="bold"
+                                        color="primary"
+                                        className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                                    >
+                                        Date de publication
+                                    </Typo>
                                     <Typo
                                         variant="para"
                                         color="other"
                                         className="mt-2 lg:text-xl"
                                     >
-                                        Jean Dupont
+                                        {formatDate(
+                                            reviews[currentIndex].creation_date,
+                                        )}
                                     </Typo>
-                                    <Avatar
-                                        size="small"
-                                        src={DefaultImage}
-                                        alt="Avatar de Jean Dupont"
-                                    />
+                                </div>
+
+                                <div>
+                                    <Typo
+                                        variant="title"
+                                        components="h2"
+                                        weight="bold"
+                                        color="primary"
+                                        className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                                    >
+                                        Livre
+                                    </Typo>
+                                    <Typo
+                                        variant="para"
+                                        color="other"
+                                        className="mt-2 lg:text-xl"
+                                    >
+                                        {reviews[currentIndex].bookTitle}
+                                    </Typo>
                                 </div>
                             </div>
 
-                            <div>
+                            {/* Colonne droite : texte de l'avis */}
+                            <div className="space-y-5 flex flex-col">
                                 <Typo
                                     variant="title"
                                     components="h2"
@@ -269,61 +320,46 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                                     color="primary"
                                     className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
                                 >
-                                    Date de publication
+                                    Avis
                                 </Typo>
                                 <Typo
                                     variant="para"
                                     color="other"
                                     className="mt-2 lg:text-xl"
                                 >
-                                    2025-01-15
+                                    {reviews[currentIndex].review}
                                 </Typo>
                             </div>
+                        </div>
 
-                            <div>
-                                <Typo
-                                    variant="title"
-                                    components="h2"
-                                    weight="bold"
-                                    color="primary"
-                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                        {/* Navigation carrousel */}
+                        {reviews.length > 1 && (
+                            <div className="mt-8 flex items-center justify-center gap-6">
+                                <button
+                                    onClick={prev}
+                                    className="p-2 text-primary hover:text-secondary transition-colors"
+                                    aria-label="Avis précédent"
                                 >
-                                    Nome du livre
-                                </Typo>
+                                    <BsArrowLeft size={28} />
+                                </button>
                                 <Typo
                                     variant="para"
                                     color="other"
-                                    className="mt-2 lg:text-xl"
+                                    className="text-sm"
                                 >
-                                    Dune
+                                    {currentIndex + 1} / {reviews.length}
                                 </Typo>
+                                <button
+                                    onClick={next}
+                                    className="p-2 text-primary hover:text-secondary transition-colors"
+                                    aria-label="Avis suivant"
+                                >
+                                    <BsArrowRight size={28} />
+                                </button>
                             </div>
-                        </div>
-                        <div className=" space-y-5 flex flex-col">
-                            <Typo
-                                variant="title"
-                                components="h2"
-                                weight="bold"
-                                color="primary"
-                                className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
-                            >
-                                Avis
-                            </Typo>
-                            <Typo
-                                variant="para"
-                                color="other"
-                                className="mt-2 lg:text-xl"
-                            >
-                                Un chef-d&#39;œuvre de la science-fiction qui
-                                explore des thèmes profonds tels que la
-                                politique, la religion et l&#39;écologie.
-                                L&#39;univers richement détaillé et les
-                                personnages complexes rendent la lecture
-                                captivante du début à la fin.
-                            </Typo>
-                        </div>
+                        )}
                     </div>
-                </div>
+                )}
             </Container>
         </>
 

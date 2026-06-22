@@ -66,6 +66,7 @@ export const AdminAccountAvisList = () => {
         null,
     );
     const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
     const [currentPage, setCurrentPage] = useState(1);
     const [currentRating, setCurrentRating] = useState(0);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
@@ -166,7 +167,7 @@ export const AdminAccountAvisList = () => {
         };
 
         const { error } = await firestoreUpdateDocument(
-            "book-reviews",
+            "bookReviews",
             selectedReview.id,
             payload,
         );
@@ -199,7 +200,7 @@ export const AdminAccountAvisList = () => {
 
         setIsDeleting(true);
         const { error } = await firestoreDeleteDocument(
-            "book-reviews",
+            "bookReviews",
             selectedReview.id,
         );
 
@@ -223,21 +224,21 @@ export const AdminAccountAvisList = () => {
     );
 
     const filteredReviews = useMemo(() => {
-        if (!normalizedSearchQuery) return reviews;
         return reviews.filter((review) => {
+            if (statusFilter !== "all" && review.moderationStatus !== statusFilter) return false;
+            if (!normalizedSearchQuery) return true;
             const searchableText = [
                 review.bookTitle,
                 review.pseudo,
                 review.firstName,
                 review.lastName,
                 review.review,
-                review.moderationStatus,
             ]
                 .map((value) => normalizeText(value))
                 .join(" ");
             return searchableText.includes(normalizedSearchQuery);
         });
-    }, [reviews, normalizedSearchQuery]);
+    }, [reviews, normalizedSearchQuery, statusFilter]);
 
     const totalPages = Math.max(
         1,
@@ -246,7 +247,7 @@ export const AdminAccountAvisList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [normalizedSearchQuery]);
+    }, [normalizedSearchQuery, statusFilter]);
 
     useEffect(() => {
         if (currentPage > totalPages) {
@@ -270,14 +271,24 @@ export const AdminAccountAvisList = () => {
                 Avis envoyés
             </Typo>
 
-            <div className="w-full max-w-md mx-auto mb-8">
+            <div className="w-full max-w-xl mx-auto mb-8 flex flex-col sm:flex-row gap-3">
                 <input
                     type="text"
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
                     placeholder="Rechercher par livre, auteur ou texte"
-                    className="w-full px-4 py-2 border-2 border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500"
+                    className="flex-1 px-4 py-2 border-2 border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500"
                 />
+                <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+                    className="px-4 py-2 border-2 border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other bg-background"
+                >
+                    <option value="all">Tous les statuts</option>
+                    <option value="pending">En attente</option>
+                    <option value="approved">Validé</option>
+                    <option value="rejected">Refusé</option>
+                </select>
             </div>
 
             {isLoading ? (
@@ -294,8 +305,14 @@ export const AdminAccountAvisList = () => {
                         {paginatedReviews.map((review) => (
                             <div
                                 key={review.id}
-                                className="rounded-lg border-2 border-primary/40 bg-foreground/40 p-6 space-y-3 hover:bg-foreground/60 transition-colors"
+                                className="relative rounded-lg border-2 border-primary/40 bg-foreground/40 p-6 space-y-3 hover:bg-foreground/60 transition-colors"
                             >
+                                {review.moderationStatus === "approved" && (
+                                    <span className="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-[var(--color-tier)]" title="Validé" />
+                                )}
+                                {review.moderationStatus === "rejected" && (
+                                    <span className="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-[var(--color-danger)]" title="Refusé" />
+                                )}
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1">
                                         <Typo

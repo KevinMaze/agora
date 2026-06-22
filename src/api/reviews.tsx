@@ -6,7 +6,7 @@
  */
 import { db } from "@/config/firebase-config";
 import { ReviewDocument } from "@/types/review";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 
 const REVIEWS_COLLECTION = "bookReviews";
 
@@ -52,6 +52,30 @@ export const getBookReviewsByBookId = async (
         })) as unknown as ReviewDocument[];
     } catch (error) {
         console.error("Erreur lors de la récupération des avis pour ce livre:", error);
+        throw error;
+    }
+};
+
+/**
+ * Récupère les derniers avis approuvés, triés du plus récent au plus ancien.
+ * Utilisé dans la page librairie pour le carrousel "Derniers avis des lecteurs".
+ * @param count - Nombre d'avis à retourner (défaut: 3)
+ */
+export const getLastApprovedReviews = async (count = 3): Promise<ReviewDocument[]> => {
+    try {
+        const q = query(
+            collection(db, REVIEWS_COLLECTION),
+            where("moderationStatus", "==", "approved"),
+            orderBy("creation_date", "desc"),
+            limit(count),
+        );
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        })) as unknown as ReviewDocument[];
+    } catch (error) {
+        console.error("Erreur lors de la récupération des derniers avis approuvés:", error);
         throw error;
     }
 };

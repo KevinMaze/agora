@@ -12,7 +12,7 @@
  * Options d'affichage texte : showRatingValue (ex: "4.0"), showVoteCount (ex: "(12 votes)")
  */
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typo } from "./typography";
 
 interface StarRatingProps {
@@ -47,6 +47,10 @@ export const StarRating: React.FC<StarRatingProps> = ({
     // hoverRating : note prévisualisée pendant le survol (null si pas de survol)
     const [hoverRating, setHoverRating] = useState<number | null>(null);
     const [selectedRating, setSelectedRating] = useState<number>(rating);
+
+    useEffect(() => {
+        setSelectedRating(rating);
+    }, [rating]);
 
     // En mode interactif, le survol prime sur la sélection pour l'affichage visuel
     const displayRating = interactive && hoverRating !== null ? hoverRating : selectedRating;
