@@ -3,7 +3,7 @@
 import { getConcerts } from "@/api/concerts";
 import {
     firestoreDeleteDocument,
-    firestoreUptadeDocument,
+    firestoreUpdateDocument,
 } from "@/api/firestore";
 import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
@@ -180,7 +180,7 @@ export const AddConcertList = () => {
             image: remainingImages[0] || null,
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "concerts",
             selectedConcert.id,
             payload,
@@ -288,7 +288,7 @@ export const AddConcertList = () => {
             image: imageUrls[0] || null,
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "concerts",
             selectedConcert.id,
             payload,

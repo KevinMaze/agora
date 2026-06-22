@@ -3,7 +3,7 @@
 import { getBookReviews } from "@/api/reviews";
 import {
     firestoreDeleteDocument,
-    firestoreUptadeDocument,
+    firestoreUpdateDocument,
 } from "@/api/firestore";
 import { useToggle } from "@/hooks/use-toggle";
 import { ReviewDocument } from "@/types/review";
@@ -165,7 +165,7 @@ export const AdminAccountAvisList = () => {
             updated_date: new Date(),
         };
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "book-reviews",
             selectedReview.id,
             payload,

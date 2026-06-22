@@ -7,7 +7,7 @@ import { Typo } from "@/ui/design-system/typography";
 import { OnboardingFooter } from "../../footer/onboarding-footer";
 import { Logo } from "@/ui/design-system/logo";
 import ReactCanvasConfetti from "react-canvas-confetti";
-import { firestoreUptadeDocument } from "@/api/firestore";
+import { firestoreUpdateDocument } from "@/api/firestore";
 import { toast } from "react-toastify";
 
 export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
@@ -70,7 +70,7 @@ export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
         const data = {
             onboardingIsCompleted: true,
         };
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "users",
             authUser.uid,
             data,

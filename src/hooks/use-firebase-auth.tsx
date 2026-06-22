@@ -1,3 +1,15 @@
+/**
+ * Hook useFirebaseAuth — cœur du système d'authentification.
+ *
+ * Ce hook gère le cycle de vie complet de la session utilisateur :
+ * 1. Écoute les changements d'état Firebase Auth via onAuthStateChanged
+ * 2. À chaque connexion, abonne un listener Firestore en temps réel sur le document utilisateur
+ * 3. Fusionne les données Auth (uid, email…) avec le profil Firestore (rôle, avatar, onboarding…)
+ * 4. Désabonne proprement les listeners à la déconnexion ou au démontage du composant
+ *
+ * Le double listener (Auth + Firestore) garantit que tout changement de profil
+ * (ex: rôle mis à jour par l'admin) est répercuté instantanément dans l'UI.
+ */
 import { auth, db } from "@/config/firebase-config";
 import { UserDocument, UserInterface } from "@/types/user";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -7,9 +19,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export default function useFirebaseAuth() {
     const [authUser, setAuthUser] = useState<UserInterface | null>(null);
     const [authUserIsLoading, setAuthUserIsLoading] = useState<boolean>(true);
+
+    // Référence vers la fonction de désabonnement Firestore.
+    // On utilise un ref (pas un state) pour éviter de déclencher des re-renders.
     const unsubscribeUserDocumentRef = useRef<null | (() => void)>(null);
 
-    //Reload authUserData function
+    /**
+     * Force un rechargement des données Auth depuis Firebase, puis met à jour le state.
+     * Appelé après des actions qui modifient le profil (ex: fin de l'onboarding, upload d'avatar).
+     */
     const reloadAuthUserData = () => {
         if (auth.currentUser) {
             auth.currentUser.reload().then(() => {
@@ -18,6 +36,10 @@ export default function useFirebaseAuth() {
         }
     };
 
+    /**
+     * Extrait uniquement les champs Auth pertinents depuis un objet User Firebase.
+     * Évite de stocker dans le state des données internes de Firebase non nécessaires.
+     */
     const formatAuthUser = (user: UserInterface | User) => ({
         uid: user.uid,
         email: user.email,
@@ -27,6 +49,11 @@ export default function useFirebaseAuth() {
         phoneNumber: user.phoneNumber,
     });
 
+    /**
+     * Abonne un listener Firestore en temps réel sur le document utilisateur.
+     * À chaque mise à jour du document, le state authUser est mis à jour automatiquement.
+     * Le listener précédent est désabonné avant d'en créer un nouveau.
+     */
     const getUserDocument = useCallback(async (user: UserInterface) => {
         if (auth.currentUser) {
             const documentRef = doc(db, "users", auth.currentUser.uid);
@@ -48,6 +75,11 @@ export default function useFirebaseAuth() {
         }
     }, []);
 
+    /**
+     * Callback déclenché à chaque changement d'état Firebase Auth.
+     * - Si l'utilisateur se déconnecte (authSate = null) : nettoie le state et les listeners.
+     * - Si l'utilisateur se connecte : formate ses données et charge son profil Firestore.
+     */
     const authStateChanged = useCallback(
         async (authSate: UserInterface | User | null) => {
         if (!authSate) {
@@ -64,6 +96,8 @@ export default function useFirebaseAuth() {
         [getUserDocument],
     );
 
+    // Abonne le listener Auth global au montage du composant racine.
+    // Retourne une fonction de nettoyage qui désabonne tout à la destruction.
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, authStateChanged);
         return () => {

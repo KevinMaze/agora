@@ -1,5 +1,22 @@
 "use client";
 
+/**
+ * Modal — fenêtre modale générique du design system.
+ *
+ * Gère son propre cycle de vie animé (overlay + contenu) en 3 phases :
+ *  1. Montage : isMounted=true (le DOM existe)
+ *  2. Ouverture : overlay fade-in (10ms) → contenu scale-in (280ms)
+ *  3. Fermeture : contenu scale-out → overlay fade-out (180ms) → démontage (520ms)
+ *
+ * Fermeture possible via :
+ *  - Touche Escape
+ *  - Clic sur l'overlay
+ *  - Bouton ✕ en haut à droite
+ *
+ * Deux modes de contenu :
+ *  - `children` personnalisé : rendu libre dans le conteneur
+ *  - Sans children : layout prédéfini image + sections + footer
+ */
 import { Typo } from "@/ui/design-system/typography";
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
@@ -28,7 +45,9 @@ interface ModalProps {
     onAvisButtonClick?: () => void;
     avisButtonDisabled?: boolean;
     children?: ReactNode;
+    /** Classe Tailwind pour la largeur max de la modale (ex: "max-w-5xl") */
     maxWidthClassName?: string;
+    /** Classes supplémentaires sur le conteneur de contenu */
     contentClassName?: string;
 }
 
@@ -50,6 +69,7 @@ export const Modal = ({
     const [overlayActive, setOverlayActive] = useState(false);
     const [modalActive, setModalActive] = useState(false);
 
+    // Listener clavier pour fermer avec Escape
     useEffect(() => {
         if (!isOpen) return;
 
@@ -63,6 +83,7 @@ export const Modal = ({
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [isOpen, onClose]);
 
+    // Gestion des timings d'animation d'ouverture/fermeture
     useEffect(() => {
         let t1: NodeJS.Timeout | undefined;
         let t2: NodeJS.Timeout | undefined;
@@ -94,20 +115,20 @@ export const Modal = ({
 
     return (
         <div className="fixed inset-0 z-50">
+            {/* Overlay assombrissant */}
             <div
                 className={clsx(
-                    "absolute inset-0 bg-black/40 origin-center transition-all duration-300 ease-out",
-                    overlayActive
-                        ? "opacity-100 scale-100"
-                        : "opacity-0 scale-0",
+                    "absolute inset-0 bg-black/40 transition-opacity duration-300 ease-out",
+                    overlayActive ? "opacity-100" : "opacity-0",
                 )}
-                onClick={onClose}
                 aria-hidden="true"
             />
-            <div className="relative z-10 h-full w-full overflow-y-auto p-4">
+            {/* Clic en dehors de la modale = fermeture */}
+            <div className="relative z-10 h-full w-full overflow-y-auto p-4" onClick={onClose}>
                 <div
                     role="dialog"
                     aria-modal="true"
+                    onClick={(e) => e.stopPropagation()}
                     className={clsx(
                         "relative bg-background p-8 sm:p-10 rounded-xl w-full mx-auto my-6 max-h-[calc(100vh-3rem)] overflow-y-auto transition-all duration-300 ease-out",
                         modalActive
@@ -125,6 +146,7 @@ export const Modal = ({
                         <FaTimes size={24} />
                     </button>
 
+                    {/* Mode children libre ou layout prédéfini image+sections */}
                     {children ? (
                         children
                     ) : (
@@ -179,6 +201,7 @@ export const Modal = ({
                         </div>
                     )}
 
+                    {/* Bouton optionnel "Donner un avis" — affiché si onAvisButtonClick est fourni */}
                     {onAvisButtonClick && (
                         <div className="mt-6 flex justify-center">
                             <Button

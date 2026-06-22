@@ -3,7 +3,7 @@
 import DefaultAvatar from "@/../public/assets/images/user-icon-2098873_1920.png";
 import MissingBookImage from "@/../public/assets/images/404.png";
 import { getBook } from "@/api/books";
-import { firestoreAddDocument, firestoreUptadeDocument } from "@/api/firestore";
+import { firestoreAddDocument, firestoreUpdateDocument } from "@/api/firestore";
 import { getUserBookReview } from "@/api/reviews";
 import { useAuth } from "@/context/AuthUserContext";
 import { StaticImageData } from "next/image";
@@ -224,7 +224,7 @@ export const ModalAvis = ({
                 updated_date: new Date(),
             };
 
-            const { error } = await firestoreUptadeDocument(
+            const { error } = await firestoreUpdateDocument(
                 REVIEWS_COLLECTION,
                 existingReviewId,
                 updatePayload,

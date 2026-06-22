@@ -8,8 +8,12 @@ import { getLastTenBooks } from "@/api/books";
 import { Spinner } from "@/ui/design-system/spinner";
 import { Modal } from "@/ui/design-system/modal";
 import { ModalAvis } from "@/ui/design-system/modal-avis";
+import { useAuth } from "@/context/AuthUserContext";
+import { useRouter } from "next/router";
 
 export const News = () => {
+    const { authUser } = useAuth();
+    const router = useRouter();
     const [books, setBooks] = useState<BookDocument[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<BookDocument | null>(null);
@@ -65,8 +69,8 @@ export const News = () => {
             <Modal
                 isOpen={!!selectedBook}
                 onClose={() => {
-                    setSelectedBook(null);
                     setIsReviewModalOpen(false);
+                    setTimeout(() => setSelectedBook(null), 520);
                 }}
                 title={selectedBook?.title}
                 image={{
@@ -105,7 +109,14 @@ export const News = () => {
                             "Aucune description disponible.",
                     },
                 ]}
-                onAvisButtonClick={() => setIsReviewModalOpen(true)}
+                avisButtonLabel={authUser ? "Donner un avis" : "S'enregistrer"}
+                onAvisButtonClick={() => {
+                    if (authUser) {
+                        setIsReviewModalOpen(true);
+                    } else {
+                        router.push("/connexion/inscription");
+                    }
+                }}
             />
 
             <ModalAvis

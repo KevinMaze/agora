@@ -1,5 +1,4 @@
 import errors from "@/config/locales/errors.json";
-import { error } from "console";
 
 type FirebaseErrorType = {
     [key: string]: string;
@@ -7,6 +6,8 @@ type FirebaseErrorType = {
 type FirebaseErrors = {
     [key: string]: FirebaseErrorType;
 };
+
+// Table de correspondance : méthode Firebase → code d'erreur → message utilisateur (français)
 const firebaseErrors: FirebaseErrors = {
     ...errors,
     an_unknow_error_has_occurred: {
@@ -14,20 +15,24 @@ const firebaseErrors: FirebaseErrors = {
     },
 };
 
+/**
+ * Retourne un message d'erreur lisible en français à partir d'une erreur Firebase.
+ * @param method - Nom de la méthode Firebase appelée (ex: "signInWithEmailAndPassword")
+ * @param errorCode - Code d'erreur Firebase (ex: "auth/user-not-found")
+ * @returns Message d'erreur traduit, ou message générique si inconnu
+ */
 export function getFirebaseErrorMessage(
+    method: string,
     errorCode: string,
-    method: string
 ): string {
     const defaultErrorMessage = errors.an_unknow_error_has_occurred;
 
     if (!firebaseErrors[method]) {
         return defaultErrorMessage;
     }
-    if (firebaseErrors[method][errorCode]) {
+    if (!firebaseErrors[method][errorCode]) {
         return defaultErrorMessage;
     }
 
-    const errorMessage = firebaseErrors[method][errorCode];
-
-    return errorMessage;
+    return firebaseErrors[method][errorCode];
 }

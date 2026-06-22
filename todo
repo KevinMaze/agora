@@ -1,1 +1,76 @@
 refactorisation forget password et voir mot de passe oublié error
+
+
+─────────────────────────────────────────────
+STRIPE - Intégration paiement (Next.js + Firebase)
+─────────────────────────────────────────────
+
+[ ] 1. INSTALLATION
+    npm install stripe @stripe/stripe-js @stripe/react-stripe-js
+
+[ ] 2. VARIABLES D'ENVIRONNEMENT (.env.local)
+    STRIPE_SECRET_KEY=sk_test_...          // clé secrète Stripe (jamais exposée côté client)
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...  // clé publique (utilisable côté client)
+    STRIPE_WEBHOOK_SECRET=whsec_...        // secret du webhook (obtenu via Stripe CLI ou dashboard)
+
+[ ] 3. CRÉER LA ROUTE API - Checkout Session
+    Fichier : src/pages/api/stripe/create-checkout-session.ts
+
+    // Reçoit { priceId, userId } depuis le frontend
+    // Crée une session Stripe Checkout avec :
+    //   - mode: 'payment' (one-shot) ou 'subscription' (abonnement)
+    //   - success_url et cancel_url
+    //   - metadata: { userId } pour retrouver l'utilisateur dans le webhook
+    // Retourne { sessionId } ou { url } pour redirection
+
+[ ] 4. CRÉER LA ROUTE API - Webhook Stripe
+    Fichier : src/pages/api/stripe/webhook.ts
+
+    // IMPORTANT : désactiver le bodyParser Next.js pour cette route
+    // export const config = { api: { bodyParser: false } }
+    //
+    // Reçoit les événements Stripe (checkout.session.completed, etc.)
+    // Vérifie la signature avec stripe.webhooks.constructEvent()
+    // Sur 'checkout.session.completed' :
+    //   - récupère metadata.userId
+    //   - met à jour Firestore : users/{userId} -> { isPremium: true, stripeCustomerId: ... }
+    // Retourne 200 pour accuser réception à Stripe
+
+[ ] 5. UTILITAIRE STRIPE
+    Fichier : src/lib/stripe.ts
+
+    // Initialise et exporte l'instance Stripe côté serveur
+    // import Stripe from 'stripe'
+    // export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
+
+[ ] 6. COMPOSANT BOUTON DE PAIEMENT
+    Fichier : src/components/PaymentButton.tsx
+
+    // Utilise loadStripe() avec NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    // Au clic : appelle POST /api/stripe/create-checkout-session
+    // Redirige vers Stripe Checkout avec stripe.redirectToCheckout({ sessionId })
+    // Gère les états loading / error
+
+[ ] 7. PAGE SUCCESS & CANCEL
+    Fichier : src/pages/payment/success.tsx  → confirmation après paiement
+    Fichier : src/pages/payment/cancel.tsx   → retour si l'utilisateur annule
+
+[ ] 8. TESTER EN LOCAL AVEC STRIPE CLI
+    stripe login
+    stripe listen --forward-to localhost:3000/api/stripe/webhook
+    // Copier le webhook secret affiché → STRIPE_WEBHOOK_SECRET dans .env.local
+    // Utiliser la carte test : 4242 4242 4242 4242
+
+[ ] 9. FIRESTORE - Structure suggérée
+    // users/{userId}
+    //   isPremium: boolean
+    //   stripeCustomerId: string
+    //   subscriptionId: string (si abonnement)
+    //   subscriptionStatus: 'active' | 'canceled' | ...
+
+[ ] 10. SÉCURITÉ
+    // - Ne jamais exposer STRIPE_SECRET_KEY côté client
+    // - Toujours vérifier la signature du webhook (étape 4)
+    // - Vérifier l'état isPremium depuis Firestore (pas depuis le client)
+    // - Protéger les routes premium avec getServerSideProps + vérification Firestore
+

@@ -1,3 +1,20 @@
+/**
+ * Button — composant bouton du design system avec animations avancées.
+ *
+ * Fonctionnalités :
+ *  - Texte animé au survol : chaque lettre monte/descend en alternance
+ *  - Icône animée (entrée depuis le haut/bas selon sa position)
+ *  - État de chargement avec Spinner intégré
+ *  - Peut être rendu comme lien (interne Next.js ou externe <a>)
+ *
+ * Variants :
+ *  - "primary"  : fond orange → animation vers fond doré/vert (défaut)
+ *  - "disabled" : fond gris, curseur interdit
+ *  - "icon"     : bouton rond, contient uniquement une icône
+ *  - "danger"   : fond rouge, pour les actions destructives
+ *
+ * Tailles : "small" | "medium" | "large"
+ */
 import { IconProps } from "@/types/iconProps";
 import clsx from "clsx";
 import { Spinner } from "./spinner";
@@ -40,7 +57,7 @@ export const Button = ({
     let overlayStyle: string = "";
 
     switch (variant) {
-        case "primary": //default
+        case "primary":
             variantStyle = "border-2 border-foreground rounded-xl";
             baseColorStyle = "bg-primary text-background";
             hoverColorStyle = "hover:bg-secondary hover:text-tier";
@@ -72,9 +89,8 @@ export const Button = ({
     }
 
     switch (size) {
-        case "medium": //default
+        case "medium":
             sizeStyle = ` ${
-                // small by default
                 variant === "icon"
                     ? "flex items-center justify-center w-8 h-8"
                     : "px-3 py-1"
@@ -84,7 +100,6 @@ export const Button = ({
             break;
         case "large":
             sizeStyle = ` ${
-                // small by default
                 variant === "icon"
                     ? "flex items-center justify-center w-8 h-8"
                     : "px-3 py-1"
@@ -106,6 +121,11 @@ export const Button = ({
         action?.();
     };
 
+    /**
+     * Décompose le texte en lettres individuelles et les anime au survol.
+     * Les lettres paires descendent, les lettres impaires montent (effet alterné).
+     * Chaque lettre a un délai progressif pour un effet de vague.
+     */
     const renderAnimatedText = (text: string) => {
         const letters = text.split("");
         type LetterDelayStyle = React.CSSProperties & {
@@ -132,7 +152,7 @@ export const Button = ({
                                 } as LetterDelayStyle
                             }
                         >
-                            {letter === " " ? "\u00A0" : letter}
+                            {letter === " " ? " " : letter}
                         </span>
                     );
                 })}
@@ -140,6 +160,10 @@ export const Button = ({
         );
     };
 
+    /**
+     * Rend l'icône avec une animation d'entrée verticale au survol.
+     * Position "left" → entre depuis le haut ; "right" → entre depuis le bas.
+     */
     const renderAnimatedIcon = (
         position: "left" | "right",
         IconComponent: React.ElementType<{ className?: string }>,
@@ -159,10 +183,13 @@ export const Button = ({
         );
     };
 
+    // L'animation de texte n'est activée que pour les enfants de type string/number (pas du JSX)
     const isTextOnly =
         typeof children === "string" || typeof children === "number";
     const labelText = isTextOnly ? String(children) : "";
     const shouldAnimateText = isTextOnly && variant !== "icon";
+
+    // En mode animé, on inverse les couleurs pour que l'overlay visible soit la couleur de base
     if (shouldAnimateText && variant === "primary") {
         baseColorStyle = "bg-secondary text-tier";
         hoverColorStyle = "";
@@ -174,6 +201,7 @@ export const Button = ({
 
     const buttonContent = (
         <>
+            {/* Overlay initial visible avant le survol — glisse vers le bas au hover */}
             {shouldAnimateText && (
                 <div
                     className={clsx(
@@ -194,6 +222,8 @@ export const Button = ({
                     </div>
                 </div>
             )}
+
+            {/* Spinner de chargement centré sur le bouton */}
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center cursor-not-allowed">
                     {variant === "primary" || variant === "icon" ? (
@@ -204,6 +234,7 @@ export const Button = ({
                 </div>
             )}
 
+            {/* Contenu principal (invisible pendant le chargement) */}
             <div className={clsx(isLoading && "invisible")}>
                 {icon && variant === "icon" ? (
                     <icon.icon className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -253,6 +284,7 @@ export const Button = ({
         </button>
     );
 
+    // Si une URL est fournie, on enveloppe le bouton dans un lien (interne ou externe)
     if (baseUrl) {
         if (linkType === LinkTypes.EXTERNAL) {
             return (

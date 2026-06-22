@@ -17,7 +17,7 @@ import {
 } from "firebase/storage";
 import { toast } from "react-toastify";
 import { storage } from "@/config/firebase-config";
-import { firestoreUptadeDocument } from "@/api/firestore";
+import { firestoreUpdateDocument } from "@/api/firestore";
 
 export const AvatarStep = ({
     nextStep,
@@ -39,7 +39,7 @@ export const AvatarStep = ({
 
         await updateUserIdentificationData(authUser.uid, body);
 
-        const { error } = await firestoreUptadeDocument(
+        const { error } = await firestoreUpdateDocument(
             "users",
             authUser.uid,
             body,

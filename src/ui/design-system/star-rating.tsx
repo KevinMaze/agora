@@ -1,25 +1,29 @@
+/**
+ * StarRating — composant d'affichage et de saisie de notes en étoiles.
+ *
+ * Deux modes :
+ *  - Lecture seule (interactive=false) : affiche la note avec étoiles pleines/demi/vides
+ *  - Interactif (interactive=true)     : permet de cliquer ou survoler pour noter
+ *
+ * En mode interactif, le survol prévisualise la note avant de cliquer.
+ * La note sélectionnée est entière (pas de demi-étoile en saisie).
+ *
+ * Tailles : "small" | "medium" | "large"
+ * Options d'affichage texte : showRatingValue (ex: "4.0"), showVoteCount (ex: "(12 votes)")
+ */
 import clsx from "clsx";
 import React, { useState } from "react";
 import { Typo } from "./typography";
 
 interface StarRatingProps {
-    /** La note affichée (pour l'affichage en lecture seule) */
     rating?: number;
-    /** Nombre d'étoiles maximum */
     maxStars?: number;
-    /** Classe CSS personnalisée */
     className?: string;
-    /** Taille des étoiles */
     size?: "small" | "medium" | "large";
-    /** Mode interactif (permet de cliquer pour noter) */
     interactive?: boolean;
-    /** Callback quand la note change (en mode interactif) */
     onRatingChange?: (rating: number) => void;
-    /** Afficher le texte du nombre de votes */
     showVoteCount?: boolean;
-    /** Nombre de votes */
     voteCount?: number;
-    /** Afficher la note numérique */
     showRatingValue?: boolean;
 }
 
@@ -40,9 +44,11 @@ export const StarRating: React.FC<StarRatingProps> = ({
     voteCount = 0,
     showRatingValue = false,
 }) => {
+    // hoverRating : note prévisualisée pendant le survol (null si pas de survol)
     const [hoverRating, setHoverRating] = useState<number | null>(null);
     const [selectedRating, setSelectedRating] = useState<number>(rating);
 
+    // En mode interactif, le survol prime sur la sélection pour l'affichage visuel
     const displayRating = interactive && hoverRating !== null ? hoverRating : selectedRating;
 
     const fullStars = Math.floor(displayRating);
@@ -86,7 +92,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
                     </span>
                 ))}
 
-                {/* Demi-étoile */}
+                {/* Demi-étoile (affichage lecture seule uniquement) */}
                 {halfStar && (
                     <span
                         className={clsx(
@@ -120,7 +126,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
                 ))}
             </div>
 
-            {/* Texte optionnel */}
+            {/* Affichage optionnel de la note numérique et/ou du nombre de votes */}
             {(showVoteCount || showRatingValue) && (
                 <div className="flex items-center gap-1">
                     {showRatingValue && (
