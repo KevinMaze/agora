@@ -115,21 +115,20 @@ export const Modal = ({
 
     return (
         <div className="fixed inset-0 z-50">
-            {/* Overlay assombrissant — ferme la modale au clic */}
+            {/* Overlay assombrissant */}
             <div
                 className={clsx(
-                    "absolute inset-0 bg-black/40 origin-center transition-all duration-300 ease-out",
-                    overlayActive
-                        ? "opacity-100 scale-100"
-                        : "opacity-0 scale-0",
+                    "absolute inset-0 bg-black/40 transition-opacity duration-300 ease-out",
+                    overlayActive ? "opacity-100" : "opacity-0",
                 )}
-                onClick={onClose}
                 aria-hidden="true"
             />
-            <div className="relative z-10 h-full w-full overflow-y-auto p-4">
+            {/* Clic en dehors de la modale = fermeture */}
+            <div className="relative z-10 h-full w-full overflow-y-auto p-4" onClick={onClose}>
                 <div
                     role="dialog"
                     aria-modal="true"
+                    onClick={(e) => e.stopPropagation()}
                     className={clsx(
                         "relative bg-background p-8 sm:p-10 rounded-xl w-full mx-auto my-6 max-h-[calc(100vh-3rem)] overflow-y-auto transition-all duration-300 ease-out",
                         modalActive

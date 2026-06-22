@@ -17,6 +17,8 @@ import { Modal } from "@/ui/design-system/modal";
 import { ModalAvis } from "@/ui/design-system/modal-avis";
 import { BookDocument } from "@/types/book";
 import { StaticImageData } from "next/image";
+import { useAuth } from "@/context/AuthUserContext";
+import { useRouter } from "next/router";
 
 type CatalogueBook = BookDocument & {
     id?: string;
@@ -25,6 +27,8 @@ type CatalogueBook = BookDocument & {
 };
 
 export const CatalogueView = () => {
+    const { authUser } = useAuth();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [isFilterVisible, setIsFilterVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
@@ -441,8 +445,8 @@ export const CatalogueView = () => {
                 <Modal
                 isOpen={!!selectedBook}
                 onClose={() => {
-                    setSelectedBook(null);
                     setIsReviewModalOpen(false);
+                    setTimeout(() => setSelectedBook(null), 520);
                 }}
                 title={selectedBook?.title}
                 image={{
@@ -481,7 +485,14 @@ export const CatalogueView = () => {
                             "Aucune description disponible.",
                     },
                 ]}
-                onAvisButtonClick={() => setIsReviewModalOpen(true)}
+                avisButtonLabel={authUser ? "Donner un avis" : "S'enregistrer"}
+                onAvisButtonClick={() => {
+                    if (authUser) {
+                        setIsReviewModalOpen(true);
+                    } else {
+                        router.push("/connexion/inscription");
+                    }
+                }}
             />
 
             <ModalAvis
