@@ -5,9 +5,8 @@ import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaXmark } from "react-icons/fa6";
-import Dune from "@/../public/assets/images/dune.jpg"; // Image de placeholder
+import Dune from "@/../public/assets/images/dune.jpg";
 
-// Interface pour les livres
 interface Book {
     id: number;
     title: string;
@@ -16,7 +15,6 @@ interface Book {
     image: StaticImageData;
 }
 
-// Données fictives (à remplacer par un appel API/Base de données)
 const INITIAL_BOOKS: Book[] = [
     {
         id: 1,
@@ -53,51 +51,26 @@ const INITIAL_BOOKS: Book[] = [
 ];
 
 export const BoxBookView = () => {
-    // État pour les livres dans la boîte
-    // Note: Pour le temps réel, cet état devrait être synchronisé avec votre backend (ex: Firestore onSnapshot, Supabase subscription)
     const [books, setBooks] = useState<Book[]>(INITIAL_BOOKS);
-
-    // État pour les livres retirés/réservés (simulation panneau admin)
     const [reservedBooks, setReservedBooks] = useState<Book[]>([]);
-
-    // État pour le livre sélectionné (popup)
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
-    const handleBookClick = (book: Book) => {
-        setSelectedBook(book);
-    };
-
-    const handleCloseModal = () => {
-        setSelectedBook(null);
-    };
+    const handleBookClick = (book: Book) => setSelectedBook(book);
+    const handleCloseModal = () => setSelectedBook(null);
 
     const handleReserve = (bookId: number) => {
         const bookToReserve = books.find((b) => b.id === bookId);
         if (!bookToReserve) return;
-
-        // Logique Backend ici :
-        // await api.reserveBook(bookId, userId);
-
-        // Mise à jour optimiste de l'interface
         setBooks((prev) => prev.filter((b) => b.id !== bookToReserve.id));
         setReservedBooks((prev) => [...prev, bookToReserve]);
         handleCloseModal();
-
-        // Feedback utilisateur (Toast, notification...)
-        console.log(`Livre ${bookId} réservé et retiré de la boîte.`);
     };
 
     const handleReturn = (bookToReturn: Book) => {
-        // Logique Backend ici :
-        // await api.returnBook(bookToReturn.id);
-
-        // Mise à jour de l'interface
         setReservedBooks((prev) =>
-            prev.filter((b) => b.id !== bookToReturn.id)
+            prev.filter((b) => b.id !== bookToReturn.id),
         );
-        setBooks((prev) => [...prev, bookToReturn].sort((a, b) => a.id - b.id)); // On trie pour garder un ordre stable
-
-        console.log(`Livre ${bookToReturn.id} remis dans la boîte.`);
+        setBooks((prev) => [...prev, bookToReturn].sort((a, b) => a.id - b.id));
     };
 
     return (
@@ -106,7 +79,8 @@ export const BoxBookView = () => {
                 variant="title"
                 component="h2"
                 weight="bold"
-                className="mb-10 text-center uppercase tracking-wider underline underline-offset-8 decoration-primary"
+                color="primary"
+                className="mb-10 text-center uppercase tracking-wider underline underline-offset-8 text-4xl"
             >
                 La Boîte à Livres
             </Typo>
@@ -114,7 +88,7 @@ export const BoxBookView = () => {
             <div className="flex flex-col items-center">
                 <Typo
                     variant="para"
-                    color="secondary"
+                    color="other"
                     className="mb-8 text-center max-w-2xl"
                 >
                     Découvrez les trésors laissés par la communauté. Cliquez sur
@@ -123,8 +97,7 @@ export const BoxBookView = () => {
                 </Typo>
 
                 {/* Conteneur "Boîte" */}
-                <div className="relative w-full max-w-5xl mx-auto bg-amber-50/50 border-2 border-primary/30 rounded-3xl p-8 sm:p-12 min-h-[400px] shadow-inner">
-                    {/* Grille de livres */}
+                <div className="relative w-full max-w-5xl mx-auto bg-foreground/20 border-2 border-primary/30 rounded-3xl p-8 sm:p-12 min-h-[400px] shadow-inner">
                     <div className="flex flex-wrap gap-8 justify-center items-end">
                         <AnimatePresence mode="popLayout">
                             {books.map((book) => (
@@ -153,51 +126,54 @@ export const BoxBookView = () => {
                                         fill
                                         className="object-cover rounded-md"
                                     />
-                                    {/* Overlay au survol */}
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-md" />
                                 </motion.div>
                             ))}
                         </AnimatePresence>
                     </div>
 
-                    {/* Message si vide */}
                     {books.length === 0 && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center opacity-50">
                             <Typo
                                 variant="title"
                                 component="h3"
+                                color="primary"
                                 className="text-xl mb-2"
                             >
                                 La boîte est vide
                             </Typo>
-                            <Typo variant="para">
+                            <Typo variant="para" color="other">
                                 Revenez plus tard pour de nouvelles pépites !
                             </Typo>
                         </div>
                     )}
                 </div>
 
-                {/* Section pour gérer les livres retirés (simulation panneau de contrôle) */}
-                <div className="mt-20 p-8 border-2 border-dashed border-gray-400 rounded-2xl w-full max-w-5xl mx-auto">
+                {/* Panneau livres réservés */}
+                <div className="mt-20 p-8 border-2 border-dashed border-primary/40 rounded-2xl w-full max-w-5xl mx-auto">
                     <Typo
                         variant="title"
                         component="h3"
-                        className="text-center mb-6"
+                        color="primary"
+                        className="text-center mb-6 uppercase underline underline-offset-4"
                     >
-                        Livres Actuellement Réservés (Panneau de Contrôle)
+                        Livres actuellement réservés
                     </Typo>
                     {reservedBooks.length > 0 ? (
                         <ul className="space-y-4">
                             {reservedBooks.map((book) => (
                                 <li
                                     key={`reserved-${book.id}`}
-                                    className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-sm"
+                                    className="flex justify-between items-center bg-foreground/40 border border-primary/20 p-4 rounded-lg"
                                 >
                                     <div>
-                                        <Typo weight="bold">{book.title}</Typo>
+                                        <Typo variant="para" weight="bold">
+                                            {book.title}
+                                        </Typo>
                                         <Typo
-                                            color="secondary"
-                                            className="text-xl"
+                                            variant="para"
+                                            color="other"
+                                            className="text-sm"
                                         >
                                             {book.author}
                                         </Typo>
@@ -213,14 +189,14 @@ export const BoxBookView = () => {
                             ))}
                         </ul>
                     ) : (
-                        <Typo color="secondary" className="text-center">
+                        <Typo color="other" className="text-center">
                             Aucun livre n'est actuellement réservé.
                         </Typo>
                     )}
                 </div>
             </div>
 
-            {/* Modal / Popup */}
+            {/* Modal */}
             <AnimatePresence>
                 {selectedBook && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -236,12 +212,12 @@ export const BoxBookView = () => {
                         {/* Card */}
                         <motion.div
                             layoutId={`book-card-${selectedBook.id}`}
-                            className="relative bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col sm:flex-row"
+                            className="relative bg-background border-2 border-primary/30 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col sm:flex-row"
                         >
                             {/* Bouton fermer */}
                             <button
                                 onClick={handleCloseModal}
-                                className="absolute top-4 right-4 z-10 p-2 bg-white/80 hover:bg-white rounded-full transition-colors shadow-sm"
+                                className="absolute top-4 right-4 z-10 p-2 bg-foreground/80 hover:bg-foreground rounded-full transition-colors"
                             >
                                 <FaXmark size={20} className="text-primary" />
                             </button>
@@ -257,7 +233,7 @@ export const BoxBookView = () => {
                             </div>
 
                             {/* Contenu */}
-                            <div className="flex-1 p-8 flex flex-col justify-between bg-white">
+                            <div className="flex-1 p-8 flex flex-col justify-between">
                                 <div>
                                     <motion.div
                                         initial={{ opacity: 0, y: 10 }}
@@ -268,7 +244,8 @@ export const BoxBookView = () => {
                                             variant="title"
                                             component="h3"
                                             weight="bold"
-                                            className="text-2xl sm:text-3xl mb-1 text-primary"
+                                            color="primary"
+                                            className="text-2xl sm:text-3xl mb-1 uppercase"
                                         >
                                             {selectedBook.title}
                                         </Typo>
@@ -288,7 +265,8 @@ export const BoxBookView = () => {
                                     >
                                         <Typo
                                             variant="para"
-                                            className="text-gray-600 leading-relaxed mb-8"
+                                            color="other"
+                                            className="leading-relaxed mb-8"
                                         >
                                             {selectedBook.description}
                                         </Typo>
@@ -305,13 +283,12 @@ export const BoxBookView = () => {
                                         action={() =>
                                             handleReserve(selectedBook.id)
                                         }
-                                        // className="w-full justify-center"
                                     >
                                         Réserver ce livre
                                     </Button>
                                     <Typo
                                         variant="para"
-                                        color="secondary"
+                                        color="other"
                                         className="text-xs text-center mt-3"
                                     >
                                         * En réservant, le livre sera retiré de
