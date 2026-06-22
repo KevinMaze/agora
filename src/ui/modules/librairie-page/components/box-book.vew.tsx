@@ -11,10 +11,15 @@ import { getBookBoxItems } from "@/api/book-box";
 import { firestoreUpdateDocument } from "@/api/firestore";
 import { BookBoxItemDocument } from "@/types/book-box-item";
 import { toast } from "react-toastify";
+import { useAuth } from "@/context/AuthUserContext";
+import { useRouter } from "next/router";
 
 type BookBoxItem = BookBoxItemDocument & { id: string };
 
 export const BoxBookView = () => {
+    const { authUser } = useAuth();
+    const router = useRouter();
+
     const [allBooks, setAllBooks] = useState<BookBoxItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<BookBoxItem | null>(null);
@@ -30,12 +35,34 @@ export const BoxBookView = () => {
     const availableBooks = allBooks.filter((b) => b.status === "available");
     const reservedBooks = allBooks.filter((b) => b.status === "reserved");
 
+    const isAdmin = authUser?.userDocument?.role === "admin";
+
+    const canRelease = (book: BookBoxItem) =>
+        isAdmin || (!!authUser && book.reservedBy?.userId === authUser.uid);
+
     const handleBookClick = (book: BookBoxItem) => setSelectedBook(book);
     const handleCloseModal = () => setSelectedBook(null);
 
     const handleReserve = async (bookId: string) => {
+        if (!authUser) {
+            router.push("/connexion/inscription");
+            return;
+        }
+
         setIsReserving(true);
-        const { error } = await firestoreUpdateDocument("bookBox", bookId, { status: "reserved" });
+
+        const reservedBy = {
+            userId: authUser.uid,
+            displayName:
+                authUser.userDocument?.displayName ||
+                authUser.displayName ||
+                "Membre",
+        };
+
+        const { error } = await firestoreUpdateDocument("bookBox", bookId, {
+            status: "reserved",
+            reservedBy,
+        });
 
         if (error) {
             toast.error("Erreur lors de la réservation. Réessaie.");
@@ -43,10 +70,30 @@ export const BoxBookView = () => {
             return;
         }
 
-        setAllBooks((prev) => prev.map((b) => b.id === bookId ? { ...b, status: "reserved" as const } : b));
+        setAllBooks((prev) =>
+            prev.map((b) =>
+                b.id === bookId ? { ...b, status: "reserved" as const, reservedBy } : b,
+            ),
+        );
         setIsReserving(false);
         handleCloseModal();
         toast.success("Livre réservé ! Passe le récupérer à la librairie.");
+    };
+
+    const handleRelease = async (bookId: string) => {
+        const { error } = await firestoreUpdateDocument("bookBox", bookId, {
+            status: "available",
+            reservedBy: null,
+        });
+
+        if (error) { toast.error("Erreur lors de la remise à disposition."); return; }
+
+        setAllBooks((prev) =>
+            prev.map((b) =>
+                b.id === bookId ? { ...b, status: "available" as const, reservedBy: null } : b,
+            ),
+        );
+        toast.success("Livre remis à disposition.");
     };
 
     return (
@@ -96,6 +143,9 @@ export const BoxBookView = () => {
                                             className="object-cover rounded-md"
                                         />
                                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors rounded-md" />
+                                        <span className="absolute bottom-1 left-1/2 -translate-x-1/2 text-[10px] px-2 py-0.5 rounded-full font-medium bg-[var(--color-tier)]/20 text-[var(--color-tier)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                                            Disponible
+                                        </span>
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
@@ -114,7 +164,7 @@ export const BoxBookView = () => {
                     )}
                 </div>
 
-                {/* Section livres réservés */}
+                {/* Livres réservés */}
                 {!isLoading && reservedBooks.length > 0 && (
                     <div className="mt-16 p-8 border-2 border-dashed border-primary/40 rounded-2xl w-full max-w-5xl mx-auto">
                         <Typo
@@ -139,10 +189,31 @@ export const BoxBookView = () => {
                                             className="object-cover"
                                         />
                                     </div>
-                                    <div>
-                                        <Typo variant="para" weight="bold">{book.title}</Typo>
-                                        <Typo variant="para" color="other" className="text-sm">{book.author}</Typo>
+                                    <div className="flex-1 min-w-0">
+                                        <Typo variant="para" weight="bold" className="truncate">
+                                            {book.title}
+                                        </Typo>
+                                        <Typo variant="para" color="other" className="text-sm">
+                                            {book.author}
+                                        </Typo>
+                                        <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium bg-[var(--color-danger)]/20 text-[var(--color-danger)]">
+                                            Indisponible
+                                        </span>
+                                        {book.reservedBy && (
+                                            <Typo variant="para" color="secondary" className="text-xs mt-1">
+                                                Réservé par {book.reservedBy.displayName}
+                                            </Typo>
+                                        )}
                                     </div>
+                                    {canRelease(book) && (
+                                        <Button
+                                            type="button"
+                                            size="small"
+                                            action={() => handleRelease(book.id)}
+                                        >
+                                            Remettre à disposition
+                                        </Button>
+                                    )}
                                 </li>
                             ))}
                         </ul>
@@ -224,10 +295,12 @@ export const BoxBookView = () => {
                                         isLoading={isReserving}
                                         action={() => handleReserve(selectedBook.id)}
                                     >
-                                        Réserver ce livre
+                                        {authUser ? "Réserver ce livre" : "S'enregistrer pour réserver"}
                                     </Button>
                                     <Typo variant="para" color="other" className="text-xs text-center mt-3">
-                                        * En réservant, le livre sera retiré de la boîte pour vous.
+                                        {authUser
+                                            ? "* En réservant, le livre sera retiré de la boîte pour vous."
+                                            : "* Tu dois être inscrit pour réserver un livre."}
                                     </Typo>
                                 </motion.div>
                             </div>

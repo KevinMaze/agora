@@ -6,6 +6,7 @@ export interface BookBoxItemDocument {
     description: string;
     image: string | null;
     status: "available" | "reserved";
+    reservedBy?: { userId: string; displayName: string } | null;
     userId?: string;
     creation_date?: Date;
 }

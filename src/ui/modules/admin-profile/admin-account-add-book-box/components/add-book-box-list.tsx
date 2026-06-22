@@ -181,6 +181,11 @@ export const AddBookBoxList = () => {
                                 <div className="flex-1 min-w-0">
                                     <Typo variant="para" weight="bold" className="truncate">{item.title}</Typo>
                                     <Typo variant="para" color="other" className="text-sm">{item.author}</Typo>
+                                    {item.status === "reserved" && item.reservedBy && (
+                                        <Typo variant="para" color="secondary" className="text-xs mt-0.5">
+                                            Réservé par {item.reservedBy.displayName}
+                                        </Typo>
+                                    )}
                                     <span
                                         className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium ${
                                             item.status === "available"
