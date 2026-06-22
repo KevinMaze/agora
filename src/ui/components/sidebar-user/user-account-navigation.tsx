@@ -65,6 +65,11 @@ export const UserAccountNavigation = () => {
             label: "Espace membres",
             allowedRoles: [REGISTERED],
         },
+        {
+            href: "/mon_espace/add-book-box",
+            label: "Boite aux livres",
+            allowedRoles: [ADMIN],
+        },
     ];
 
     const visibleNavItems = navItems.filter((item) =>

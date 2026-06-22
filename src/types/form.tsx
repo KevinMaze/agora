@@ -97,6 +97,13 @@ export interface AddMomentFormFieldsType {
     image: FileList;
 }
 
+export interface AddBookBoxItemFormFieldsType {
+    title: string;
+    author: string;
+    description: string;
+    image: FileList;
+}
+
 export interface UserProfileFormFieldsType {
     name: string;
     displayName: string;
