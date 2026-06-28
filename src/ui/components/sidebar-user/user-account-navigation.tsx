@@ -63,12 +63,12 @@ export const UserAccountNavigation = () => {
         {
             href: "/mon_espace/users",
             label: "Espace membres",
-            allowedRoles: [REGISTERED],
+            allowedRoles: [REGISTERED, ADMIN],
         },
         {
             href: "/mon_espace/add-book-box",
             label: "Boite aux livres",
-            allowedRoles: [REGISTERED],
+            allowedRoles: [ADMIN],
         },
     ];
 
