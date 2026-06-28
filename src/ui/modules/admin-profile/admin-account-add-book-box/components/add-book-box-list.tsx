@@ -39,6 +39,20 @@ export const AddBookBoxList = () => {
 
     const hasNewImage = !!watch("image")?.[0];
 
+    // Vérifie si l'utilisateur connecté est administrateur
+    const isAdmin = authUser?.userDocument?.role === "admin";
+
+    // Détermine si l'utilisateur peut remettre un livre à disposition :
+    // uniquement l'admin OU la personne qui a emprunté le livre
+    const canRelease = (item: BookBoxListItem) =>
+        isAdmin || (!!authUser && item.reservedBy?.userId === authUser.uid);
+
+    // Détermine si l'utilisateur peut modifier ou supprimer un livre :
+    // uniquement l'admin OU la personne qui a enregistré le livre en BDD
+    const canEdit = (item: BookBoxListItem) =>
+        isAdmin || (!!authUser && item.userId === authUser.uid);
+
+    // Charge tous les livres de la boîte depuis Firestore
     const fetchItems = async () => {
         setIsLoading(true);
         try {
@@ -54,6 +68,7 @@ export const AddBookBoxList = () => {
 
     useEffect(() => { fetchItems(); }, []);
 
+    // Ouvre la modal d'édition pré-remplie avec les données du livre sélectionné
     const handleOpenEdit = (item: BookBoxListItem) => {
         setSelectedItem(item);
         setImagePreview(item.image);
@@ -62,12 +77,43 @@ export const AddBookBoxList = () => {
 
     const closeModal = () => { setSelectedItem(null); setImagePreview(null); };
 
-    const handleToggleStatus = async (item: BookBoxListItem) => {
-        const newStatus = item.status === "available" ? "reserved" : "available";
-        const { error } = await firestoreUpdateDocument("bookBox", item.id, { status: newStatus });
+    // Passe un livre disponible au statut "réservé" et enregistre l'emprunteur en BDD,
+    // indispensable pour que canRelease puisse identifier la personne autorisée à le libérer
+    const handleReserve = async (item: BookBoxListItem) => {
+        const reservedBy = {
+            userId: authUser.uid,
+            displayName:
+                authUser.userDocument?.displayName ||
+                authUser.displayName ||
+                "Membre",
+        };
+        const { error } = await firestoreUpdateDocument("bookBox", item.id, {
+            status: "reserved",
+            reservedBy,
+        });
         if (error) { toast.error(error.message); return; }
-        setItems((prev) => prev.map((b) => b.id === item.id ? { ...b, status: newStatus } : b));
-        toast.success(`Statut mis à jour : ${newStatus === "available" ? "Disponible" : "Réservé"}`);
+        setItems((prev) =>
+            prev.map((b) => b.id === item.id ? { ...b, status: "reserved" as const, reservedBy } : b),
+        );
+        toast.success("Statut mis à jour : Réservé");
+    };
+
+    // Remet un livre à disposition (statut "available") et efface l'emprunteur.
+    // Réservé à l'admin ou à la personne qui a emprunté le livre.
+    const handleRelease = async (item: BookBoxListItem) => {
+        if (!canRelease(item)) {
+            toast.error("Vous n'avez pas la permission de remettre ce livre à disposition.");
+            return;
+        }
+        const { error } = await firestoreUpdateDocument("bookBox", item.id, {
+            status: "available",
+            reservedBy: null,
+        });
+        if (error) { toast.error(error.message); return; }
+        setItems((prev) =>
+            prev.map((b) => b.id === item.id ? { ...b, status: "available" as const, reservedBy: null } : b),
+        );
+        toast.success("Statut mis à jour : Disponible");
     };
 
     const onSubmitEdit: SubmitHandler<AddBookBoxItemFormFieldsType> = async (formData) => {
@@ -196,13 +242,27 @@ export const AddBookBoxList = () => {
                                         {statusLabel(item.status)}
                                     </span>
                                 </div>
-                                <div className="flex gap-2 flex-shrink-0">
-                                    <Button type="button" size="small" action={() => handleToggleStatus(item)}>
-                                        {item.status === "available" ? "Réserver" : "Remettre dispo"}
-                                    </Button>
-                                    <Button type="button" size="small" action={() => handleOpenEdit(item)}>
-                                        Modifier
-                                    </Button>
+                                {/* ml-auto pousse les boutons à droite même quand certains sont absents */}
+                                <div className="flex gap-2 flex-shrink-0 ml-auto">
+                                    {/* Réserver : visible uniquement si le livre est disponible */}
+                                    {item.status === "available" && (
+                                        <Button type="button" size="small" action={() => handleReserve(item)}>
+                                            Réserver
+                                        </Button>
+                                    )}
+                                    {/* Remettre à disposition : visible uniquement si le livre est réservé
+                                        ET que l'utilisateur est admin ou l'emprunteur du livre */}
+                                    {item.status === "reserved" && canRelease(item) && (
+                                        <Button type="button" size="small" action={() => handleRelease(item)}>
+                                            Remettre dispo
+                                        </Button>
+                                    )}
+                                    {/* Modifier : visible uniquement pour l'admin ou celui qui a ajouté le livre */}
+                                    {canEdit(item) && (
+                                        <Button type="button" size="small" action={() => handleOpenEdit(item)}>
+                                            Modifier
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         ))}

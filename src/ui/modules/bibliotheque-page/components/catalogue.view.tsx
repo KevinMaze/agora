@@ -416,7 +416,7 @@ export const CatalogueView = () => {
                                         setSelectedAuthors([]);
                                         setSelectedYears([]);
                                     }}
-                                    className="text-sm text-gray-300 hover:underline cursor-pointer text-primary"
+                                    className="text-sm hover:underline cursor-pointer text-primary"
                                 >
                                     Réinitialiser les filtres
                                 </div>
@@ -442,7 +442,7 @@ export const CatalogueView = () => {
                 )}
             </Container>
 
-                <Modal
+            <Modal
                 isOpen={!!selectedBook}
                 onClose={() => {
                     setIsReviewModalOpen(false);
