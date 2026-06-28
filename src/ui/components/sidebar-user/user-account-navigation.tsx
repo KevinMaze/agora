@@ -68,7 +68,7 @@ export const UserAccountNavigation = () => {
         {
             href: "/mon_espace/add-book-box",
             label: "Boite aux livres",
-            allowedRoles: [ADMIN],
+            allowedRoles: [ADMIN, REGISTERED],
         },
     ];
 
