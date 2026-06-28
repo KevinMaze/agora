@@ -27,8 +27,12 @@ export const BoxBookView = () => {
 
     useEffect(() => {
         getBookBoxItems()
-            .then((data) => setAllBooks(data.filter((b) => !!b.id) as BookBoxItem[]))
-            .catch(() => toast.error("Impossible de charger les livres de la boîte."))
+            .then((data) =>
+                setAllBooks(data.filter((b) => !!b.id) as BookBoxItem[]),
+            )
+            .catch(() =>
+                toast.error("Impossible de charger les livres de la boîte."),
+            )
             .finally(() => setIsLoading(false));
     }, []);
 
@@ -72,7 +76,9 @@ export const BoxBookView = () => {
 
         setAllBooks((prev) =>
             prev.map((b) =>
-                b.id === bookId ? { ...b, status: "reserved" as const, reservedBy } : b,
+                b.id === bookId
+                    ? { ...b, status: "reserved" as const, reservedBy }
+                    : b,
             ),
         );
         setIsReserving(false);
@@ -86,11 +92,16 @@ export const BoxBookView = () => {
             reservedBy: null,
         });
 
-        if (error) { toast.error("Erreur lors de la remise à disposition."); return; }
+        if (error) {
+            toast.error("Erreur lors de la remise à disposition.");
+            return;
+        }
 
         setAllBooks((prev) =>
             prev.map((b) =>
-                b.id === bookId ? { ...b, status: "available" as const, reservedBy: null } : b,
+                b.id === bookId
+                    ? { ...b, status: "available" as const, reservedBy: null }
+                    : b,
             ),
         );
         toast.success("Livre remis à disposition.");
@@ -109,14 +120,18 @@ export const BoxBookView = () => {
             </Typo>
 
             <div className="flex flex-col items-center">
-                <Typo variant="para" color="other" className="mb-8 text-center max-w-2xl">
+                <Typo
+                    variant="para"
+                    color="other"
+                    className="mb-8 text-center max-w-2xl"
+                >
                     Découvrez les trésors laissés par la communauté. Cliquez sur
                     un livre pour voir les détails et le réserver. Premier
                     arrivé, premier servi !
                 </Typo>
 
                 {/* Conteneur "Boîte" */}
-                <div className="relative w-full max-w-5xl mx-auto bg-foreground/20 border-2 border-primary/30 rounded-3xl p-8 sm:p-12 min-h-[400px] shadow-inner">
+                <div className="relative w-full max-w-5xl mx-auto bg-foreground border-2 border-primary rounded-3xl p-8 sm:p-12 min-h-[400px] shadow-2xl">
                     {isLoading ? (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner size="large" />
@@ -130,11 +145,23 @@ export const BoxBookView = () => {
                                         layoutId={`book-card-${book.id}`}
                                         onClick={() => handleBookClick(book)}
                                         className="cursor-pointer relative group w-32 sm:w-40 aspect-[2/3] shadow-md hover:shadow-xl transition-shadow duration-300"
-                                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                                        initial={{
+                                            opacity: 0,
+                                            scale: 0.8,
+                                            y: 20,
+                                        }}
                                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                                        exit={{ opacity: 0, scale: 0.5, filter: "blur(10px)" }}
+                                        exit={{
+                                            opacity: 0,
+                                            scale: 0.5,
+                                            filter: "blur(10px)",
+                                        }}
                                         whileHover={{ y: -10, scale: 1.05 }}
-                                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 300,
+                                            damping: 25,
+                                        }}
                                     >
                                         <Image
                                             src={book.image || DefaultImage}
@@ -154,7 +181,12 @@ export const BoxBookView = () => {
 
                     {!isLoading && availableBooks.length === 0 && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center opacity-50">
-                            <Typo variant="title" component="h3" color="primary" className="text-xl mb-2">
+                            <Typo
+                                variant="title"
+                                component="h3"
+                                color="primary"
+                                className="text-xl mb-2"
+                            >
                                 La boîte est vide
                             </Typo>
                             <Typo variant="para" color="other">
@@ -190,18 +222,31 @@ export const BoxBookView = () => {
                                         />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <Typo variant="para" weight="bold" className="truncate">
+                                        <Typo
+                                            variant="para"
+                                            weight="bold"
+                                            className="truncate"
+                                        >
                                             {book.title}
                                         </Typo>
-                                        <Typo variant="para" color="other" className="text-sm">
+                                        <Typo
+                                            variant="para"
+                                            color="other"
+                                            className="text-sm"
+                                        >
                                             {book.author}
                                         </Typo>
                                         <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium bg-[var(--color-danger)]/20 text-[var(--color-danger)]">
                                             Indisponible
                                         </span>
                                         {book.reservedBy && (
-                                            <Typo variant="para" color="secondary" className="text-xs mt-1">
-                                                Réservé par {book.reservedBy.displayName}
+                                            <Typo
+                                                variant="para"
+                                                color="secondary"
+                                                className="text-xs mt-1"
+                                            >
+                                                Réservé par{" "}
+                                                {book.reservedBy.displayName}
                                             </Typo>
                                         )}
                                     </div>
@@ -209,7 +254,9 @@ export const BoxBookView = () => {
                                         <Button
                                             type="button"
                                             size="small"
-                                            action={() => handleRelease(book.id)}
+                                            action={() =>
+                                                handleRelease(book.id)
+                                            }
                                         >
                                             Remettre à disposition
                                         </Button>
@@ -269,7 +316,11 @@ export const BoxBookView = () => {
                                         >
                                             {selectedBook.title}
                                         </Typo>
-                                        <Typo variant="para" color="secondary" className="text-lg italic mb-6">
+                                        <Typo
+                                            variant="para"
+                                            color="secondary"
+                                            className="text-lg italic mb-6"
+                                        >
                                             {selectedBook.author}
                                         </Typo>
                                     </motion.div>
@@ -279,7 +330,11 @@ export const BoxBookView = () => {
                                         animate={{ opacity: 1 }}
                                         transition={{ delay: 0.2 }}
                                     >
-                                        <Typo variant="para" color="other" className="leading-relaxed mb-8">
+                                        <Typo
+                                            variant="para"
+                                            color="other"
+                                            className="leading-relaxed mb-8"
+                                        >
                                             {selectedBook.description}
                                         </Typo>
                                     </motion.div>
@@ -293,11 +348,19 @@ export const BoxBookView = () => {
                                     <Button
                                         size="large"
                                         isLoading={isReserving}
-                                        action={() => handleReserve(selectedBook.id)}
+                                        action={() =>
+                                            handleReserve(selectedBook.id)
+                                        }
                                     >
-                                        {authUser ? "Réserver ce livre" : "S'enregistrer pour réserver"}
+                                        {authUser
+                                            ? "Réserver ce livre"
+                                            : "S'enregistrer pour réserver"}
                                     </Button>
-                                    <Typo variant="para" color="other" className="text-xs text-center mt-3">
+                                    <Typo
+                                        variant="para"
+                                        color="other"
+                                        className="text-xs text-center mt-3"
+                                    >
                                         {authUser
                                             ? "* En réservant, le livre sera retiré de la boîte pour vous."
                                             : "* Tu dois être inscrit pour réserver un livre."}
