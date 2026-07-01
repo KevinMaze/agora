@@ -22,7 +22,7 @@ export const Footer = () => {
             </div>
             <Container>
                 <div className="items-center flex flex-col gap-6 py-10">
-                    <Link href="/">
+                    <Link href="/" className="my-shadow">
                         <Logo size="large" />
                     </Link>
 
