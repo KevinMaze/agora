@@ -12,7 +12,17 @@
 
   /* Pour surcharger les polices par défaut de Tailwind */
   --font-sans-custom: 'Montserrat', sans-serif;
-  --font-serif-custom: 'Cinzel Decorative', serif; 
+  --font-serif-custom: 'Cinzel Decorative', serif;
+
+  /* Définition du shadow */
+  --my-shadow : 1px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+/*layer utilities réutilisable*/
+@layer utilities {
+  .my-shadow {
+    @apply shadow-(--my-shadow) rounded-3xl
+  }
 }
 
 @theme {
@@ -26,9 +36,6 @@
   --color-tier: var(--color-tier);
   --color-other: var(--color-other);
   --color-danger: var(--color-danger);
-
-
-  --myshadow: 10px 5px 20px rgba(74, 74, 74, 1);
 
   /* Polices (ici on surcharge les polices par défaut `sans` et `serif`) */
   --font-sans: var(--font-sans-custom);

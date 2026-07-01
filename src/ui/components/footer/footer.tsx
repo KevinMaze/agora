@@ -11,8 +11,8 @@ export const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <div className="relative overflow-hidden bg-background shadow-[var(--myshadow)] z-30">
-            <div className="absolute top-0 bottom-0 left-0 w-[125px] hidden md:block">
+        <div className="relative overflow-hidden bg-background inset-shadow-[0_10px_15px_-8px_rgba(0,0,0,0.7)] z-30">
+            <div className="absolute top-0 bottom-0 left-0 w-[125px] hidden lg:block">
                 <Image
                     src={Colonne}
                     alt="Colonne gauche"
@@ -29,7 +29,7 @@ export const Footer = () => {
                     <Typo
                         variant="para"
                         color="primary"
-                        className="text-center text-sm md:text-[16px] uppercase flex flex-col md:flex-row gap-2 md:gap-4"
+                        className="text-center text-sm xl:text-[16px] uppercase flex flex-col lg:flex-row gap-2 md:gap-4"
                         weight="bold"
                     >
                         <Link href="/">Accueil</Link> -{" "}
@@ -44,7 +44,7 @@ export const Footer = () => {
                     <Typo
                         variant="para"
                         color="secondary"
-                        className="flex flex-col md:flex-row items-center gap-4 text-sm md:text-[16px]"
+                        className="flex flex-col md:flex-row items-center gap-4 text-sm lg:text-[16px]"
                     >
                         Suivez l`Agora sur
                         <Link
@@ -70,7 +70,7 @@ export const Footer = () => {
                             <FaXTwitter /> Twitter(soon)
                         </Link>
                     </Typo>
-                    <div className="w-full border border-secondary"></div>
+                    <div className="w-90 border border-secondary"></div>
                     <Typo
                         variant="para"
                         color="secondary"
@@ -85,7 +85,7 @@ export const Footer = () => {
                     </Typo>
                 </div>
             </Container>
-            <div className="absolute top-0 bottom-0 right-0 w-[125px] hidden md:block">
+            <div className="absolute top-0 bottom-0 right-0 w-[125px] hidden lg:block">
                 <Image
                     src={Colonne}
                     alt="Colonne droite"

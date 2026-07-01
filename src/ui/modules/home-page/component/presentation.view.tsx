@@ -92,7 +92,7 @@ export const PresentationView = () => {
                         alt="Stairway"
                         width={1280}
                         height={1920}
-                        className="w-sm lg:w-lg shadow-[var(--myshadow)] rounded-3xl border-1 border-primary"
+                        className="w-sm lg:w-lg my-shadow border-1 border-primary"
                     />
                 </div>
                 <Image
@@ -100,7 +100,7 @@ export const PresentationView = () => {
                     alt="Coffee"
                     width={1920}
                     height={1280}
-                    className="w-lg shadow-[var(--myshadow)] rounded-3xl absolute -z-1 border-1 border-primary hidden lg:block"
+                    className="w-lg my-shadow absolute -z-1 border-1 border-primary hidden lg:block"
                     style={{
                         transform: `translateY(${
                             offsetY * -0.04

@@ -7,7 +7,7 @@ import { FaArrowRight } from "react-icons/fa";
 export const BookBox = () => {
     return (
         <Container className="mt-60 mb-50">
-            <div className="relative h-90 sm:h-100 lg:h-150 w-full overflow-hidden rounded-3xl border-primary border-1">
+            <div className="relative h-90 sm:h-100 lg:h-150 w-full overflow-hidden my-shadow border-primary border-1">
                 <div className="absolute inset-0 opacity-20">
                     <Image
                         src="/assets/images/book_box.jpg"
