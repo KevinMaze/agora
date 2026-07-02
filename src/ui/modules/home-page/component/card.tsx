@@ -17,7 +17,7 @@ export const Card: React.FC<CardProps> = ({ image, alt, title, onClick }) => {
 
     return (
         <motion.div
-            className="relative min-w-[300px] h-[200px] sm:h-[300px] lg:h-[400px] flex justify-center items-center border-primary border-1 my-shadow overflow-hidden shadow-[var(--myshadow)] cursor-pointer"
+            className="relative min-w-[300px] h-[200px] sm:h-[300px] lg:h-[400px] flex justify-center items-center border-primary border-1 my-shadow overflow-hidden cursor-pointer"
             onHoverStart={() => setShowOverlay(true)}
             onHoverEnd={() => setShowOverlay(false)}
             onClick={onClick}

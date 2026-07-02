@@ -102,7 +102,7 @@ export const GalleryGazette = ({ galleryImages, isLoading }: Props) => {
                                             width={"320"}
                                             height={"1"}
                                             alt={picture.alt}
-                                            className="rounded-2xl min-w-[120px] sm:min-w-[220px] lg:min-w-[220px] h-full object-cover"
+                                            className="my-shadow min-w-[120px] sm:min-w-[220px] lg:min-w-[220px] h-full object-cover"
                                         />
                                     </div>
                                 ))}

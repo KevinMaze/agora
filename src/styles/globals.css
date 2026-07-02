@@ -18,11 +18,10 @@
   --my-shadow : 1px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-/*layer utilities réutilisable*/
-@layer utilities {
-  .my-shadow {
-    @apply shadow-(--my-shadow) rounded-3xl
-  }
+/* Utility réutilisable — @utility (et non @layer utilities) pour que
+   Tailwind puisse la combiner avec des variants (hover:, sm:, etc.) */
+@utility my-shadow {
+  @apply shadow-(--my-shadow) rounded-3xl;
 }
 
 @theme {

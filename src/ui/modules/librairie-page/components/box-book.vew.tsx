@@ -131,7 +131,7 @@ export const BoxBookView = () => {
                 </Typo>
 
                 {/* Conteneur "Boîte" */}
-                <div className="relative w-full max-w-5xl mx-auto bg-foreground border-2 border-primary rounded-3xl p-8 sm:p-12 min-h-[400px] shadow-2xl">
+                <div className="relative w-full max-w-5xl mx-auto bg-foreground border-2 border-primary p-8 sm:p-12 min-h-[400px] my-shadow">
                     {isLoading ? (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner size="large" />

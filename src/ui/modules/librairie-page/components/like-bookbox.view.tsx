@@ -72,7 +72,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                 >
                     Coup de coeur de la boite aux livres
                 </Typo>
-                <div className="p-10 bg-foreground mx-auto h-full rounded-3xl shadow-2xl max-w-6xl">
+                <div className="p-10 bg-foreground mx-auto h-full my-shadow max-w-6xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
                         {/* Colonne de l'image */}
                         <div className="relative rounded-lg">
@@ -219,7 +219,7 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
                         Aucun avis disponible pour le moment.
                     </Typo>
                 ) : (
-                    <div className="p-10 bg-foreground mx-auto rounded-3xl shadow-2xl max-w-6xl">
+                    <div className="p-10 bg-foreground mx-auto my-shadow max-w-6xl">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
                             {/* Colonne gauche : auteur + méta */}
                             <div className="space-y-5 flex flex-col">

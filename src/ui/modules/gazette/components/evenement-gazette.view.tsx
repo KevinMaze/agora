@@ -5,9 +5,10 @@ import { Typo } from "@/ui/design-system/typography";
 import Image from "next/image";
 import ErrorImage from "@/../public/assets/images/404.png";
 import { Spinner } from "@/ui/design-system/spinner";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { FaFacebook, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { ModalEvenement } from "@/ui/design-system/modal-evenement";
 
 interface Props {
     evenements: EvenementDocument[];
@@ -84,7 +85,10 @@ const SocialLinks = ({ event }: { event: EvenementDocument }) => {
     if (links.length === 0) return null;
 
     return (
-        <div className="flex flex-row flex-wrap gap-4 justify-center sm:justify-start mt-4">
+        <div
+            className="flex flex-row flex-wrap gap-4 justify-center sm:justify-start mt-4"
+            onClick={(e) => e.stopPropagation()}
+        >
             {links.map((social) => (
                 <a
                     key={social.label}
@@ -102,6 +106,9 @@ const SocialLinks = ({ event }: { event: EvenementDocument }) => {
 };
 
 export const EvenementGazette = ({ evenements, isLoading }: Props) => {
+    const [selectedEvent, setSelectedEvent] =
+        useState<EvenementDocument | null>(null);
+
     const { currentEvent, upcomingEvents } = useMemo(() => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -126,7 +133,7 @@ export const EvenementGazette = ({ evenements, isLoading }: Props) => {
 
     return (
         <div className="m-10">
-            <div className="p-3 bg-foreground h-full rounded-lg shadow-lg lg:max-w-8xl flex flex-col justify-center items-center xl:flex-row xl:items-start xl:justify-around">
+            <div className="p-3 bg-foreground h-full my-shadow lg:max-w-8xl flex flex-col justify-center items-center xl:flex-row xl:items-start xl:justify-around">
                 {isLoading ? (
                     <div className="py-20">
                         <Spinner size="large" />
@@ -227,7 +234,10 @@ export const EvenementGazette = ({ evenements, isLoading }: Props) => {
                                     {upcomingEvents.map((event, index) => (
                                         <div
                                             key={event.id || index}
-                                            className="flex flex-col sm:flex-row justify-center sm:justify-start items-start gap-4"
+                                            className="flex flex-col sm:flex-row justify-center sm:justify-start items-start gap-4 cursor-pointer hover:my-shadow"
+                                            onClick={() =>
+                                                setSelectedEvent(event)
+                                            }
                                         >
                                             <div className="relative w-40 h-40 sm:w-52 sm:h-52 shrink-0">
                                                 <Image
@@ -273,6 +283,12 @@ export const EvenementGazette = ({ evenements, isLoading }: Props) => {
                 )}
             </div>
             <div className="border-1 border-primary w-60 sm:w-180 lg:w-250 m-auto mt-10" />
+
+            <ModalEvenement
+                isOpen={!!selectedEvent}
+                onClose={() => setSelectedEvent(null)}
+                event={selectedEvent}
+            />
         </div>
     );
 };

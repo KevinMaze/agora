@@ -23,21 +23,21 @@ export const HeaderGazette = () => {
                         <Image
                             src={Women}
                             alt="Femme"
-                            className="absolute h-40 sm:h-50 lg:h-70 w-auto rounded-tl-xl"
+                            className="absolute h-40 sm:h-50 lg:h-70 w-auto rounded-tl-xl my-shadow"
                         />
                     </div>
                     <div className="absolute top-[150px] sm:top-[180px] lg:top-[180px] sm:left-[200px] lg:left-[300px] left-[50] z-1">
                         <Image
                             src={Paper}
                             alt="Papier"
-                            className="h-40 sm:h-90 lg:h-100 w-auto rounded-br-xl rounded-tl-xl border-1 border-primary"
+                            className="h-40 sm:h-90 lg:h-100 w-auto rounded-br-xl rounded-tl-xl border-1 border-primary my-shadow"
                         />
                     </div>
                     <div className="absolute top-[300px] sm:top-[450px] lg:top-[450px] left-[120px] sm:left-[400px] lg:left-[790px] z-0">
                         <Image
                             src={Men}
                             alt="Homme"
-                            className="h-40 sm:h-90 lg:h-70 w-auto rounded-br-xl"
+                            className="h-40 sm:h-90 lg:h-70 w-auto rounded-br-xl my-shadow"
                         />
                     </div>
                 </div>

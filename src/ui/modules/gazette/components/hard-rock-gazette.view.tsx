@@ -103,7 +103,7 @@ export const HardRockCoffee = ({ concerts, isLoading }: Props) => {
                 concerts trimestriels (19h/22h)
             </Typo>
 
-            <div className="flex flex-col lg:flex-row bg-foreground rounded-2xl items-center">
+            <div className="flex flex-col lg:flex-row bg-foreground items-center my-shadow">
                 <div className="w-full flex flex-col justify-center mt-15">
                     {isLoading ? (
                         <div className="py-20 flex justify-center">
