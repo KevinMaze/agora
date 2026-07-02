@@ -9,21 +9,23 @@ interface CardProps {
     image: string | StaticImageData;
     alt: string;
     title: string;
+    onClick?: () => void;
 }
 
-export const Card: React.FC<CardProps> = ({ image, alt, title }) => {
+export const Card: React.FC<CardProps> = ({ image, alt, title, onClick }) => {
     const [showOverlay, setShowOverlay] = useState(false);
 
     return (
         <motion.div
-            className="relative min-w-[300px] h-[200px] sm:h-[300px] lg:h-[400px] flex justify-center items-center border-primary border-1 rounded-3xl overflow-hidden shadow-[var(--myshadow)]"
+            className="relative min-w-[300px] h-[200px] sm:h-[300px] lg:h-[400px] flex justify-center items-center border-primary border-1 my-shadow overflow-hidden shadow-[var(--myshadow)] cursor-pointer"
             onHoverStart={() => setShowOverlay(true)}
             onHoverEnd={() => setShowOverlay(false)}
+            onClick={onClick}
         >
             <AnimatePresence>
                 {showOverlay && (
                     <motion.div
-                        className="absolute inset-0 z-10 flex justify-center items-center rounded-3xl backdrop-blur-sm"
+                        className="absolute inset-0 z-10 flex justify-center items-center rounded-3xl backdrop-blur-md"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}

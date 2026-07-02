@@ -6,12 +6,13 @@ import { Typo } from "@/ui/design-system/typography";
 import { Card } from "./card";
 import useMeasure from "react-use-measure";
 import { animate, motion, useMotionValue } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/ui/design-system/button";
 import { FaArrowRight } from "react-icons/fa";
 import { Spinner } from "@/ui/design-system/spinner";
 import ErrorImage from "@/../public/assets/images/404.png";
 import { toast } from "react-toastify";
+import { ModalEvenement } from "@/ui/design-system/modal-evenement";
 
 interface Props {
     eventsLimit?: number;
@@ -61,26 +62,21 @@ export const EvenementView = ({ eventsLimit = 5 }: Props) => {
                     (a._eventDate?.getTime() || 0) -
                     (b._eventDate?.getTime() || 0),
             )
-            .slice(0, eventsLimit)
-            .map((event) => ({
-                src: event.image || ErrorImage,
-                alt: event.title || "Événement Agora",
-                title: event.title || "Événement",
-            }));
+            .slice(0, eventsLimit);
     }, [eventsFromDb, eventsLimit]);
 
-    const fastDuration = 25;
-    const slowDuration = 75;
+    const [selectedEvent, setSelectedEvent] =
+        useState<EvenementDocument | null>(null);
 
-    const [duration, setDuration] = useState(fastDuration);
+    const fastDuration = 25;
+    /** Vitesse relative appliquée au survol (1 = normale, plus petit = plus lent). */
+    const hoverSpeedFactor = 0.3;
 
     const [viewportRef, { width: viewportWidth }] = useMeasure();
     const [setRef, { width: singleSetWidth }] = useMeasure();
 
     const xTranslation = useMotionValue(0);
-
-    const [mustFinish, setMustFinish] = useState(false);
-    const [rerender, setRerender] = useState(false);
+    const controlsRef = useRef<ReturnType<typeof animate> | null>(null);
 
     const repeatCount = useMemo(() => {
         if (events.length === 0) return 0;
@@ -90,45 +86,46 @@ export const EvenementView = ({ eventsLimit = 5 }: Props) => {
         return Math.max(2, Math.ceil(minTrackWidth / singleSetWidth) + 1);
     }, [events.length, viewportWidth, singleSetWidth]);
 
+    // Anime la translation en boucle infinie. On ne recrée l'animation que
+    // lorsque la largeur d'un set change — le survol/la modale se contentent
+    // d'ajuster `speed`/`pause` sur l'animation en cours pour ne jamais la
+    // réinitialiser à sa position de départ.
     useEffect(() => {
         if (events.length === 0 || singleSetWidth === 0) return;
 
         xTranslation.set(0);
-        let controls;
         const finalPosition = -singleSetWidth;
 
-        if (mustFinish) {
-            controls = animate(
-                xTranslation,
-                [xTranslation.get(), finalPosition],
-                {
-                    ease: "linear",
-                    duration:
-                        duration * (1 - xTranslation.get() / finalPosition),
-                    onComplete: () => {
-                        setMustFinish(false);
-                        setRerender(!rerender);
-                    },
-                },
-            );
-        } else {
-            controls = animate(xTranslation, [0, finalPosition], {
-                ease: "linear",
-                duration: duration,
-                repeat: Infinity,
-                repeatType: "loop",
-                repeatDelay: 0,
-            });
-        }
+        const controls = animate(xTranslation, [0, finalPosition], {
+            ease: "linear",
+            duration: fastDuration,
+            repeat: Infinity,
+            repeatType: "loop",
+            repeatDelay: 0,
+        });
+        controlsRef.current = controls;
+
         return controls.stop;
-    }, [
-        xTranslation,
-        singleSetWidth,
-        duration,
-        rerender,
-        mustFinish,
-        events.length,
-    ]);
+    }, [xTranslation, singleSetWidth, events.length]);
+
+    // Met en pause le carrousel tant que la modale de détail est ouverte,
+    // et le relance à la fermeture, sans toucher à sa position.
+    useEffect(() => {
+        if (!controlsRef.current) return;
+
+        if (selectedEvent) {
+            controlsRef.current.pause();
+        } else {
+            controlsRef.current.play();
+        }
+    }, [selectedEvent]);
+
+    const handleHoverStart = () => {
+        if (controlsRef.current) controlsRef.current.speed = hoverSpeedFactor;
+    };
+    const handleHoverEnd = () => {
+        if (controlsRef.current) controlsRef.current.speed = 1;
+    };
 
     return (
         <div className="mt-60 mb-20 flex flex-col justify-center">
@@ -163,14 +160,8 @@ export const EvenementView = ({ eventsLimit = 5 }: Props) => {
                     <motion.div
                         className="absolute flex"
                         style={{ x: xTranslation }}
-                        onHoverStart={() => {
-                            setMustFinish(true);
-                            setDuration(slowDuration);
-                        }}
-                        onHoverEnd={() => {
-                            setMustFinish(true);
-                            setDuration(fastDuration);
-                        }}
+                        onHoverStart={handleHoverStart}
+                        onHoverEnd={handleHoverEnd}
                     >
                         {Array.from({ length: repeatCount }).map((_, group) => (
                             <div
@@ -180,10 +171,11 @@ export const EvenementView = ({ eventsLimit = 5 }: Props) => {
                             >
                                 {events.map((event, index) => (
                                     <Card
-                                        image={event.src}
+                                        image={event.image || ErrorImage}
                                         key={`${group}-${index}`}
-                                        alt={event.alt}
-                                        title={event.title}
+                                        alt={event.title || "Événement Agora"}
+                                        title={event.title || "Événement"}
+                                        onClick={() => setSelectedEvent(event)}
                                     />
                                 ))}
                             </div>
@@ -202,6 +194,12 @@ export const EvenementView = ({ eventsLimit = 5 }: Props) => {
                     Evènements
                 </Button>
             </div>
+
+            <ModalEvenement
+                isOpen={!!selectedEvent}
+                onClose={() => setSelectedEvent(null)}
+                event={selectedEvent}
+            />
         </div>
     );
 };
