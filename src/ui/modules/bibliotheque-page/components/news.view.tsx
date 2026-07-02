@@ -5,6 +5,7 @@ import { Container } from "@/ui/components/container";
 import { useEffect, useState } from "react";
 import { BookDocument } from "@/types/book";
 import { getLastTenBooks } from "@/api/books";
+import { getBookRatings } from "@/api/reviews";
 import { Spinner } from "@/ui/design-system/spinner";
 import { Modal } from "@/ui/design-system/modal";
 import { ModalAvis } from "@/ui/design-system/modal-avis";
@@ -15,6 +16,7 @@ export const News = () => {
     const { authUser } = useAuth();
     const router = useRouter();
     const [books, setBooks] = useState<BookDocument[]>([]);
+    const [ratings, setRatings] = useState<Record<string, number>>({});
     const [isLoading, setIsLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<BookDocument | null>(null);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -23,8 +25,12 @@ export const News = () => {
         const fetchBooks = async () => {
             setIsLoading(true);
             try {
-                const data = await getLastTenBooks();
+                const [data, bookRatings] = await Promise.all([
+                    getLastTenBooks(),
+                    getBookRatings(),
+                ]);
                 setBooks(data);
+                setRatings(bookRatings);
             } catch (error) {
                 console.error(
                     "Erreur lors de la récupération des nouveautés:",
@@ -60,6 +66,7 @@ export const News = () => {
                             title={book.title}
                             autor={book.autor}
                             description={book.description}
+                            rating={book.id ? ratings[book.id] : undefined}
                             onAction={() => setSelectedBook(book)}
                         />
                     ))}

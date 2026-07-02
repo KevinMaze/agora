@@ -7,6 +7,7 @@ import { Typo } from "@/ui/design-system/typography";
 import { Card } from "@/ui/design-system/card";
 import Error from "@/../public/assets/images/404.png";
 import { getLastFiveFavoriteBooks } from "@/api/books";
+import { getBookRatings } from "@/api/reviews";
 import { BookDocument } from "@/types/book";
 import { useEffect, useState } from "react";
 import { Spinner } from "@/ui/design-system/spinner";
@@ -20,6 +21,7 @@ export const Like = () => {
     const { authUser } = useAuth();
     const router = useRouter();
     const [books, setBooks] = useState<BookDocument[]>([]);
+    const [ratings, setRatings] = useState<Record<string, number>>({});
     const [isLoading, setIsLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<BookDocument | null>(null);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -28,8 +30,12 @@ export const Like = () => {
         const fetchFavoriteBooks = async () => {
             setIsLoading(true);
             try {
-                const data = await getLastFiveFavoriteBooks();
+                const [data, bookRatings] = await Promise.all([
+                    getLastFiveFavoriteBooks(),
+                    getBookRatings(),
+                ]);
                 setBooks(data);
+                setRatings(bookRatings);
             } catch (error) {
                 console.error(
                     "Erreur lors de la récupération des coups de coeur:",
@@ -97,6 +103,9 @@ export const Like = () => {
                                 title={book.title}
                                 autor={book.autor}
                                 description={book.description}
+                                rating={
+                                    book.id ? ratings[book.id] : undefined
+                                }
                                 onAction={() => setSelectedBook(book)}
                             />
                         ))}

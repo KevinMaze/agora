@@ -11,6 +11,7 @@ import { Spinner } from "@/ui/design-system/spinner";
 import { FaChevronDown } from "react-icons/fa";
 import clsx from "clsx";
 import { getBooks } from "@/api/books";
+import { getBookRatings } from "@/api/reviews";
 import { toast } from "react-toastify";
 import error from "@/../public/assets/images/404.png";
 import { Modal } from "@/ui/design-system/modal";
@@ -24,6 +25,7 @@ type CatalogueBook = BookDocument & {
     id?: string;
     src?: string | StaticImageData;
     alt?: string;
+    rating?: number;
 };
 
 export const CatalogueView = () => {
@@ -46,7 +48,10 @@ export const CatalogueView = () => {
         const fetchBooks = async () => {
             setIsLoading(true);
             try {
-                const booksFromDb = await getBooks();
+                const [booksFromDb, ratings] = await Promise.all([
+                    getBooks(),
+                    getBookRatings(),
+                ]);
                 // Adapter les données de Firestore pour le composant
                 const formattedBooks = booksFromDb.map((book) => {
                     // Gestion sécurisée de la date (Timestamp Firestore ou string/date standard)
@@ -67,6 +72,7 @@ export const CatalogueView = () => {
                         category: book.category,
                         releaseYear: releaseYear,
                         src: book.image || error, // Image de secours
+                        rating: book.id ? ratings[book.id] : undefined,
                     };
                 });
                 setAllBooks(formattedBooks);

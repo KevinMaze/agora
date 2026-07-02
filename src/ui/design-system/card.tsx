@@ -64,10 +64,10 @@ export const Card: React.FC<CarProps> = ({
     return (
         <>
             <div
-                className="w-72 h-96 border-2 border-primary rounded-bl-3xl rounded-t-3xl overflow-hidden group bg-white/5"
+                className="w-72 h-96 border-2 border-primary overflow-hidden group bg-white/5 my-shadow"
                 onClick={handleCardTap}
             >
-                <div className="relative h-full w-full rounded-bl-3xl rounded-t-3xl overflow-hidden">
+                <div className="relative h-full w-full overflow-hidden my-shadow">
                     {isLoading && (
                         <div className="absolute inset-0 flex items-center justify-center">
                             <Spinner />
@@ -116,49 +116,45 @@ export const Card: React.FC<CarProps> = ({
                                     {autor}
                                 </div>
 
-                                {/* Note en étoiles : calcul full/demi/vide selon la valeur décimale */}
-                                <div className="mt-2 flex items-center gap-1">
-                                    {[0, 1, 2, 3, 4].map((index) => {
-                                        const value =
-                                            typeof rating === "number"
-                                                ? rating
-                                                : 0;
-                                        const full =
-                                            value >= index + 1 ||
-                                            Math.floor(value) >= index + 1;
-                                        const half =
-                                            !full &&
-                                            typeof rating === "number" &&
-                                            value >= index + 0.5;
-                                        if (full) {
+                                {/* Note en étoiles : masquée si aucun rating en bdd, sinon calcul full/demi/vide selon la valeur décimale */}
+                                {typeof rating === "number" && (
+                                    <div className="mt-2 flex items-center gap-1">
+                                        {[0, 1, 2, 3, 4].map((index) => {
+                                            const full =
+                                                rating >= index + 1 ||
+                                                Math.floor(rating) >=
+                                                    index + 1;
+                                            const half =
+                                                !full &&
+                                                rating >= index + 0.5;
+                                            if (full) {
+                                                return (
+                                                    <FaStar
+                                                        key={index}
+                                                        className="text-primary text-[11px]"
+                                                    />
+                                                );
+                                            }
+                                            if (half) {
+                                                return (
+                                                    <FaStarHalfStroke
+                                                        key={index}
+                                                        className="text-primary text-[11px]"
+                                                    />
+                                                );
+                                            }
                                             return (
-                                                <FaStar
+                                                <FaRegStar
                                                     key={index}
-                                                    className="text-primary text-[11px]"
+                                                    className="text-secondary/40 text-[11px]"
                                                 />
                                             );
-                                        }
-                                        if (half) {
-                                            return (
-                                                <FaStarHalfStroke
-                                                    key={index}
-                                                    className="text-primary text-[11px]"
-                                                />
-                                            );
-                                        }
-                                        return (
-                                            <FaRegStar
-                                                key={index}
-                                                className="text-secondary/40 text-[11px]"
-                                            />
-                                        );
-                                    })}
-                                    {typeof rating === "number" && (
+                                        })}
                                         <span className="ml-1 text-[10px] text-primary">
                                             {rating.toFixed(1)}
                                         </span>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
 
                                 {description && (
                                     <p
