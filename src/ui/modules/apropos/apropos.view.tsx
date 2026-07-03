@@ -8,7 +8,7 @@ export const AproposView = () => {
         <>
             <AproposHeaderView />
             <AproposPresentationView />
-            <AproposFormView />
+            {/* <AproposFormView /> */}
             <MapView />
         </>
     );

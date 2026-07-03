@@ -3,7 +3,6 @@ import Image from "next/image";
 import Men from "@/../public/assets/images/men.jpg";
 import Women from "@/../public/assets/images/women.jpg";
 import Paper from "@/../public/assets/images/paper.jpg";
-import { Container } from "@/ui/components/container";
 
 export const HeaderGazette = () => {
     return (

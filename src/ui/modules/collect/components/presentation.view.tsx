@@ -19,11 +19,11 @@ export const PresentationCollect = () => {
                     <Image
                         src={BookBox}
                         alt="Image de la box"
-                        className="border-1 border-primary rounded-3xl"
+                        className="border-1 border-primary my-shadow"
                         objectFit="cover"
                     />
                 </div>
-                <div className="lg:absolute z-1 bg-foreground/80 p-5 rounded-3xl lg:top-10 lg:w-[800px] lg:left-90 text-center">
+                <div className="lg:absolute z-1 bg-foreground/80 p-5 rounded-3xl lg:top-10 lg:w-[800px] lg:left-90 text-center backdrop-blur-sm">
                     <Typo
                         variant="para"
                         components="p"
