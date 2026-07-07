@@ -64,7 +64,7 @@ export const SoldCollect = ({ boxes, isLoading }: Props) => {
             >
                 Les Box du moments
             </Typo>
-            <div className="z-1 bg-foreground/80 p-5 rounded-3xl lg:w-[900px] text-center">
+            <div className="z-1 bg-foreground/80 p-5 rounded-3xl lg:w-[900px] text-center my-shadow">
                 <Typo
                     variant="para"
                     weight="normal"

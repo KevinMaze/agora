@@ -15,18 +15,23 @@ const Images = [
     "/assets/images/05.png",
 ];
 
+// gap-4 between images/sets; enough set copies so wide viewports never run
+// out of images to display before the loop resets.
+const GAP = 16;
+const SET_COPIES = 4;
+
 export const AproposPresentationView = () => {
     const fastDuration = 25;
     const slowDuration = 75;
     const [duration, setDuration] = useState(fastDuration);
-    const [ref, { width }] = useMeasure();
+    const [setRef, { width: setWidth }] = useMeasure();
     const xTranslation = useMotionValue(0);
     const [mustFinish, setMustFinish] = useState(false);
     const [rerender, setRerender] = useState(false);
 
     useEffect(() => {
         let controls;
-        const finalPosition = -width / 2 - 8;
+        const finalPosition = -(setWidth + GAP);
 
         if (mustFinish) {
             controls = animate(
@@ -52,14 +57,13 @@ export const AproposPresentationView = () => {
             });
         }
         return controls.stop;
-    }, [xTranslation, width, duration, rerender, mustFinish]);
+    }, [xTranslation, setWidth, duration, rerender, mustFinish]);
 
     return (
         <div className="mt-50">
             <div className="relative h-[500px] w-full overflow-hidden py-8">
                 <motion.div
                     className="absolute flex gap-4"
-                    ref={ref}
                     style={{ x: xTranslation }}
                     onHoverStart={() => {
                         setMustFinish(true);
@@ -70,30 +74,39 @@ export const AproposPresentationView = () => {
                         setDuration(fastDuration);
                     }}
                 >
-                    {[...Images, ...Images].map((imagePath, index) => (
-                        <div
-                            key={index}
-                            className="w-[200px] h-[200px] relative"
-                        >
-                            <Image
-                                src={imagePath}
-                                key={index}
-                                alt={imagePath}
-                                layout="fill"
-                                objectFit="cover"
-                                objectPosition="center"
-                                priority
-                                className="rounded-2xl"
-                            />
-                        </div>
-                    ))}
+                    {Array.from({ length: SET_COPIES }).map(
+                        (_, setIndex) => (
+                            <div
+                                key={setIndex}
+                                ref={setIndex === 0 ? setRef : undefined}
+                                className="flex gap-4"
+                            >
+                                {Images.map((imagePath, index) => (
+                                    <div
+                                        key={index}
+                                        className="w-[200px] h-[200px] relative"
+                                    >
+                                        <Image
+                                            src={imagePath}
+                                            alt={imagePath}
+                                            layout="fill"
+                                            objectFit="cover"
+                                            objectPosition="center"
+                                            priority
+                                            className="rounded-2xl"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        ),
+                    )}
                 </motion.div>
             </div>
 
             <Container className="flex flex-col lg:flex-row items-center justify-center gap-5">
                 {/* Section Images */}
                 <div className="relative w-full lg:w-1/2 h-[300px] lg:h-[400px] flex justify-center items-center ">
-                    <div className="absolute h-full w-48 sm:w-60 -rotate-12 left-[calc(50%-10rem)] sm:left-[calc(50%-15rem)]">
+                    <div className="absolute h-full w-48 sm:w-60 -rotate-12 left-[calc(50%-10rem)] sm:left-[calc(50%-15rem)] my-shadow">
                         <Image
                             src={Jordan}
                             alt="Image de Jordan"
@@ -103,7 +116,7 @@ export const AproposPresentationView = () => {
                             objectFit="cover"
                         />
                     </div>
-                    <div className="absolute h-full w-48 sm:w-60 rotate-12 right-[calc(50%-10rem)] sm:right-[calc(50%-15rem)]">
+                    <div className="absolute h-full w-48 sm:w-60 rotate-12 right-[calc(50%-10rem)] sm:right-[calc(50%-15rem)] my-shadow">
                         <Image
                             src={Lavinia}
                             alt="Image de Lavinia"
@@ -116,12 +129,12 @@ export const AproposPresentationView = () => {
                 </div>
 
                 {/* Section Texte */}
-                <div className="w-full lg:w-1/2 bg-foreground/80 rounded-2xl p-5 lg:p-10">
+                <div className="w-full lg:w-1/2 bg-foreground/80 rounded-2xl p-5 lg:p-10 my-shadow">
                     <Typo
                         variant="para"
                         component="p"
                         weight="normal"
-                        color="other"
+                        color="primary"
                         className="text-[14px] sm:text-[16px]"
                     >
                         Nous c’est Jordan et Lavinia, associés dans la vie
