@@ -19,14 +19,15 @@ export const AdminAccountView = ({
     return (
         <div className="grid">
             <div className="flex justify-center pt-20 pb-20">
-                <Typo variant="title" components="h1" className="text-2xl">
-                    Bienvenue dans votre espace personnel.
+                <Typo
+                    variant="title"
+                    components="h1"
+                    className="text-2xl uppercase underline underline-offset-4"
+                >
+                    Bienvenue dans votre espace personnel
                 </Typo>
             </div>
             <Container className="sm">
-                <Typo variant="para" components="p" className="text-center">
-                    Ma carte utilisateur
-                </Typo>
                 <CardAdmin
                     imagePreview={imagePreview}
                     uploadProgress={uploadProgress}

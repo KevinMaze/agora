@@ -8,7 +8,7 @@ export const CallToActionSidebar = () => {
             <Typo
                 variant="para"
                 components="p"
-                className="text-center underline uppercase"
+                className="text-center underline uppercase underline-offset-4"
             >
                 Bienvenue dans ton espace personnel
             </Typo>

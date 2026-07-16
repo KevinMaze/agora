@@ -69,6 +69,7 @@ export const AdminAccountAvisList = () => {
     const [statusFilter, setStatusFilter] = useState<
         "all" | "pending" | "approved" | "rejected"
     >("all");
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentRating, setCurrentRating] = useState(0);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
@@ -192,13 +193,15 @@ export const AdminAccountAvisList = () => {
         toast.success("Avis modifié avec succès.");
     };
 
-    const handleDelete = async () => {
+    const handleDeleteClick = () => {
         if (!selectedReview) return;
+        setIsConfirmDeleteOpen(true);
+    };
 
-        const confirmed = window.confirm(
-            "Veux-tu vraiment supprimer cet avis ? Cette action est irréversible.",
-        );
-        if (!confirmed) return;
+    const closeDeleteConfirm = () => setIsConfirmDeleteOpen(false);
+
+    const confirmDelete = async () => {
+        if (!selectedReview) return;
 
         setIsDeleting(true);
         const { error } = await firestoreDeleteDocument(
@@ -216,6 +219,7 @@ export const AdminAccountAvisList = () => {
             prev.filter((review) => review.id !== selectedReview.id),
         );
         setIsDeleting(false);
+        setIsConfirmDeleteOpen(false);
         toast.success("Avis supprimé.");
         closeModal();
     };
@@ -454,13 +458,47 @@ export const AdminAccountAvisList = () => {
                                 <Button
                                     type="button"
                                     variant="danger"
-                                    action={handleDelete}
+                                    action={handleDeleteClick}
                                     isLoading={isDeleting}
                                 >
                                     Supprimer l'avis
                                 </Button>
                             }
                         />
+                    </div>
+                )}
+            </Modal>
+
+            <Modal
+                isOpen={isConfirmDeleteOpen}
+                onClose={closeDeleteConfirm}
+                title="Supprimer définitivement ?"
+                contentClassName="!h-auto"
+            >
+                {selectedReview && (
+                    <div className="space-y-5 text-center">
+                        <Typo variant="para" component="p">
+                            Veux-tu vraiment supprimer cet avis sur «{" "}
+                            {selectedReview.bookTitle || "ce livre"} » ? Cette
+                            action est irréversible.
+                        </Typo>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button
+                                type="button"
+                                variant="danger"
+                                action={confirmDelete}
+                                isLoading={isDeleting}
+                            >
+                                Oui, supprimer
+                            </Button>
+                            <Button
+                                type="button"
+                                action={closeDeleteConfirm}
+                                disabled={isDeleting}
+                            >
+                                Non
+                            </Button>
+                        </div>
                     </div>
                 )}
             </Modal>

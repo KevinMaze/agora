@@ -1,12 +1,9 @@
 "use client";
 
 import { getBooks } from "@/api/books";
-import {
-    firestoreDeleteDocument,
-    firestoreUpdateDocument,
-} from "@/api/firestore";
+import { firestoreUpdateDocument } from "@/api/firestore";
 import { deleteBookWithRelations } from "@/api/deleteBook";
-import { storageDeleteFileByUrl, storageUploadFile } from "@/api/storage";
+import { storageUploadFile } from "@/api/storage";
 import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
 import { AddBookFormFieldsType } from "@/types/form";
@@ -53,6 +50,7 @@ export const AddBookList = () => {
     const [imagePreview, setImagePreview] = useState<
         string | ArrayBuffer | null
     >(null);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
     const { value: isDeleting, setValue: setIsDeleting } = useToggle();
 
@@ -187,13 +185,15 @@ export const AddBookList = () => {
         closeModal();
     };
 
-    const handleDelete = async () => {
+    const handleDeleteClick = () => {
         if (!selectedBook) return;
+        setIsConfirmDeleteOpen(true);
+    };
 
-        const confirmed = window.confirm(
-            "Veux-tu vraiment supprimer ce livre et TOUS les avis associés ? Cette action est irréversible.",
-        );
-        if (!confirmed) return;
+    const closeDeleteConfirm = () => setIsConfirmDeleteOpen(false);
+
+    const confirmDelete = async () => {
+        if (!selectedBook) return;
 
         setIsDeleting(true);
 
@@ -218,6 +218,7 @@ export const AddBookList = () => {
         }
 
         setIsDeleting(false);
+        setIsConfirmDeleteOpen(false);
         closeModal();
     };
 
@@ -383,13 +384,48 @@ export const AddBookList = () => {
                                 <Button
                                     type="button"
                                     variant="danger"
-                                    action={handleDelete}
+                                    action={handleDeleteClick}
                                     isLoading={isDeleting}
                                 >
                                     Supprimer le livre
                                 </Button>
                             }
                         />
+                    </div>
+                )}
+            </Modal>
+
+            <Modal
+                isOpen={isConfirmDeleteOpen}
+                onClose={closeDeleteConfirm}
+                title="Supprimer définitivement ?"
+                contentClassName="!h-auto"
+            >
+                {selectedBook && (
+                    <div className="space-y-5 text-center">
+                        <Typo variant="para" component="p">
+                            Veux-tu vraiment supprimer «{" "}
+                            {selectedBook.title} » ? Le livre, son image et
+                            tous les avis associés seront définitivement
+                            supprimés. Cette action est irréversible.
+                        </Typo>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button
+                                type="button"
+                                variant="danger"
+                                action={confirmDelete}
+                                isLoading={isDeleting}
+                            >
+                                Oui, supprimer
+                            </Button>
+                            <Button
+                                type="button"
+                                action={closeDeleteConfirm}
+                                disabled={isDeleting}
+                            >
+                                Non
+                            </Button>
+                        </div>
                     </div>
                 )}
             </Modal>

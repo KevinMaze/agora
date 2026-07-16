@@ -17,8 +17,7 @@ export const AddRecipeAdminAccountView = ({
     return (
         <div className="flex flex-col items-center justify-center pt-20 pb-40 gap-5">
             <Typo variant="para" component="p">
-                Bienvenue dans votre espace personnel. Ici vous pouvez ajouter
-                des recettes dans votre carte.
+                Ici vous pouvez ajouter des recettes dans votre carte.
             </Typo>
             <AddRecipeForm
                 form={form}

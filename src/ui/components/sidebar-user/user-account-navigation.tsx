@@ -63,7 +63,7 @@ export const UserAccountNavigation = () => {
         {
             href: "/mon_espace/users",
             label: "Espace membres",
-            allowedRoles: [REGISTERED, ADMIN],
+            allowedRoles: [REGISTERED],
         },
         {
             href: "/mon_espace/add-book-box",
@@ -79,7 +79,11 @@ export const UserAccountNavigation = () => {
     return (
         <div className="border-2 border-primary bg-foreground overflow-hidden my-shadow mt-5">
             <div className="flex flex-col w-full py-4">
-                <Typo variant="para" color="primary">
+                <Typo
+                    variant="para"
+                    color="primary"
+                    className="uppercase underline-offset-4"
+                >
                     {visibleNavItems.map((item) => (
                         <ActiveLink
                             key={item.href}

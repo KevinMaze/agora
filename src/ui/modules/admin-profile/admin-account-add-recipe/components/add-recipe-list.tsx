@@ -54,6 +54,7 @@ export const AddRecipeList = () => {
     const [imagePreview, setImagePreview] = useState<
         string | ArrayBuffer | null
     >(null);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
     const { value: isDeleting, setValue: setIsDeleting } = useToggle();
 
@@ -184,13 +185,15 @@ export const AddRecipeList = () => {
         closeModal();
     };
 
-    const handleDelete = async () => {
+    const handleDeleteClick = () => {
         if (!selectedRecipe) return;
+        setIsConfirmDeleteOpen(true);
+    };
 
-        const confirmed = window.confirm(
-            "Veux-tu vraiment supprimer cette recette ? Cette action est irréversible.",
-        );
-        if (!confirmed) return;
+    const closeDeleteConfirm = () => setIsConfirmDeleteOpen(false);
+
+    const confirmDelete = async () => {
+        if (!selectedRecipe) return;
 
         setIsDeleting(true);
         if (selectedRecipe.image) {
@@ -222,6 +225,7 @@ export const AddRecipeList = () => {
         setRecipes((prev) => prev.filter((recipe) => recipe.id !== selectedRecipe.id));
         toast.success("Recette supprimée.");
         setIsDeleting(false);
+        setIsConfirmDeleteOpen(false);
         closeModal();
     };
 
@@ -382,13 +386,47 @@ export const AddRecipeList = () => {
                             <Button
                                 type="button"
                                 variant="danger"
-                                action={handleDelete}
+                                action={handleDeleteClick}
                                 isLoading={isDeleting}
                             >
                                 Supprimer la recette
                             </Button>
                         }
                     />
+                )}
+            </Modal>
+
+            <Modal
+                isOpen={isConfirmDeleteOpen}
+                onClose={closeDeleteConfirm}
+                title="Supprimer définitivement ?"
+                contentClassName="!h-auto"
+            >
+                {selectedRecipe && (
+                    <div className="space-y-5 text-center">
+                        <Typo variant="para" component="p">
+                            Veux-tu vraiment supprimer «{" "}
+                            {selectedRecipe.title} » ? Cette action est
+                            irréversible.
+                        </Typo>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button
+                                type="button"
+                                variant="danger"
+                                action={confirmDelete}
+                                isLoading={isDeleting}
+                            >
+                                Oui, supprimer
+                            </Button>
+                            <Button
+                                type="button"
+                                action={closeDeleteConfirm}
+                                disabled={isDeleting}
+                            >
+                                Non
+                            </Button>
+                        </div>
+                    </div>
                 )}
             </Modal>
         </div>

@@ -21,7 +21,7 @@ export const CardAdmin = ({
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="border-2 border-primary rounded-xl p-5 w-full space-y-4"
+            className="border-1 border-primary p-5 w-full space-y-4 my-shadow"
         >
             <div className="flex items-center justify-between py-5">
                 <UploadAvatar

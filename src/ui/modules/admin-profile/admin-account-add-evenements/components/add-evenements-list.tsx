@@ -46,6 +46,7 @@ export const AddEvenementsList = () => {
     const [imagePreview, setImagePreview] = useState<
         string | ArrayBuffer | null
     >(null);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
     const { value: isDeleting, setValue: setIsDeleting } = useToggle();
 
@@ -175,13 +176,15 @@ export const AddEvenementsList = () => {
         closeModal();
     };
 
-    const handleDelete = async () => {
+    const handleDeleteClick = () => {
         if (!selectedEvent) return;
+        setIsConfirmDeleteOpen(true);
+    };
 
-        const confirmed = window.confirm(
-            "Veux-tu vraiment supprimer cet événement ? Cette action est irréversible.",
-        );
-        if (!confirmed) return;
+    const closeDeleteConfirm = () => setIsConfirmDeleteOpen(false);
+
+    const confirmDelete = async () => {
+        if (!selectedEvent) return;
 
         setIsDeleting(true);
         if (selectedEvent.image) {
@@ -213,6 +216,7 @@ export const AddEvenementsList = () => {
         setEvents((prev) => prev.filter((event) => event.id !== selectedEvent.id));
         toast.success("Événement supprimé.");
         setIsDeleting(false);
+        setIsConfirmDeleteOpen(false);
         closeModal();
     };
 
@@ -375,13 +379,47 @@ export const AddEvenementsList = () => {
                             <Button
                                 type="button"
                                 variant="danger"
-                                action={handleDelete}
+                                action={handleDeleteClick}
                                 isLoading={isDeleting}
                             >
                                 Supprimer l'événement
                             </Button>
                         }
                     />
+                )}
+            </Modal>
+
+            <Modal
+                isOpen={isConfirmDeleteOpen}
+                onClose={closeDeleteConfirm}
+                title="Supprimer définitivement ?"
+                contentClassName="!h-auto"
+            >
+                {selectedEvent && (
+                    <div className="space-y-5 text-center">
+                        <Typo variant="para" component="p">
+                            Veux-tu vraiment supprimer «{" "}
+                            {selectedEvent.title} » ? Cette action est
+                            irréversible.
+                        </Typo>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button
+                                type="button"
+                                variant="danger"
+                                action={confirmDelete}
+                                isLoading={isDeleting}
+                            >
+                                Oui, supprimer
+                            </Button>
+                            <Button
+                                type="button"
+                                action={closeDeleteConfirm}
+                                disabled={isDeleting}
+                            >
+                                Non
+                            </Button>
+                        </div>
+                    </div>
                 )}
             </Modal>
         </div>

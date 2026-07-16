@@ -2,6 +2,8 @@ import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
 import { Button } from "@/ui/design-system/button";
 import { Spinner } from "@/ui/design-system/spinner";
+import { Modal } from "@/ui/design-system/modal";
+import { ModalAvis } from "@/ui/design-system/modal-avis";
 import Image from "next/image";
 import DefaultImage from "@/../public/assets/images/404.png";
 import { useEffect, useState } from "react";
@@ -24,6 +26,8 @@ export const BoxBookView = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedBook, setSelectedBook] = useState<BookBoxItem | null>(null);
     const [isReserving, setIsReserving] = useState(false);
+    const [releasedBook, setReleasedBook] = useState<BookBoxItem | null>(null);
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
     useEffect(() => {
         getBookBoxItems()
@@ -97,6 +101,9 @@ export const BoxBookView = () => {
             return;
         }
 
+        const releasedItem =
+            allBooks.find((b) => b.id === bookId) || null;
+
         setAllBooks((prev) =>
             prev.map((b) =>
                 b.id === bookId
@@ -105,6 +112,12 @@ export const BoxBookView = () => {
             ),
         );
         toast.success("Livre remis à disposition.");
+        setReleasedBook(releasedItem);
+    };
+
+    const closeReleaseReviewPrompt = () => {
+        setReleasedBook(null);
+        setIsReviewModalOpen(false);
     };
 
     return (
@@ -371,6 +384,45 @@ export const BoxBookView = () => {
                     </div>
                 )}
             </AnimatePresence>
+
+            <Modal
+                isOpen={!!releasedBook && !isReviewModalOpen}
+                onClose={closeReleaseReviewPrompt}
+                title="Laisser un avis ?"
+                contentClassName="!h-auto"
+            >
+                {releasedBook && (
+                    <div className="space-y-5 text-center">
+                        <Typo variant="para" component="p">
+                            Veux-tu laisser un avis sur «{" "}
+                            {releasedBook.title} » ?
+                        </Typo>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button
+                                type="button"
+                                action={() => setIsReviewModalOpen(true)}
+                            >
+                                Oui, laisser un avis
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="danger"
+                                action={closeReleaseReviewPrompt}
+                            >
+                                Non merci
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </Modal>
+
+            <ModalAvis
+                isOpen={isReviewModalOpen}
+                onClose={closeReleaseReviewPrompt}
+                bookId={releasedBook?.id}
+                bookTitle={releasedBook?.title}
+                bookImage={releasedBook?.image}
+            />
         </Container>
     );
 };

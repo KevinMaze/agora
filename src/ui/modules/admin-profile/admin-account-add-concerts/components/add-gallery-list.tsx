@@ -4,6 +4,7 @@ import { getGalleryImages } from "@/api/gallery";
 import { firestoreDeleteDocument } from "@/api/firestore";
 import { storageDeleteFileByUrl } from "@/api/storage";
 import { Button } from "@/ui/design-system/button";
+import { Modal } from "@/ui/design-system/modal";
 import { Spinner } from "@/ui/design-system/spinner";
 import { Typo } from "@/ui/design-system/typography";
 import Image from "next/image";
@@ -24,6 +25,7 @@ export const AddGalleryList = ({ refreshSignal = 0 }: Props) => {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
     const fetchGallery = async () => {
         setIsLoading(true);
@@ -55,7 +57,14 @@ export const AddGalleryList = ({ refreshSignal = 0 }: Props) => {
         );
     };
 
-    const handleDeleteSelection = async () => {
+    const handleDeleteSelectionClick = () => {
+        if (selectedIds.length === 0) return;
+        setIsConfirmDeleteOpen(true);
+    };
+
+    const closeDeleteConfirm = () => setIsConfirmDeleteOpen(false);
+
+    const confirmDeleteSelection = async () => {
         if (selectedIds.length === 0) return;
 
         const selectedItems = galleryImages.filter((item) =>
@@ -99,6 +108,7 @@ export const AddGalleryList = ({ refreshSignal = 0 }: Props) => {
         );
         setSelectedIds([]);
         setIsDeleting(false);
+        setIsConfirmDeleteOpen(false);
         toast.success("Selection supprimee de la galerie.");
     };
 
@@ -153,12 +163,44 @@ export const AddGalleryList = ({ refreshSignal = 0 }: Props) => {
                     type="button"
                     variant={selectedIds.length > 0 ? "danger" : "disabled"}
                     disabled={selectedIds.length === 0}
-                    action={handleDeleteSelection}
+                    action={handleDeleteSelectionClick}
                     isLoading={isDeleting}
                 >
                     Supprimer la selection
                 </Button>
             </div>
+
+            <Modal
+                isOpen={isConfirmDeleteOpen}
+                onClose={closeDeleteConfirm}
+                title="Supprimer definitivement ?"
+                contentClassName="!h-auto"
+            >
+                <div className="space-y-5 text-center">
+                    <Typo variant="para" component="p">
+                        Veux-tu vraiment supprimer les {selectedIds.length}{" "}
+                        image(s) selectionnee(s) ? Cette action est
+                        irreversible.
+                    </Typo>
+                    <div className="flex items-center justify-center gap-4">
+                        <Button
+                            type="button"
+                            variant="danger"
+                            action={confirmDeleteSelection}
+                            isLoading={isDeleting}
+                        >
+                            Oui, supprimer
+                        </Button>
+                        <Button
+                            type="button"
+                            action={closeDeleteConfirm}
+                            disabled={isDeleting}
+                        >
+                            Non
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };

@@ -1,46 +1,46 @@
 import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
-import Image, { StaticImageData } from "next/image";
-import React, { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import DefaultImage from "@/../public/assets/images/404.png";
-import Dune from "@/../public/assets/images/dune.jpg";
 import { Button } from "@/ui/design-system/button";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { Avatar } from "@/ui/design-system/avatar";
 import { StarRating } from "@/ui/design-system/star-rating";
 import { Spinner } from "@/ui/design-system/spinner";
 import { getLastApprovedReviews } from "@/api/reviews";
+import { getBestBookBoxItem } from "@/api/book-box";
 import { ReviewDocument } from "@/types/review";
+import { BookBoxItemDocument } from "@/types/book-box-item";
 import { Timestamp } from "firebase/firestore";
 
-interface LikeBookBoxViewProps {
-    title?: string;
-    src?: string | StaticImageData;
-    alt?: string;
-    publicationDate?: string;
-    author?: string;
-    synopsis?: string;
-}
+const formatAddedDate = (
+    date?: BookBoxItemDocument["creation_date"],
+): string => {
+    if (!date) return "—";
+    if (date instanceof Timestamp)
+        return date.toDate().toLocaleDateString("fr-FR");
+    return new Date(date as string | Date).toLocaleDateString("fr-FR");
+};
 
-export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
-    title,
-    src = DefaultImage,
-    alt,
-    publicationDate,
-    author,
-    synopsis,
-}) => {
-    const staticRatings = useMemo(() => [0, 4, 0, 3, 4, 0, 2], []);
-    const averageRating = useMemo(() => {
-        if (staticRatings.length === 0) return 0;
-        return (
-            staticRatings.reduce((acc, r) => acc + r, 0) / staticRatings.length
-        );
-    }, [staticRatings]);
+export const LikeBookBoxView: React.FC = () => {
+    const [bestBook, setBestBook] = useState<BookBoxItemDocument | null>(null);
+    const [bestBookRating, setBestBookRating] = useState(0);
+    const [isLoadingBestBook, setIsLoadingBestBook] = useState(true);
 
     const [reviews, setReviews] = useState<ReviewDocument[]>([]);
     const [isLoadingReviews, setIsLoadingReviews] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        getBestBookBoxItem()
+            .then((result) => {
+                setBestBook(result?.item || null);
+                setBestBookRating(result?.averageRating || 0);
+            })
+            .catch(() => setBestBook(null))
+            .finally(() => setIsLoadingBestBook(false));
+    }, []);
 
     useEffect(() => {
         getLastApprovedReviews(3)
@@ -62,142 +62,147 @@ export const LikeBookBoxView: React.FC<LikeBookBoxViewProps> = ({
 
     return (
         <>
-            <Container className="py-20">
-                <Typo
-                    variant="title"
-                    components="h2"
-                    weight="bold"
-                    color="primary"
-                    className="mb-10 uppercase text-[14px] sm:text-3xl lg:text-4xl text-center sm:text-end"
-                >
-                    Coup de coeur de la boite aux livres
-                </Typo>
-                <div className="p-10 bg-foreground mx-auto h-full my-shadow max-w-6xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
-                        {/* Colonne de l'image */}
-                        <div className="relative rounded-lg">
-                            <Image
-                                src={Dune}
-                                alt={alt || "Book Cover"}
-                                className="rounded-lg object-cover w-full h-full "
-                            />
-                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-foreground/80 px-4 py-2 rounded-md">
-                                <Typo
-                                    variant="para"
-                                    components="p"
-                                    weight="bold"
-                                    color="primary"
-                                    className="sm:text-xl sm:text-center"
-                                >
-                                    Note des lecteurs :
-                                </Typo>
-                                <StarRating rating={averageRating} />
+            {(isLoadingBestBook || bestBook) && (
+                <Container className="py-20">
+                    <Typo
+                        variant="title"
+                        components="h2"
+                        weight="bold"
+                        color="primary"
+                        className="mb-10 uppercase text-[14px] sm:text-3xl lg:text-4xl text-center sm:text-end"
+                    >
+                        Coup de coeur de la boite aux livres
+                    </Typo>
+                    <div className="p-10 bg-foreground mx-auto h-full my-shadow max-w-6xl">
+                        {isLoadingBestBook || !bestBook ? (
+                            <div className="flex justify-center items-center h-40">
+                                <Spinner size="large" />
                             </div>
-                        </div>
-                        {/* Colonne des détails */}
-                        <div className="space-y-5 flex flex-col">
-                            <div>
-                                <Typo
-                                    variant="title"
-                                    components="h2"
-                                    weight="bold"
-                                    color="primary"
-                                    className="uppercase text-xl sm:text-2xl lg:text-3xl underline "
-                                >
-                                    Titre
-                                </Typo>
-                                <Typo
-                                    variant="para"
-                                    color="other"
-                                    className="mt-2  lg:text-xl"
-                                >
-                                    Dune
-                                </Typo>
-                            </div>
+                        ) : (
+                            <>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full overflow-y-auto">
+                                    {/* Colonne de l'image */}
+                                    <div className="relative my-shadow">
+                                        <Image
+                                            src={bestBook.image || DefaultImage}
+                                            alt={bestBook.title}
+                                            width={600}
+                                            height={800}
+                                            className="object-cover w-full h-full my-shadow"
+                                        />
+                                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-foreground/80 px-4 py-2 rounded-md">
+                                            <Typo
+                                                variant="para"
+                                                components="p"
+                                                weight="bold"
+                                                color="primary"
+                                                className="sm:text-xl sm:text-center"
+                                            >
+                                                Note des lecteurs :
+                                            </Typo>
+                                            <StarRating
+                                                rating={bestBookRating}
+                                            />
+                                        </div>
+                                    </div>
+                                    {/* Colonne des détails */}
+                                    <div className="space-y-5 flex flex-col">
+                                        <div>
+                                            <Typo
+                                                variant="title"
+                                                components="h2"
+                                                weight="bold"
+                                                color="primary"
+                                                className="uppercase text-xl sm:text-2xl lg:text-3xl underline "
+                                            >
+                                                Titre
+                                            </Typo>
+                                            <Typo
+                                                variant="para"
+                                                color="other"
+                                                className="mt-2  lg:text-xl"
+                                            >
+                                                {bestBook.title}
+                                            </Typo>
+                                        </div>
 
-                            <div>
-                                <Typo
-                                    variant="title"
-                                    components="h2"
-                                    weight="bold"
-                                    color="primary"
-                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
-                                >
-                                    Date de parution
-                                </Typo>
-                                <Typo
-                                    variant="para"
-                                    color="other"
-                                    className="mt-2  lg:text-xl"
-                                >
-                                    1965
-                                </Typo>
-                            </div>
+                                        <div>
+                                            <Typo
+                                                variant="title"
+                                                components="h2"
+                                                weight="bold"
+                                                color="primary"
+                                                className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                                            >
+                                                Ajouté à la boîte le
+                                            </Typo>
+                                            <Typo
+                                                variant="para"
+                                                color="other"
+                                                className="mt-2  lg:text-xl"
+                                            >
+                                                {formatAddedDate(
+                                                    bestBook.creation_date,
+                                                )}
+                                            </Typo>
+                                        </div>
 
-                            <div>
-                                <Typo
-                                    variant="title"
-                                    components="h2"
-                                    weight="bold"
-                                    color="primary"
-                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
-                                >
-                                    Auteur
-                                </Typo>
-                                <Typo
-                                    variant="para"
-                                    color="other"
-                                    className="mt-2  lg:text-xl"
-                                >
-                                    Frank Herbert
-                                </Typo>
-                            </div>
-                            <div>
-                                <Typo
-                                    variant="title"
-                                    components="h2"
-                                    weight="bold"
-                                    color="primary"
-                                    className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
-                                >
-                                    Synopsis
-                                </Typo>
-                                <Typo
-                                    variant="para"
-                                    color="other"
-                                    className="mt-2  lg:text-xl"
-                                >
-                                    Set in the distant future amidst a huge
-                                    interstellar empire, Dune tells the story of
-                                    young Paul Atreides, whose noble family
-                                    accepts the stewardship of the desert planet
-                                    Arrakis. While the planet is an inhospitable
-                                    and sparsely populated world, it is the only
-                                    source of melange, or &quot;the spice&quot;,
-                                    a drug that extends life and enhances mental
-                                    abilities. As melange is the most valuable
-                                    substance in the universe, control of
-                                    Arrakis is a coveted and dangerous
-                                    undertaking.
-                                </Typo>
-                            </div>
-                        </div>
+                                        <div>
+                                            <Typo
+                                                variant="title"
+                                                components="h2"
+                                                weight="bold"
+                                                color="primary"
+                                                className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                                            >
+                                                Auteur
+                                            </Typo>
+                                            <Typo
+                                                variant="para"
+                                                color="other"
+                                                className="mt-2  lg:text-xl"
+                                            >
+                                                {bestBook.author}
+                                            </Typo>
+                                        </div>
+                                        <div>
+                                            <Typo
+                                                variant="title"
+                                                components="h2"
+                                                weight="bold"
+                                                color="primary"
+                                                className="mb-2 uppercase text-xl sm:text-2xl lg:text-3xl underline"
+                                            >
+                                                Synopsis
+                                            </Typo>
+                                            <Typo
+                                                variant="para"
+                                                color="other"
+                                                className="mt-2  lg:text-xl"
+                                            >
+                                                {bestBook.description}
+                                            </Typo>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mt-10 flex justify-center sm:justify-end">
+                                    <Button
+                                        variant="primary"
+                                        size="large"
+                                        icon={{ icon: BsArrowRight }}
+                                        iconPosition="left"
+                                        action={() => {
+                                            console.log("Emprunter le livre");
+                                        }}
+                                    >
+                                        Emprunter
+                                    </Button>
+                                </div>
+                            </>
+                        )}
                     </div>
-                    <div className="mt-10 flex justify-center sm:justify-end">
-                        <Button
-                            variant="primary"
-                            size="large"
-                            icon={{ icon: BsArrowRight }}
-                            iconPosition="left"
-                            action={() => {
-                                console.log("Emprunter le livre");
-                            }}
-                        >
-                            Emprunter
-                        </Button>
-                    </div>
-                </div>
-            </Container>
+                </Container>
+            )}
 
             <Container className="py-20 border-b-2 border-primary">
                 <Typo

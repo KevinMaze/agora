@@ -45,6 +45,7 @@ export const AddConcertList = () => {
     const [selectedImageIndexes, setSelectedImageIndexes] = useState<number[]>(
         [],
     );
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
     const { value: isDeleting, setValue: setIsDeleting } = useToggle();
 
@@ -315,13 +316,15 @@ export const AddConcertList = () => {
         closeModal();
     };
 
-    const handleDelete = async () => {
+    const handleDeleteClick = () => {
         if (!selectedConcert) return;
+        setIsConfirmDeleteOpen(true);
+    };
 
-        const confirmed = window.confirm(
-            "Veux-tu vraiment supprimer ce concert ? Cette action est irreversible.",
-        );
-        if (!confirmed) return;
+    const closeDeleteConfirm = () => setIsConfirmDeleteOpen(false);
+
+    const confirmDelete = async () => {
+        if (!selectedConcert) return;
 
         setIsDeleting(true);
         const imageUrlsToDelete = Array.from(new Set(selectedConcert.images || []));
@@ -360,6 +363,7 @@ export const AddConcertList = () => {
         );
         toast.success("Concert supprime.");
         setIsDeleting(false);
+        setIsConfirmDeleteOpen(false);
         closeModal();
     };
 
@@ -512,7 +516,7 @@ export const AddConcertList = () => {
                                 <Button
                                     type="button"
                                     variant="danger"
-                                    action={handleDelete}
+                                    action={handleDeleteClick}
                                     isLoading={isDeleting}
                                 >
                                     Supprimer le concert
@@ -520,6 +524,40 @@ export const AddConcertList = () => {
                             </div>
                         }
                     />
+                )}
+            </Modal>
+
+            <Modal
+                isOpen={isConfirmDeleteOpen}
+                onClose={closeDeleteConfirm}
+                title="Supprimer définitivement ?"
+                contentClassName="!h-auto"
+            >
+                {selectedConcert && (
+                    <div className="space-y-5 text-center">
+                        <Typo variant="para" component="p">
+                            Veux-tu vraiment supprimer «{" "}
+                            {selectedConcert.title} » ? Cette action est
+                            irréversible.
+                        </Typo>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button
+                                type="button"
+                                variant="danger"
+                                action={confirmDelete}
+                                isLoading={isDeleting}
+                            >
+                                Oui, supprimer
+                            </Button>
+                            <Button
+                                type="button"
+                                action={closeDeleteConfirm}
+                                disabled={isDeleting}
+                            >
+                                Non
+                            </Button>
+                        </div>
+                    </div>
                 )}
             </Modal>
         </div>

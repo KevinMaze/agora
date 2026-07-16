@@ -3,6 +3,7 @@
 import { getUsers } from "@/api/users";
 import {
     firestoreDeleteDocument,
+    firestoreDeleteDocumentsByQuery,
     firestoreUpdateDocument,
 } from "@/api/firestore";
 import { storageDeleteFileByUrl } from "@/api/storage";
@@ -101,6 +102,7 @@ export const AddUsersList = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [isEditing, setIsEditing] = useState(false);
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
     const { value: isDeleting, setValue: setIsDeleting } = useToggle();
 
@@ -226,13 +228,15 @@ export const AddUsersList = () => {
         toast.success("Utilisateur modifiÃ© avec succÃ¨s.");
     };
 
-    const handleDelete = async () => {
+    const handleDeleteClick = () => {
         if (!selectedUser) return;
+        setIsConfirmDeleteOpen(true);
+    };
 
-        const confirmed = window.confirm(
-            "Veux-tu vraiment supprimer cet utilisateur ? Cette action est irrÃ©versible.",
-        );
-        if (!confirmed) return;
+    const closeDeleteConfirm = () => setIsConfirmDeleteOpen(false);
+
+    const confirmDelete = async () => {
+        if (!selectedUser) return;
 
         setIsDeleting(true);
         if (selectedUser.photoURL) {
@@ -252,6 +256,20 @@ export const AddUsersList = () => {
             }
         }
 
+        const userUid = selectedUser.uid || selectedUser.id;
+        const { error: reviewsError } = await firestoreDeleteDocumentsByQuery(
+            "bookReviews",
+            "userId",
+            userUid,
+        );
+        if (reviewsError) {
+            setIsDeleting(false);
+            toast.error(
+                `Impossible de supprimer les avis de l'utilisateur: ${reviewsError.message}`,
+            );
+            return;
+        }
+
         const { error } = await firestoreDeleteDocument(
             "users",
             selectedUser.id,
@@ -264,7 +282,8 @@ export const AddUsersList = () => {
 
         setUsers((prev) => prev.filter((user) => user.id !== selectedUser.id));
         setIsDeleting(false);
-        toast.success("Utilisateur supprimÃ©.");
+        setIsConfirmDeleteOpen(false);
+        toast.success("Utilisateur et avis associés supprimés.");
         closeModal();
     };
 
@@ -666,7 +685,7 @@ export const AddUsersList = () => {
                             <Button
                                 type="button"
                                 variant="danger"
-                                action={handleDelete}
+                                action={handleDeleteClick}
                                 isLoading={isDeleting}
                             >
                                 Supprimer l&apos;utilisateur
@@ -843,6 +862,42 @@ export const AddUsersList = () => {
                             </Button>
                         </div>
                     </form>
+                )}
+            </Modal>
+
+            <Modal
+                isOpen={isConfirmDeleteOpen}
+                onClose={closeDeleteConfirm}
+                title="Supprimer définitivement ?"
+                contentClassName="!h-auto"
+            >
+                {selectedUser && (
+                    <div className="space-y-5 text-center">
+                        <Typo variant="para" component="p">
+                            Veux-tu vraiment supprimer «{" "}
+                            {selectedUser.displayName || "cet utilisateur"} »
+                            ? Son profil, sa photo et tous ses avis seront
+                            définitivement supprimés. Cette action est
+                            irréversible.
+                        </Typo>
+                        <div className="flex items-center justify-center gap-4">
+                            <Button
+                                type="button"
+                                variant="danger"
+                                action={confirmDelete}
+                                isLoading={isDeleting}
+                            >
+                                Oui, supprimer
+                            </Button>
+                            <Button
+                                type="button"
+                                action={closeDeleteConfirm}
+                                disabled={isDeleting}
+                            >
+                                Non
+                            </Button>
+                        </div>
+                    </div>
                 )}
             </Modal>
         </div>
