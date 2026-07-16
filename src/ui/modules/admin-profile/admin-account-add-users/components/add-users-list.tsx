@@ -759,6 +759,24 @@ export const AddUsersList = () => {
                                     value: "Science-fiction",
                                     label: "Science-fiction",
                                 },
+                                {
+                                    value: "Fantastique",
+                                    label: "Fantastique",
+                                },
+                                { value: "Policier", label: "Policier" },
+                                { value: "Horreur", label: "Horreur" },
+                                {
+                                    value: "Historique",
+                                    label: "Historique",
+                                },
+                                {
+                                    value: "Biographie",
+                                    label: "Biographie",
+                                },
+                                {
+                                    value: "Young Adult",
+                                    label: "Young Adult",
+                                },
                             ]}
                         />
                         <Input

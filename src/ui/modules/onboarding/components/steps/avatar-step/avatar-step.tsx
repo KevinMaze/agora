@@ -108,9 +108,9 @@ export const AvatarStep = ({
     return (
         <div className="relative h-screen pb-[85px]">
             <div className="h-full overflow-auto">
-                <Container className="grid h-full grid-cols-12">
-                    <div className="relative z-10 flex items-center h-full col-span-6 py-10">
-                        <div className="w-full space-y-5 pb-4.5">
+                <Container className="grid h-full grid-cols-1 md:grid-cols-12">
+                    <div className="relative z-10 flex items-center h-full py-6 md:col-span-6 md:py-10">
+                        <div className="w-full space-y-5 pb-4">
                             <OnboardingTabs
                                 tabs={stepsList}
                                 getCurrentStep={getCurrentStep}
@@ -118,20 +118,21 @@ export const AvatarStep = ({
                             <Typo
                                 variant="title"
                                 components="h1"
-                                className="uppercase text-6xl"
+                                className="uppercase text-4xl text-center sm:text-5xl md:text-left lg:text-6xl"
                             >
-                                Dernière étape !
+                                Trombinoscope
                             </Typo>
-                            <Typo variant="para" components="p">
-                                Lorem ipsum dolor sit, amet consectetur
-                                adipisicing elit. Similique ab vitae inventore
-                                voluptas laboriosam porro, ad, tenetur placeat
-                                esse quasi omnis corporis error minus
-                                reprehenderit sint pariatur magni iure tempora?
+                            <Typo
+                                variant="para"
+                                components="p"
+                                className="text-center md:text-left"
+                            >
+                                Ton plus beau sourir ou ton meilleur avatar pour
+                                te définir.
                             </Typo>
                         </div>
                     </div>
-                    <div className="flex items-center h-full col-span-6">
+                    <div className="flex items-center h-full py-6 md:col-span-6 md:py-0">
                         <div className="flex justify-center w-full">
                             <UploadAvatar
                                 handleImageSelect={handleImageSelect}

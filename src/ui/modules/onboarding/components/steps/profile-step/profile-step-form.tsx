@@ -12,7 +12,7 @@ export const ProfileStepForm = ({ form }: Props) => {
     return (
         <form className="w-full max-w-md space-y-4">
             <Input
-                label="name"
+                label="Nom Prénom"
                 isLoading={isLoading}
                 placeholder="Nom Prénom"
                 type="text"
@@ -56,7 +56,63 @@ export const ProfileStepForm = ({ form }: Props) => {
                     { value: "Action", label: "Action" },
                     { value: "Aventure", label: "Aventure" },
                     { value: "Science-fiction", label: "Science-fiction" },
+                    { value: "Fantastique", label: "Fantastique" },
+                    { value: "Policier", label: "Policier" },
+                    { value: "Horreur", label: "Horreur" },
+                    { value: "Historique", label: "Historique" },
+                    { value: "Biographie", label: "Biographie" },
+                    { value: "Young Adult", label: "Young Adult" },
                 ]}
+            />
+            <Input
+                label="Facebook"
+                isLoading={isLoading}
+                placeholder="facebook.com/..."
+                type="url"
+                register={register}
+                errors={errors}
+                id="facebook"
+                required={false}
+            />
+            <Input
+                label="Instagram"
+                isLoading={isLoading}
+                placeholder="instagram.com/..."
+                type="url"
+                register={register}
+                errors={errors}
+                id="instagram"
+                required={false}
+            />
+            <Input
+                label="Tiktok"
+                isLoading={isLoading}
+                placeholder="tiktok.com/..."
+                type="url"
+                register={register}
+                errors={errors}
+                id="tiktok"
+                required={false}
+            />
+            <Input
+                label="Youtube"
+                isLoading={isLoading}
+                placeholder="youtube.com/..."
+                type="url"
+                register={register}
+                errors={errors}
+                id="youtube"
+                required={false}
+            />
+            <Input
+                label="Twitter"
+                isLoading={isLoading}
+                placeholder="x.com/..."
+                type="url"
+                register={register}
+                errors={errors}
+                id="twitter"
+                required={false}
             />
         </form>
     );

@@ -33,8 +33,17 @@ export const ProfileStep = ({
         setValue,
     } = useForm<OnboardingProfileFormFieldsType>();
 
-    const { displayName, description, hobbies, styleLove } =
-        authUser.userDocument || {};
+    const {
+        displayName,
+        description,
+        hobbies,
+        styleLove,
+        facebook,
+        instagram,
+        tiktok,
+        youtube,
+        twitter,
+    } = authUser.userDocument || {};
     // Display value is exist
     useEffect(() => {
         if (authUser.userDocument) {
@@ -43,10 +52,25 @@ export const ProfileStep = ({
                 | "description"
                 | "hobbies"
                 | "styleLove"
-            )[] = ["displayName", "description", "hobbies", "styleLove"];
+                | "facebook"
+                | "instagram"
+                | "tiktok"
+                | "youtube"
+                | "twitter"
+            )[] = [
+                "displayName",
+                "description",
+                "hobbies",
+                "styleLove",
+                "facebook",
+                "instagram",
+                "tiktok",
+                "youtube",
+                "twitter",
+            ];
 
             for (const field of fieldsToUpdate) {
-                setValue(field, authUser.userDocument[field]);
+                setValue(field, authUser.userDocument[field] ?? "");
             }
         }
     }, []);
@@ -77,7 +101,12 @@ export const ProfileStep = ({
             displayName !== formData.displayName ||
             description !== formData.description ||
             hobbies !== formData.hobbies ||
-            styleLove !== formData.styleLove
+            styleLove !== formData.styleLove ||
+            facebook !== formData.facebook ||
+            instagram !== formData.instagram ||
+            tiktok !== formData.tiktok ||
+            youtube !== formData.youtube ||
+            twitter !== formData.twitter
         ) {
             if (
                 displayName !== formData.displayName ||
@@ -104,8 +133,8 @@ export const ProfileStep = ({
     return (
         <div className="relative h-screen pb-[85px]">
             <div className="h-full overflow-auto">
-                <Container className="grid h-full grid-cols-12">
-                    <div className="relative z-10 flex items-center h-full col-span-6 py-10">
+                <Container className="grid h-full grid-cols-1 md:grid-cols-12">
+                    <div className="relative z-10 flex items-center h-full py-6 md:col-span-6 md:py-10">
                         <div className="w-full space-y-5 pb-4.5">
                             <OnboardingTabs
                                 tabs={stepsList}
@@ -114,21 +143,22 @@ export const ProfileStep = ({
                             <Typo
                                 variant="title"
                                 components="h1"
-                                className="uppercase text-6xl"
+                                className="uppercase text-4xl text-center sm:text-5xl md:text-left lg:text-6xl"
                             >
                                 Présente-toi !
                             </Typo>
-                            <Typo variant="para" components="p">
-                                Lorem ipsum dolor sit, amet consectetur
-                                adipisicing elit. Similique ab vitae inventore
-                                voluptas laboriosam porro, ad, tenetur placeat
-                                esse quasi omnis corporis error minus
-                                reprehenderit sint pariatur magni iure tempora?
+                            <Typo
+                                variant="para"
+                                components="p"
+                                className="text-center md:text-left"
+                            >
+                                Ici, on va savoir tout de toi...Enfin juste ce
+                                que tu as envie de nous dire ;)
                             </Typo>
                         </div>
                     </div>
-                    <div className="flex items-center h-full col-span-6">
-                        <div className="flex justify-end w-full">
+                    <div className="flex items-center h-full py-6 md:col-span-6 md:py-0">
+                        <div className="flex justify-center w-full md:justify-end">
                             <ProfileStepForm
                                 form={{
                                     errors,

@@ -2,7 +2,7 @@ import { useAuth } from "@/context/AuthUserContext";
 import { useToggle } from "@/hooks/use-toggle";
 import { BaseComponentProps } from "@/types/onboarding-steps-list";
 import { Container } from "@/ui/components/container";
-import { useCallback, useEffect, useRef } from "react";
+import { ComponentProps, useCallback, useEffect, useRef } from "react";
 import { Typo } from "@/ui/design-system/typography";
 import { OnboardingFooter } from "../../footer/onboarding-footer";
 import { Logo } from "@/ui/design-system/logo";
@@ -10,29 +10,32 @@ import ReactCanvasConfetti from "react-canvas-confetti";
 import { firestoreUpdateDocument } from "@/api/firestore";
 import { toast } from "react-toastify";
 
+type ConfettiOnInit = NonNullable<
+    ComponentProps<typeof ReactCanvasConfetti>["onInit"]
+>;
+type ConfettiInstance = Parameters<ConfettiOnInit>[0]["confetti"];
+type ConfettiOptions = Parameters<ConfettiInstance>[0];
+
 export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
     const { authUser, reloadAuthUserData } = useAuth();
 
     const { value: isLoading, toggle } = useToggle();
 
     //setting confetti animation
-    const refAnimationInstance = useRef<any>(null);
-    const getInstance = useCallback((instance: any) => {
-        refAnimationInstance.current = instance;
+    const confettiInstance = useRef<ConfettiInstance | null>(null);
+    const getInstance = useCallback<ConfettiOnInit>(({ confetti }) => {
+        confettiInstance.current = confetti;
     }, []);
-    const makeShoot = useCallback((particleRatio: number, opts: any) => {
-        const instance = refAnimationInstance.current;
-        if (instance) {
-            const fire = instance.confetti || instance;
-            if (typeof fire === "function") {
-                fire({
-                    ...opts,
-                    origin: { y: 0.7 },
-                    particleCount: Math.floor(200 * particleRatio),
-                });
-            }
-        }
-    }, []);
+    const makeShoot = useCallback(
+        (particleRatio: number, opts: ConfettiOptions) => {
+            confettiInstance.current?.({
+                ...opts,
+                origin: { y: 0.7 },
+                particleCount: Math.floor(200 * particleRatio),
+            });
+        },
+        [],
+    );
 
     const fire = useCallback(() => {
         makeShoot(0.25, {
@@ -63,7 +66,7 @@ export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
         setTimeout(() => {
             fire();
         }, 50);
-    }, []);
+    }, [fire]);
 
     const handleCloseOnboarding = async () => {
         toggle();
@@ -100,7 +103,7 @@ export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
             <div className="relative h-screen pb-[85px]">
                 <div className="h-full overflow-auto">
                     <Container className="h-full">
-                        <div className="relative z-10 flex items-center h-full py-10">
+                        <div className="relative z-10 flex items-center h-full py-6 md:py-10">
                             <div className="w-full max-w-xl mx-auto space-y-5 pb-4.5">
                                 <div className="flex justify-center">
                                     <Logo size="large" />
@@ -108,7 +111,7 @@ export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
                                 <Typo
                                     variant="title"
                                     components="h1"
-                                    className="uppercase text-6xl text-center"
+                                    className="uppercase text-4xl text-center sm:text-5xl lg:text-6xl"
                                 >
                                     Félicitation !
                                 </Typo>
@@ -117,12 +120,9 @@ export const FinalStep = ({ isFinalStep }: BaseComponentProps) => {
                                     components="p"
                                     className="text-center"
                                 >
-                                    Lorem ipsum dolor sit, amet consectetur
-                                    adipisicing elit. Similique ab vitae
-                                    inventore voluptas laboriosam porro, ad,
-                                    tenetur placeat esse quasi omnis corporis
-                                    error minus reprehenderit sint pariatur
-                                    magni iure tempora?
+                                    L'incription a été réalisé avec succès,
+                                    bienvenue parmis les lectrices et lecteurs
+                                    de l'Agora !!!
                                 </Typo>
                             </div>
                         </div>

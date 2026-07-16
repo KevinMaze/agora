@@ -214,36 +214,38 @@ export const AddBookBoxList = () => {
                         {paginatedItems.map((item) => (
                             <div
                                 key={item.id}
-                                className="relative rounded-lg border-2 border-primary/40 bg-foreground/40 p-4 flex items-center gap-4 hover:bg-foreground/60 transition-colors"
+                                className="relative rounded-lg border-2 border-primary/40 bg-foreground/40 p-4 flex flex-col gap-4 hover:bg-foreground/60 transition-colors sm:flex-row sm:items-center"
                             >
-                                <div className="relative w-14 h-20 flex-shrink-0 rounded overflow-hidden">
-                                    <Image
-                                        src={item.image || DefaultImage}
-                                        alt={item.title}
-                                        fill
-                                        className="object-cover"
-                                    />
+                                <div className="flex items-center gap-4 min-w-0">
+                                    <div className="relative w-14 h-20 flex-shrink-0 rounded overflow-hidden">
+                                        <Image
+                                            src={item.image || DefaultImage}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <Typo variant="para" weight="bold" className="truncate">{item.title}</Typo>
+                                        <Typo variant="para" color="other" className="text-sm">{item.author}</Typo>
+                                        {item.status === "reserved" && item.reservedBy && (
+                                            <Typo variant="para" color="secondary" className="text-xs mt-0.5">
+                                                Réservé par {item.reservedBy.displayName}
+                                            </Typo>
+                                        )}
+                                        <span
+                                            className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium ${
+                                                item.status === "available"
+                                                    ? "bg-[var(--color-tier)]/20 text-[var(--color-tier)]"
+                                                    : "bg-[var(--color-danger)]/20 text-[var(--color-danger)]"
+                                            }`}
+                                        >
+                                            {statusLabel(item.status)}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                    <Typo variant="para" weight="bold" className="truncate">{item.title}</Typo>
-                                    <Typo variant="para" color="other" className="text-sm">{item.author}</Typo>
-                                    {item.status === "reserved" && item.reservedBy && (
-                                        <Typo variant="para" color="secondary" className="text-xs mt-0.5">
-                                            Réservé par {item.reservedBy.displayName}
-                                        </Typo>
-                                    )}
-                                    <span
-                                        className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium ${
-                                            item.status === "available"
-                                                ? "bg-[var(--color-tier)]/20 text-[var(--color-tier)]"
-                                                : "bg-[var(--color-danger)]/20 text-[var(--color-danger)]"
-                                        }`}
-                                    >
-                                        {statusLabel(item.status)}
-                                    </span>
-                                </div>
-                                {/* ml-auto pousse les boutons à droite même quand certains sont absents */}
-                                <div className="flex gap-2 flex-shrink-0 ml-auto">
+                                {/* sm:ml-auto pousse les boutons à droite même quand certains sont absents */}
+                                <div className="flex flex-wrap gap-2 sm:flex-shrink-0 sm:ml-auto">
                                     {/* Réserver : visible uniquement si le livre est disponible */}
                                     {item.status === "available" && (
                                         <Button type="button" size="small" action={() => handleReserve(item)}>

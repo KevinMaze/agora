@@ -140,7 +140,7 @@ export const Input = <TFieldValues extends FieldValues>({
                     </div>
                 ) : (
                     <input
-                        type={type}
+                        type={type === "url" ? "text" : type}
                         placeholder={placeholder}
                         className={clsx(
                             type === "url" ? "rounded-r" : "rounded",

@@ -29,6 +29,11 @@ export interface OnboardingProfileFormFieldsType {
     adress: string;
     hobbies: string;
     styleLove: string | string[];
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    youtube?: string;
+    twitter?: string;
 }
 
 export interface AddBookFormFieldsType {

@@ -1,6 +1,6 @@
 import { Typo } from "@/ui/design-system/typography";
 import Image from "next/image";
-import AvatarTest from "@/../public/assets/images/avatar-test.png";
+import Avatar from "@/../public/assets/images/avatar-test.png";
 
 export const CallToActionSidebar = () => {
     return (
@@ -21,7 +21,7 @@ export const CallToActionSidebar = () => {
             <Image
                 width={183}
                 alt="avatar"
-                src={AvatarTest}
+                src={Avatar}
                 className="mx-auto px-auto"
             ></Image>
         </div>
