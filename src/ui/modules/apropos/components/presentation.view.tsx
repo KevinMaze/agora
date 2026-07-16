@@ -74,32 +74,30 @@ export const AproposPresentationView = () => {
                         setDuration(fastDuration);
                     }}
                 >
-                    {Array.from({ length: SET_COPIES }).map(
-                        (_, setIndex) => (
-                            <div
-                                key={setIndex}
-                                ref={setIndex === 0 ? setRef : undefined}
-                                className="flex gap-4"
-                            >
-                                {Images.map((imagePath, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-[200px] h-[200px] relative"
-                                    >
-                                        <Image
-                                            src={imagePath}
-                                            alt={imagePath}
-                                            layout="fill"
-                                            objectFit="cover"
-                                            objectPosition="center"
-                                            priority
-                                            className="rounded-2xl"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        ),
-                    )}
+                    {Array.from({ length: SET_COPIES }).map((_, setIndex) => (
+                        <div
+                            key={setIndex}
+                            ref={setIndex === 0 ? setRef : undefined}
+                            className="flex gap-4"
+                        >
+                            {Images.map((imagePath, index) => (
+                                <div
+                                    key={index}
+                                    className="w-[200px] h-[200px] relative "
+                                >
+                                    <Image
+                                        src={imagePath}
+                                        alt={imagePath}
+                                        layout="fill"
+                                        objectFit="cover"
+                                        objectPosition="center"
+                                        priority
+                                        className="my-shadow"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </motion.div>
             </div>
 

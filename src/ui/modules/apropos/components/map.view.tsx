@@ -2,7 +2,7 @@ import { Container } from "@/ui/components/container";
 import { Typo } from "@/ui/design-system/typography";
 import { LuMapPin } from "react-icons/lu";
 import Link from "next/link";
-import { FaInstagram } from "react-icons/fa";
+import { FaInstagram, FaEnvelope } from "react-icons/fa";
 
 const List = ({ children }: { children: React.ReactNode }) => (
     <ul className="list-disc space-y-1 pl-5 marker:text-primary">{children}</ul>
@@ -42,13 +42,16 @@ export const MapView = () => {
                         </Typo>{" "}
                         <br /> 3 rue Crémieux 30000 Nîmes
                     </Typo>
-                    <Typo
-                        variant="para"
-                        components="p"
-                        className="lg:text-xl text-[14px]"
-                    >
-                        librairiecafeagora@gmail.com
-                    </Typo>
+                    <Link href="mailto:librairiecafeagora@gmail.com">
+                        <Typo
+                            variant="para"
+                            components="p"
+                            className="lg:text-xl text-[14px] flex gap-2"
+                        >
+                            <FaEnvelope />
+                            librairiecafeagora@gmail.com
+                        </Typo>
+                    </Link>
                     <Typo
                         variant="para"
                         components="p"
