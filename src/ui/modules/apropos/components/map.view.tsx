@@ -4,6 +4,16 @@ import { LuMapPin } from "react-icons/lu";
 import Link from "next/link";
 import { FaInstagram } from "react-icons/fa";
 
+const List = ({ children }: { children: React.ReactNode }) => (
+    <ul className="list-disc space-y-1 pl-5 marker:text-primary">{children}</ul>
+);
+
+const Item = ({ children }: { children: React.ReactNode }) => (
+    <Typo variant="para" component="li">
+        {children}
+    </Typo>
+);
+
 export const MapView = () => {
     return (
         <Container>
@@ -32,14 +42,32 @@ export const MapView = () => {
                         </Typo>{" "}
                         <br /> 3 rue Crémieux 30000 Nîmes
                     </Typo>
-                    {/* <Typo
+                    <Typo
                         variant="para"
                         components="p"
                         className="lg:text-xl text-[14px]"
                     >
-                        04-XX-XX-XX-XX-XX
-                    </Typo> */}
-                    <Link href="https://www.instagram.com/lagora_coffee_librairie/">
+                        librairiecafeagora@gmail.com
+                    </Typo>
+                    <Typo
+                        variant="para"
+                        components="p"
+                        className="lg:text-xl text-[14px]"
+                    >
+                        <List>
+                            <Item>Lundi - Fermé</Item>
+                            <Item>Mardi - 10h à 19h</Item>
+                            <Item>Mercredi - 10h à 19h</Item>
+                            <Item>Jeudi - 10h à 19h</Item>
+                            <Item>Vendredi - 10h à 19h</Item>
+                            <Item>Samedi - 10h à 19h</Item>
+                            <Item>Dimanche - 10h à 16h</Item>
+                        </List>
+                    </Typo>
+                    <Link
+                        href="https://www.instagram.com/lagora_coffee_librairie/"
+                        target="_blank"
+                    >
                         <Typo
                             variant="para"
                             components="p"

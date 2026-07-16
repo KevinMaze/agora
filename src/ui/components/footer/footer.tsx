@@ -76,12 +76,14 @@ export const Footer = () => {
                         color="secondary"
                         className="flex flex-col md:flex-row items-center gap-2 text-[16px]"
                     >
-                        <Link href="">{`Copyright © ${currentYear} Agora`}</Link>{" "}
-                        - <Link href="/mentions-legales">Mentions légales</Link>{" "}
+                        <Link
+                            href="https://portfolio-one-delta-21.vercel.app/"
+                            target="_blank"
+                        >{`Copyright © ${currentYear} Agora`}</Link>{" "}
                         -{" "}
-                        <Link href="/politique-de-confidentialite">
-                            Politique de confidentialité
-                        </Link>
+                        <Link href="/mentions">
+                            Mentions légales et politique de confidentialité
+                        </Link>{" "}
                     </Typo>
                 </div>
             </Container>
