@@ -77,7 +77,7 @@ export const UserAccountNavigation = () => {
     );
 
     return (
-        <div className="border-2 border-primary rounded-lg bg-foreground overflow-hidden">
+        <div className="border-2 border-primary bg-foreground overflow-hidden my-shadow mt-5">
             <div className="flex flex-col w-full py-4">
                 <Typo variant="para" color="primary">
                     {visibleNavItems.map((item) => (

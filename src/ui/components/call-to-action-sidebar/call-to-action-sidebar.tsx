@@ -4,13 +4,13 @@ import Avatar from "@/../public/assets/images/avatar-test.png";
 
 export const CallToActionSidebar = () => {
     return (
-        <div className="relative flex flex-col justify-center gap-5 px-8 py-12 overflow-hidden rounded-lg pb-5 bg-foreground border-2 border-primary">
+        <div className="relative flex flex-col justify-center gap-5 px-8 py-12 overflow-hidden pb-5 bg-foreground border-2 border-primary my-shadow">
             <Typo
                 variant="para"
                 components="p"
                 className="text-center underline uppercase"
             >
-                Bienvenue dans l'espace personnel
+                Bienvenue dans ton espace personnel
             </Typo>
             <Typo variant="para" components="p" className="text-center">
                 Dans cet espace, tu retrouveras toute tes informations. Ainsi

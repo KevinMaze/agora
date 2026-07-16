@@ -66,7 +66,9 @@ export const AdminAccountAvisList = () => {
         null,
     );
     const [searchQuery, setSearchQuery] = useState("");
-    const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
+    const [statusFilter, setStatusFilter] = useState<
+        "all" | "pending" | "approved" | "rejected"
+    >("all");
     const [currentPage, setCurrentPage] = useState(1);
     const [currentRating, setCurrentRating] = useState(0);
     const { value: isUpdating, setValue: setIsUpdating } = useToggle();
@@ -225,7 +227,11 @@ export const AdminAccountAvisList = () => {
 
     const filteredReviews = useMemo(() => {
         return reviews.filter((review) => {
-            if (statusFilter !== "all" && review.moderationStatus !== statusFilter) return false;
+            if (
+                statusFilter !== "all" &&
+                review.moderationStatus !== statusFilter
+            )
+                return false;
             if (!normalizedSearchQuery) return true;
             const searchableText = [
                 review.bookTitle,
@@ -281,7 +287,9 @@ export const AdminAccountAvisList = () => {
                 />
                 <select
                     value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+                    onChange={(e) =>
+                        setStatusFilter(e.target.value as typeof statusFilter)
+                    }
                     className="px-4 py-2 border-2 border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other bg-background"
                 >
                     <option value="all">Tous les statuts</option>
@@ -305,13 +313,19 @@ export const AdminAccountAvisList = () => {
                         {paginatedReviews.map((review) => (
                             <div
                                 key={review.id}
-                                className="relative rounded-lg border-2 border-primary/40 bg-foreground/40 p-6 space-y-3 hover:bg-foreground/60 transition-colors"
+                                className="relative my-shadow border-2 border-primary/40 bg-foreground/40 p-6 space-y-3 hover:bg-foreground/60 transition-colors"
                             >
                                 {review.moderationStatus === "approved" && (
-                                    <span className="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-[var(--color-tier)]" title="Validé" />
+                                    <span
+                                        className="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-[var(--color-tier)]"
+                                        title="Validé"
+                                    />
                                 )}
                                 {review.moderationStatus === "rejected" && (
-                                    <span className="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-[var(--color-danger)]" title="Refusé" />
+                                    <span
+                                        className="absolute bottom-3 right-3 w-3 h-3 rounded-full bg-[var(--color-danger)]"
+                                        title="Refusé"
+                                    />
                                 )}
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1">
