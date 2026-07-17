@@ -16,10 +16,13 @@
 
   /* Définition du shadow */
   --my-shadow : 1px 10px 20px rgba(0, 0, 0, 0.5);
-  --button-shadow : inset 8px 8px 8px rgba(14, 205, 220, 0.85),
-  inset -8px -8px 18px rgba(255, 255, 255, 0.5),
-  6px 6px 15px rgba(155, 167, 176, 0.58),
-  -6px -6px 15px rgba(255, 255, 255, 0.98);
+  /* État "au repos" : léger creux (inset haut/gauche) + léger relief (offset bas/droite) */
+  --button-shadow: inset 6px 6px 10px rgba(0, 0, 0, 0.60),
+  6px 6px 14px rgba(0, 0, 0, 0.5);
+  /* État "survol" : on réduit le creux et on accentue le relief (offset + flou plus grands)
+     pour donner l'impression que le bouton se soulève vers l'utilisateur */
+  --button-shadow-hover: inset 2px 2px 4px rgba(0, 0, 0, 0.45),
+  10px 10px 22px rgba(0, 0, 0, 0.55);
 }
 
 /* Utility réutilisable — @utility (et non @layer utilities) pour que
@@ -30,6 +33,10 @@
 
 @utility button-shadow {
   @apply shadow-(--button-shadow)
+}
+
+@utility button-shadow-hover {
+  @apply shadow-(--button-shadow-hover)
 }
 
 @theme {
