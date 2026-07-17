@@ -211,7 +211,7 @@ export const BoxBookView = () => {
 
                 {/* Livres réservés */}
                 {!isLoading && reservedBooks.length > 0 && (
-                    <div className="mt-16 p-8 border-2 border-dashed border-primary/40 rounded-2xl w-full max-w-5xl mx-auto">
+                    <div className="mt-16 p-4 sm:p-8 border-2 border-dashed border-primary/40 rounded-2xl w-full max-w-5xl mx-auto">
                         <Typo
                             variant="title"
                             component="h3"
@@ -224,55 +224,59 @@ export const BoxBookView = () => {
                             {reservedBooks.map((book) => (
                                 <li
                                     key={book.id}
-                                    className="flex items-center gap-4 bg-foreground/40 border border-primary/20 p-4 rounded-lg"
+                                    className="flex flex-col sm:flex-row sm:items-center gap-4 bg-foreground/40 border border-primary/20 p-4 rounded-lg"
                                 >
-                                    <div className="relative w-12 h-16 flex-shrink-0 rounded overflow-hidden">
-                                        <Image
-                                            src={book.image || DefaultImage}
-                                            alt={book.title}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <Typo
-                                            variant="para"
-                                            weight="bold"
-                                            className="truncate"
-                                        >
-                                            {book.title}
-                                        </Typo>
-                                        <Typo
-                                            variant="para"
-                                            color="other"
-                                            className="text-sm"
-                                        >
-                                            {book.author}
-                                        </Typo>
-                                        <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium bg-[var(--color-danger)]/20 text-[var(--color-danger)]">
-                                            Indisponible
-                                        </span>
-                                        {book.reservedBy && (
+                                    <div className="flex items-center gap-4 min-w-0">
+                                        <div className="relative w-12 h-16 flex-shrink-0 rounded overflow-hidden">
+                                            <Image
+                                                src={book.image || DefaultImage}
+                                                alt={book.title}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
                                             <Typo
                                                 variant="para"
-                                                color="secondary"
-                                                className="text-xs mt-1"
+                                                weight="bold"
+                                                className="truncate"
                                             >
-                                                Réservé par{" "}
-                                                {book.reservedBy.displayName}
+                                                {book.title}
                                             </Typo>
-                                        )}
+                                            <Typo
+                                                variant="para"
+                                                color="other"
+                                                className="text-sm truncate"
+                                            >
+                                                {book.author}
+                                            </Typo>
+                                            <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full font-medium bg-[var(--color-danger)]/20 text-[var(--color-danger)]">
+                                                Indisponible
+                                            </span>
+                                            {book.reservedBy && (
+                                                <Typo
+                                                    variant="para"
+                                                    color="secondary"
+                                                    className="text-xs mt-1 truncate"
+                                                >
+                                                    Réservé par{" "}
+                                                    {book.reservedBy.displayName}
+                                                </Typo>
+                                            )}
+                                        </div>
                                     </div>
                                     {canRelease(book) && (
-                                        <Button
-                                            type="button"
-                                            size="small"
-                                            action={() =>
-                                                handleRelease(book.id)
-                                            }
-                                        >
-                                            Remettre à disposition
-                                        </Button>
+                                        <div className="grid w-full sm:w-auto sm:ml-auto">
+                                            <Button
+                                                type="button"
+                                                size="small"
+                                                action={() =>
+                                                    handleRelease(book.id)
+                                                }
+                                            >
+                                                Remettre à disposition
+                                            </Button>
+                                        </div>
                                     )}
                                 </li>
                             ))}

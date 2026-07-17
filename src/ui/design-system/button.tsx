@@ -58,14 +58,13 @@ export const Button = ({
 
     switch (variant) {
         case "primary":
-            variantStyle = "border-2 border-foreground rounded-xl";
+            variantStyle = "button-shadow rounded-3xl";
             baseColorStyle = "bg-primary text-background";
             hoverColorStyle = "hover:bg-secondary hover:text-tier";
             overlayStyle = "bg-primary text-background";
             break;
         case "disabled":
-            variantStyle =
-                "cursor-not-allowed border-2 border-foreground rounded-xl";
+            variantStyle = "cursor-not-allowed my-shadow";
             baseColorStyle = "bg-foreground text-background";
             overlayStyle = "bg-foreground text-background";
             break;
@@ -76,12 +75,12 @@ export const Button = ({
                 hoverColorStyle = "hover:bg-secondary";
             }
             if (iconTheme === "disabled") {
-                variantStyle = "cursor-not-allowed rounded-xl";
+                variantStyle = "cursor-not-allowed rounded-3xl";
                 baseColorStyle = "bg-foreground text-background";
             }
             break;
         case "danger":
-            variantStyle = "border-2 border-foreground rounded-xl";
+            variantStyle = "my-shadow";
             baseColorStyle = "bg-red-600 text-other";
             hoverColorStyle = "hover:bg-red-700";
             overlayStyle = "bg-red-600 text-other";

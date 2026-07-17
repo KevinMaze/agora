@@ -16,12 +16,20 @@
 
   /* Définition du shadow */
   --my-shadow : 1px 10px 20px rgba(0, 0, 0, 0.5);
+  --button-shadow : inset 8px 8px 8px rgba(14, 205, 220, 0.85),
+  inset -8px -8px 18px rgba(255, 255, 255, 0.5),
+  6px 6px 15px rgba(155, 167, 176, 0.58),
+  -6px -6px 15px rgba(255, 255, 255, 0.98);
 }
 
 /* Utility réutilisable — @utility (et non @layer utilities) pour que
    Tailwind puisse la combiner avec des variants (hover:, sm:, etc.) */
 @utility my-shadow {
   @apply shadow-(--my-shadow) rounded-3xl;
+}
+
+@utility button-shadow {
+  @apply shadow-(--button-shadow)
 }
 
 @theme {
