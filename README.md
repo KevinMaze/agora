@@ -191,3 +191,8 @@ Le design system est accessible à la route `/design-system` en développement. 
 
 - **Cinzel Decorative** (serif) — titres, variante `title` du composant Typo
 - **Montserrat** (sans-serif) — texte courant, variante `para`
+
+- Idées de développement :
+- qr code
+- vote de lecteurs
+- notification de nouvelles entrées
