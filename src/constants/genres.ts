@@ -1,0 +1,17 @@
+export const BOOK_GENRES: { value: string; label: string }[] = [
+    { value: "Thriller", label: "Thriller" },
+    { value: "Romance", label: "Romance" },
+    { value: "Action", label: "Action" },
+    { value: "Aventure", label: "Aventure" },
+    { value: "Science-fiction", label: "Science-fiction" },
+    { value: "Fantasy", label: "Fantasy" },
+    { value: "Policier", label: "Policier" },
+    { value: "Horreur", label: "Horreur" },
+    { value: "Historique", label: "Historique" },
+    { value: "Biographie", label: "Biographie" },
+    { value: "Young Adult", label: "Young Adult" },
+    { value: "Romantasy", label: "Romantasy" },
+    { value: "Littérature blanche", label: "Littérature blanche" },
+    { value: "Classique", label: "Classique" },
+    { value: "Drame", label: "Drame" },
+];

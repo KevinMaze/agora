@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useState } from "react";
 import type {
     FieldErrors,
     FieldValues,
@@ -6,6 +7,7 @@ import type {
     RegisterOptions,
     UseFormRegister,
 } from "react-hook-form";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Typo } from "../typography";
 
 interface Props<TFieldValues extends FieldValues> {
@@ -61,6 +63,9 @@ export const Input = <TFieldValues extends FieldValues>({
     multiple = false,
     readOnly = false,
 }: Props<TFieldValues>) => {
+    // Mot de passe masqué par défaut ; bascule vers "text" quand on clique sur l'oeil
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
         <div className="space-y-2">
             {label && (
@@ -137,6 +142,50 @@ export const Input = <TFieldValues extends FieldValues>({
                                 </label>
                             </div>
                         ))}
+                    </div>
+                ) : type === "password" ? (
+                    // Champ mot de passe avec bouton oeil/oeil barré pour afficher ou masquer la saisie
+                    <div className="relative w-full">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder={placeholder}
+                            className={clsx(
+                                "rounded",
+                                (isLoading || readOnly) &&
+                                    "cursor-not-allowed",
+                                "w-full px-4 py-2 pr-11 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-other placeholder-gray-500",
+                                {
+                                    "border-red-600 border-3 placeholder-red-600 ":
+                                        errors[id],
+                                    "border-primary": !errors[id],
+                                },
+                            )}
+                            disabled={isLoading}
+                            readOnly={readOnly}
+                            {...register(id, {
+                                required: {
+                                    value: required,
+                                    message: errorMsg,
+                                },
+                                validate: validate,
+                            })}
+                            autoComplete={isAutoCompleted ? "on" : "off"}
+                        />
+                        {/* type="button" pour ne pas déclencher la soumission du formulaire */}
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            disabled={isLoading}
+                            tabIndex={-1}
+                            aria-label={
+                                showPassword
+                                    ? "Masquer le mot de passe"
+                                    : "Afficher le mot de passe"
+                            }
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-other cursor-pointer"
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
                     </div>
                 ) : (
                     <input

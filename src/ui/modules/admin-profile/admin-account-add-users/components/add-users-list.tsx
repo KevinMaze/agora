@@ -16,6 +16,7 @@ import { Typo } from "@/ui/design-system/typography";
 import { Button } from "@/ui/design-system/button";
 import { Input } from "@/ui/design-system/form/input";
 import { Textarea } from "@/ui/design-system/form/textarea";
+import { BOOK_GENRES } from "@/constants/genres";
 import { useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -769,34 +770,7 @@ export const AddUsersList = () => {
                             errors={errors}
                             errorMsg="Coche au moins un style"
                             id="styleLove"
-                            options={[
-                                { value: "Triller", label: "Triller" },
-                                { value: "Romance", label: "Romance" },
-                                { value: "Action", label: "Action" },
-                                { value: "Aventure", label: "Aventure" },
-                                {
-                                    value: "Science-fiction",
-                                    label: "Science-fiction",
-                                },
-                                {
-                                    value: "Fantastique",
-                                    label: "Fantastique",
-                                },
-                                { value: "Policier", label: "Policier" },
-                                { value: "Horreur", label: "Horreur" },
-                                {
-                                    value: "Historique",
-                                    label: "Historique",
-                                },
-                                {
-                                    value: "Biographie",
-                                    label: "Biographie",
-                                },
-                                {
-                                    value: "Young Adult",
-                                    label: "Young Adult",
-                                },
-                            ]}
+                            options={BOOK_GENRES}
                         />
                         <Input
                             label="Facebook"

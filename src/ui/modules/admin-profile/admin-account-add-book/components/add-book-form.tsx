@@ -3,6 +3,7 @@ import { Avatar } from "@/ui/design-system/avatar";
 import { Button } from "@/ui/design-system/button";
 import { Input } from "@/ui/design-system/form/input";
 import { Textarea } from "@/ui/design-system/form/textarea";
+import { BOOK_GENRES } from "@/constants/genres";
 import clsx from "clsx";
 import Camera from "@/../public/assets/images/camera.png";
 import { ChangeEvent } from "react";
@@ -85,19 +86,7 @@ export const AddBookForm = ({
                 errors={errors}
                 errorMsg="Donne-nous la catégorie du livre"
                 id="category"
-                options={[
-                    { value: "Triller", label: "Triller" },
-                    { value: "Romance", label: "Romance" },
-                    { value: "Action", label: "Action" },
-                    { value: "Aventure", label: "Aventure" },
-                    { value: "Science-fiction", label: "Science-fiction" },
-                    { value: "Classique", label: "Classique" },
-                    { value: "Policier", label: "Policier" },
-                    { value: "Historique", label: "Historique" },
-                    { value: "Fantastique", label: "Fantastique" },
-                    { value: "Drame", label: "Drame" },
-                    { value: "Horreur", label: "Horreur" },
-                ]}
+                options={BOOK_GENRES}
                 required={true}
             />
             <Input
