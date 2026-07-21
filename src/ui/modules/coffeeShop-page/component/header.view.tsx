@@ -2,9 +2,9 @@ import Image from "next/image";
 import { Typo } from "@/ui/design-system/typography";
 
 // J'ai utilisé des images existantes. Remplacez-les par les vôtres.
-import Image1 from "@/../public/assets/images/image1.jpg";
-import Image2 from "@/../public/assets/images/image2.jpg";
-import Image3 from "@/../public/assets/images/image3.jpg";
+import Image1 from "@/../public/assets/images/WH04.jpeg";
+import Image2 from "@/../public/assets/images/WH10.jpeg";
+import Image3 from "@/../public/assets/images/WH05.jpeg";
 
 export const Header = () => {
     return (
@@ -46,7 +46,7 @@ export const Header = () => {
                         <Image
                             src={Image2}
                             alt="Gourmandise"
-                            className="object-cover h-full lg:w-110 sm:w-90 w-40 rounded-2xl border-1 border-primary"
+                            className="object-cover aspect-[3/4] lg:w-110 sm:w-90 w-40 rounded-2xl border-1 border-primary"
                         />
                         <Typo
                             variant="para"

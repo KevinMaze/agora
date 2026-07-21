@@ -1,12 +1,30 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import Biblio from "@/../public/assets/images/bibliotheque-header.jpg";
+import Biblio from "@/../public/assets/images/WH11.jpeg";
 import Crack from "@/../public/assets/images/déchiré.png";
 import { Typo } from "@/ui/design-system/typography";
 
 export const Header = () => {
+    const [offsetY, setOffsetY] = useState(0);
+    const handleScroll = () => setOffsetY(window.pageYOffset);
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
         <div className="relative w-full h-screen overflow-hidden">
-            <div className="absolute inset-0 opacity-20">
+            {/* Arrière-plan avec opacité et effet de parallaxe */}
+            <div
+                className="absolute inset-0 opacity-20"
+                style={{
+                    transform: `translateY(${offsetY * 0.5}px)`,
+                }}
+            >
                 <Image
                     src={Biblio}
                     alt="Arrière-plan de la bibliothèque Agora"

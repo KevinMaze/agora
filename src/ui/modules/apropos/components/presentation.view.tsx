@@ -8,11 +8,15 @@ import Jordan from "@/../public/assets/images/jordan.png";
 import Lavinia from "@/../public/assets/images/lavinia.png";
 
 const Images = [
-    "/assets/images/01.png",
-    "/assets/images/02.png",
-    "/assets/images/03.png",
-    "/assets/images/04.png",
-    "/assets/images/05.png",
+    "/assets/images/WH01.jpeg",
+    "/assets/images/WH02.jpeg",
+    "/assets/images/WH03.jpeg",
+    "/assets/images/WH04.jpeg",
+    "/assets/images/WH05.jpeg",
+    "/assets/images/WH06.jpeg",
+    "/assets/images/WH07.jpeg",
+    "/assets/images/WH08.jpeg",
+    "/assets/images/WH09.jpeg",
 ];
 
 // gap-4 between images/sets; enough set copies so wide viewports never run

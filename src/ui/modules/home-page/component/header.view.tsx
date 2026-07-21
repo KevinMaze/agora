@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import BG from "@/../public/assets/images/04.png";
+import BG from "@/../public/assets/images/WH09.jpeg";
 import Logo from "@/../public/assets/images/icon-agora.png";
 import Crack from "@/../public/assets/images/déchiré.png";
 import { Typo } from "@/ui/design-system/typography";

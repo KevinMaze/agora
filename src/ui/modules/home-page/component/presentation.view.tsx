@@ -7,6 +7,9 @@ import Image from "next/image";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+import Stairway from "../../../../../public/assets/images/WH04.jpeg";
+import Coffe from "../../../../../public/assets/images/WH10.jpeg";
+import BG from "@/../public/assets/images/WH09.jpeg";
 
 export const PresentationView = () => {
     const [offsetY, setOffsetY] = useState(0);
@@ -88,7 +91,7 @@ export const PresentationView = () => {
                         </Typo>
                     </div>
                     <Image
-                        src="/assets/images/stairway.jpg"
+                        src={Stairway}
                         alt="Stairway"
                         width={1280}
                         height={1920}
@@ -96,10 +99,10 @@ export const PresentationView = () => {
                     />
                 </div>
                 <Image
-                    src="/assets/images/coffee.jpg"
+                    src={Coffe}
                     alt="Coffee"
-                    width={1920}
-                    height={1280}
+                    width={1024}
+                    height={720}
                     className="w-lg my-shadow absolute -z-1 border-1 border-primary hidden lg:block"
                     style={{
                         transform: `translateY(${
@@ -127,7 +130,7 @@ export const PresentationView = () => {
                 </div>
             </Container>
 
-            <div className="relative w-full h-80 overflow-hidden rounded-bl-3xl rounded-tr-3xl">
+            <div className="relative w-full h-100 overflow-hidden rounded-bl-3xl rounded-tr-3xl">
                 <div
                     className="absolute inset-0 opacity-60 h-250"
                     style={{
@@ -135,7 +138,7 @@ export const PresentationView = () => {
                     }}
                 >
                     <Image
-                        src="/assets/images/book.png"
+                        src={BG}
                         alt="Interlude livre"
                         fill
                         className="object-cover"

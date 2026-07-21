@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BookBox from "@/../public/assets/images/bookbox.jpg";
+import BookBox from "@/../public/assets/images/WH15.jpeg";
 import { Typo } from "@/ui/design-system/typography";
 
 export const HeaderLibrairie = () => {

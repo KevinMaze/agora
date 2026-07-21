@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Book from "@/../public/assets/images/book.png";
+import Book from "@/../public/assets/images/WH13.jpeg";
 import Crack from "@/../public/assets/images/déchiré.png";
 import Coffee from "@/../public/assets/images/coffee.jpg";
 import { useEffect, useState } from "react";

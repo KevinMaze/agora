@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Agora from "@/../public/assets/images/logo-agora.jpg";
+import Agora from "@/../public/assets/images/logoV2.jpeg";
 
 interface Props {
     size?: "very-small" | "small" | "medium" | "large";

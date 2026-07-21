@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Biblio from "@/../public/assets/images/biblio.png";
+import Biblio from "@/../public/assets/images/WH10.jpeg";
 import Crack from "@/../public/assets/images/déchiré.png";
 import { Typo } from "@/ui/design-system/typography";
 import { Container } from "@/ui/components/container";
@@ -177,7 +177,7 @@ export const CatalogueView = () => {
                     alt="Effet déchiré"
                     className="absolute -bottom-9 sm:bottom-0 lg:bottom-0 w-full h-60 object-cover z-10 rotate-180"
                 />
-                <div className="absolute  inset-0">
+                <div className="absolute inset-0 opacity-20">
                     <Image
                         src={Biblio}
                         alt=""
