@@ -1,8 +1,8 @@
 import { Typo } from "@/ui/design-system/typography";
 import Image from "next/image";
-import Men from "@/../public/assets/images/men.jpg";
-import Women from "@/../public/assets/images/women.jpg";
-import Paper from "@/../public/assets/images/paper.jpg";
+import Men from "@/../public/assets/images/WH17.jpeg";
+import Women from "@/../public/assets/images/WH18.jpeg";
+import Paper from "@/../public/assets/images/WH16.jpeg";
 
 export const HeaderGazette = () => {
     return (
@@ -17,26 +17,26 @@ export const HeaderGazette = () => {
             </Typo>
 
             <div className="mt-10 w-full">
-                <div className="relative lg:w-[1200px] h-screen mx-auto">
-                    <div className="">
+                <div className="relative w-[320px] h-[430px] sm:w-[540px] sm:h-[730px] lg:w-[720px] lg:h-[960px] mx-auto">
+                    <div className="absolute top-0 left-0 z-10">
                         <Image
                             src={Women}
                             alt="Femme"
-                            className="absolute h-40 sm:h-50 lg:h-70 w-auto rounded-tl-xl my-shadow"
+                            className="w-28 sm:w-48 lg:w-64 aspect-[2/3] object-cover rounded-tl-xl my-shadow"
                         />
                     </div>
-                    <div className="absolute top-[150px] sm:top-[180px] lg:top-[180px] sm:left-[200px] lg:left-[300px] left-[50] z-1">
+                    <div className="absolute top-[120px] left-[90px] sm:top-[190px] sm:left-[150px] lg:top-[260px] lg:left-[210px] z-20">
                         <Image
                             src={Paper}
                             alt="Papier"
-                            className="h-40 sm:h-90 lg:h-100 w-auto rounded-br-xl rounded-tl-xl border-1 border-primary my-shadow"
+                            className="w-32 sm:w-56 lg:w-72 aspect-[2/3] object-cover rounded-br-xl rounded-tl-xl border-1 border-primary my-shadow"
                         />
                     </div>
-                    <div className="absolute top-[300px] sm:top-[450px] lg:top-[450px] left-[120px] sm:left-[400px] lg:left-[790px] z-0">
+                    <div className="absolute top-[250px] left-[190px] sm:top-[430px] sm:left-[330px] lg:top-[560px] lg:left-[440px] z-10">
                         <Image
                             src={Men}
                             alt="Homme"
-                            className="h-40 sm:h-90 lg:h-70 w-auto rounded-br-xl my-shadow"
+                            className="w-28 sm:w-48 lg:w-64 aspect-[2/3] object-cover rounded-br-xl my-shadow"
                         />
                     </div>
                 </div>

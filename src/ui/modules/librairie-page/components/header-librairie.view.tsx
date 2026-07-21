@@ -1,11 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import BookBox from "@/../public/assets/images/WH15.jpeg";
 import { Typo } from "@/ui/design-system/typography";
 
 export const HeaderLibrairie = () => {
+    const [offsetY, setOffsetY] = useState(0);
+    const handleScroll = () => setOffsetY(window.pageYOffset);
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
         <div className="relative w-full h-screen overflow-hidden">
-            <div className="absolute inset-0 opacity-20">
+            {/* Arrière-plan avec opacité et effet de parallaxe */}
+            <div
+                className="absolute inset-0 opacity-20"
+                style={{
+                    transform: `translateY(${offsetY * 0.5}px)`,
+                }}
+            >
                 <Image
                     src={BookBox}
                     alt=""
