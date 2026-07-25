@@ -65,10 +65,14 @@ export const AddBookBoxList = () => {
     const canRelease = (item: BookBoxListItem) =>
         isAdmin || (!!authUser && item.reservedBy?.userId === authUser.uid);
 
-    // Détermine si l'utilisateur peut modifier ou supprimer un livre :
+    // Détermine si l'utilisateur peut modifier un livre :
     // uniquement l'admin OU la personne qui a enregistré le livre en BDD
     const canEdit = (item: BookBoxListItem) =>
         isAdmin || (!!authUser && item.userId === authUser.uid);
+
+    // Détermine si l'utilisateur peut supprimer un livre :
+    // réservé aux admins du site, contrairement à l'ajout qui reste ouvert à tous les membres
+    const canDelete = isAdmin;
 
     // Charge tous les livres de la boîte depuis Firestore
     const fetchItems = async () => {
@@ -212,7 +216,7 @@ export const AddBookBoxList = () => {
     };
 
     const handleDeleteClick = () => {
-        if (!selectedItem) return;
+        if (!selectedItem || !canDelete) return;
         setIsConfirmDeleteOpen(true);
     };
 
@@ -221,7 +225,7 @@ export const AddBookBoxList = () => {
     };
 
     const confirmDelete = async () => {
-        if (!selectedItem) return;
+        if (!selectedItem || !canDelete) return;
 
         setIsDeleting(true);
         const { error } = await deleteBookBoxItemWithRelations(
@@ -475,14 +479,16 @@ export const AddBookBoxList = () => {
                             submitLabel="Valider les modifications"
                             isSubmitDisabled={!isDirty && !hasNewImage}
                             footer={
-                                <Button
-                                    type="button"
-                                    variant="danger"
-                                    action={handleDeleteClick}
-                                    isLoading={isDeleting}
-                                >
-                                    Supprimer le livre
-                                </Button>
+                                canDelete ? (
+                                    <Button
+                                        type="button"
+                                        variant="danger"
+                                        action={handleDeleteClick}
+                                        isLoading={isDeleting}
+                                    >
+                                        Supprimer le livre
+                                    </Button>
+                                ) : undefined
                             }
                         />
                     </div>
