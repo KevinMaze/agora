@@ -7,8 +7,9 @@ export default function Users() {
     return (
         <>
             <Seo
-                title="Mon espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Membres – Mon espace | L'Agora"
+                description="Consultez les autres membres de la communauté L'Agora."
+                noIndex
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>

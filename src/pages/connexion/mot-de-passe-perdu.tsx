@@ -7,8 +7,9 @@ export default function ForgetPassword() {
     return (
         <>
             <Seo
-                title="L'Agora - Mot de passe publié - espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, changez votre mot de passe à votre espace personnel."
+                title="Mot de passe oublié | L'Agora"
+                description="Réinitialisez le mot de passe de votre espace personnel L'Agora."
+                noIndex
             />
 
             <LayoutBack sessionStatus={GUEST}>

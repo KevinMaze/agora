@@ -7,8 +7,9 @@ export default function AddRecipe() {
     return (
         <>
             <Seo
-                title="Mon espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Gestion des recettes – Mon espace | L'Agora"
+                description="Ajoutez et gérez les recettes de la carte du coffee shop."
+                noIndex
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>

@@ -6,8 +6,8 @@ export default function BibliothequePage() {
     return (
         <>
             <Seo
-                title="Agora - La Bibliothèque"
-                description="Découvrez notre sélection de livre du jours"
+                title="La Bibliothèque – Catalogue & coups de cœur | L'Agora"
+                description="Parcourez le catalogue de livres de L'Agora : nouveautés, coups de cœur de l'équipe et avis des lecteurs. Filtrez par genre et par année de sortie."
             />
             <Layout>
                 <BibliothequeContainer />

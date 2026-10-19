@@ -6,8 +6,8 @@ export default function CoffeeShopPage() {
     return (
         <>
             <Seo
-                title="Agora - Coffee Shop"
-                description="Découvrez notre sélection de cafés et de pâtisseries."
+                title="Coffee Shop – Boissons & gourmandises | L'Agora"
+                description="Découvrez la carte du coffee shop de L'Agora à Nîmes : boissons et gourmandises inspirées d'œuvres littéraires, recettes et suggestion du moment."
             />
             <Layout>
                 <CoffeeShopContainer />

@@ -7,8 +7,9 @@ export default function AddBookBox() {
     return (
         <>
             <Seo
-                title="Boîte à livres — Administration"
+                title="Boîte à livres – Mon espace | L'Agora"
                 description="Gérez les livres disponibles dans la boîte à livres."
+                noIndex
             />
             <Layout withSideBar sessionStatus={REGISTERED}>
                 <AddBookBoxAdminAccountContainer />

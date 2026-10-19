@@ -5,7 +5,10 @@ import { LibrairieContainer } from "@/ui/modules/librairie-page/librairie.contai
 export default function LibrairiePage() {
     return (
         <>
-            <Seo title="" description="" />
+            <Seo
+                title="La Librairie & la boîte à livres | L'Agora"
+                description="Découvrez la boîte à livres de L'Agora : prenez un livre, remplacez-le par un autre et laissez votre avis. Réservez les pépites déposées par la communauté."
+            />
 
             <Layout>
                 <LibrairieContainer />

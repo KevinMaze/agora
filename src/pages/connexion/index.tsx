@@ -7,8 +7,8 @@ export default function Connexion() {
     return (
         <>
             <Seo
-                title="L'Agora - Connexion - espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Connexion à votre espace | L'Agora"
+                description="Connectez-vous à votre espace personnel L'Agora pour donner votre avis sur les livres et réserver dans la boîte à livres."
             />
 
             <LayoutBack sessionStatus={GUEST}>

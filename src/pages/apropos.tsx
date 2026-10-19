@@ -6,8 +6,8 @@ export default function AboutPage() {
     return (
         <>
             <Seo
-                title="Agora - La Bibliothèque"
-                description="Découvrez notre sélection de livre du jours"
+                title="À propos & contact | L'Agora"
+                description="L'histoire de L'Agora, librairie et coffee shop fondés par Jordan et Lavinia au 3 rue Crémieux à Nîmes. Retrouvez-nous sur la carte ou écrivez-nous."
             />
             <Layout>
                 <AproposContainer />

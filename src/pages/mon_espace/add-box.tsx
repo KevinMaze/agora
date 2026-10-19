@@ -7,8 +7,9 @@ export default function AddBox() {
     return (
         <>
             <Seo
-                title="Mon espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Gestion des box – Mon espace | L'Agora"
+                description="Ajoutez et gérez les box littéraires proposées en click & collect."
+                noIndex
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>

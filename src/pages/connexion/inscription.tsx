@@ -8,8 +8,8 @@ export default function Register() {
     return (
         <>
             <Seo
-                title="L'Agora - Inscription - espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, inscrivez-vous à votre espace personnel."
+                title="Créer un compte | L'Agora"
+                description="Créez votre compte L'Agora pour donner votre avis sur les livres, réserver dans la boîte à livres et rejoindre la communauté."
             />
 
             <LayoutBack sessionStatus={GUEST}>

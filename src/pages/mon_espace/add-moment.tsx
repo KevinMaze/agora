@@ -7,8 +7,9 @@ export default function AddMoment() {
     return (
         <>
             <Seo
-                title="Mon espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Suggestion du moment – Mon espace | L'Agora"
+                description="Gérez la suggestion du moment du coffee shop."
+                noIndex
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>

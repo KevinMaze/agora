@@ -7,8 +7,9 @@ export default function AddBook() {
     return (
         <>
             <Seo
-                title="Mon espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Gestion des utilisateurs – Mon espace | L'Agora"
+                description="Ajoutez et gérez les comptes utilisateurs."
+                noIndex
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>

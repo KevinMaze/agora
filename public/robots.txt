@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /mon_espace
+Disallow: /onboarding
+Disallow: /design-system
+Disallow: /connexion/mot-de-passe-perdu
+
+Sitemap: https://lagoranimes.fr/sitemap.xml

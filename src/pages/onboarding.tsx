@@ -7,8 +7,9 @@ export default function Onboarding() {
     return (
         <>
             <Seo
-                title="Mon espace personnel - Inscription"
-                description="Bienvenue sur Agora, enregistrement onboarding."
+                title="Bienvenue – Complétez votre profil | L'Agora"
+                description="Finalisez la création de votre compte L'Agora : complétez votre profil et choisissez votre avatar."
+                noIndex
             />
             <Session sessionStatus={REGISTERED}>
                 <OnboardingContainer />

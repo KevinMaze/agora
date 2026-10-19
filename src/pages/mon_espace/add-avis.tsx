@@ -7,8 +7,9 @@ export default function AddAvis() {
     return (
         <>
             <Seo
-                title="Mon espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Modération des avis – Mon espace | L'Agora"
+                description="Modérez les avis laissés par les lecteurs."
+                noIndex
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>

@@ -6,8 +6,8 @@ export default function Home() {
     return (
         <>
             <Seo
-                title="L'Agora"
-                description="Bienvenue sur Agora, le coffee shop littéraire."
+                title="L'Agora – Coffee shop & librairie littéraire à Nîmes"
+                description="Bienvenue à L'Agora, coffee shop littéraire à Nîmes : librairie neuf et occasion, boissons et gourmandises inspirées d'œuvres, box littéraires et événements."
             />
 
             <Layout>

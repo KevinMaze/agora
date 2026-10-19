@@ -7,8 +7,9 @@ export default function AddEvenements() {
     return (
         <>
             <Seo
-                title="Mon espace personnel"
-                description="Bienvenue sur Agora, le coffee shop littéraire, connectez-vous à votre espace personnel."
+                title="Gestion des événements – Mon espace | L'Agora"
+                description="Ajoutez et gérez les événements affichés dans la Gazette."
+                noIndex
             />
 
             <Layout withSideBar sessionStatus={REGISTERED}>

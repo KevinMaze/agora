@@ -66,8 +66,8 @@ export default function Mention() {
     return (
         <>
             <Seo
-                title="Agora - Mentions légales & confidentialité"
-                description="Mentions légales, politique de confidentialité et gestion des cookies du site L'Agora."
+                title="Mentions légales & confidentialité | L'Agora"
+                description="Mentions légales, politique de confidentialité et gestion des cookies du site de L'Agora, coffee shop et librairie à Nîmes."
             />
             <Layout>
                 <Container className="py-16">
@@ -102,7 +102,7 @@ export default function Mention() {
                                 <Paragraph>
                                     Le site <strong>L&apos;Agora</strong>,
                                     accessible à l&apos;adresse{" "}
-                                    <LegalLink href="https://agora-81452.web.app/" />
+                                    <LegalLink href="https://lagoranimes.fr/" />
                                     , est édité par :
                                 </Paragraph>
                                 <List>

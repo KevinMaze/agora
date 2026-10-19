@@ -16,8 +16,9 @@ export default function DesignSystem() {
     return (
         <>
             <Seo
-                title="L'Agora"
-                description="Bienvenue sur Agora, le coffee shop littéraire."
+                title="Design system | L'Agora"
+                description="Composants et styles de l'interface du site L'Agora."
+                noIndex
             />
 
             <Layout>
